@@ -44,10 +44,13 @@ class Home extends Component {
       body: JSON.stringify({
         text: text
       })
-    })
-      .then(response => console.log("Respond:", response))
-      .then(result => this.updateEntriesList())
-      .catch(error => console.log("Request failed", error));
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
+          this.updateEntriesList();
+        });
+      }
+    });
   };
 
   // Delete
@@ -60,10 +63,13 @@ class Home extends Component {
         Accept: "application/json",
         Authorization: `Bearer ${accessToken}`
       }
-    })
-      .then(response => console.log("Respond:", response))
-      .then(result => this.updateEntriesList())
-      .catch(error => console.log("Request failed", error));
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
+          this.updateEntriesList();
+        });
+      }
+    });
   };
 
   // Get
@@ -74,14 +80,16 @@ class Home extends Component {
       headers: {
         Accept: "application/json"
       }
-    })
-      .then(res => res.json())
-      .then(result => {
-        this.setState({
-          isLoaded: true,
-          entries: result
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
+          this.setState({
+            isLoaded: true,
+            entries: json
+          });
         });
-      });
+      }
+    });
   };
 
   componentDidMount() {

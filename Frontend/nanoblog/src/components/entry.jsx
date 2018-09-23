@@ -15,7 +15,7 @@ class Entry extends Component {
 
       var token = jwtDecode(this.props.auth.getAccessToken());
 
-      if (token.sub === this.props.entryId) {
+      if (token.sub === this.props.author.id) {
         return (
           <div className="post-delete" onClick={this.handleDelete}>
             <a className="post-delete-link" href="">
@@ -32,7 +32,7 @@ class Entry extends Component {
       <div className="post">
         <div className="post-header">
           <div className="post-author">
-            <a href="">{this.props.author}</a>
+            <a href="">{this.props.author.userName}</a>
           </div>
 
           <div className="post-date">

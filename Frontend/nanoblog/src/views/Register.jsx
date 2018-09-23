@@ -4,7 +4,8 @@ class Register extends Component {
   state = {
     email: "",
     username: "",
-    password: ""
+    password: "",
+    error: ""
   };
 
   handleUserInput = e => {
@@ -16,7 +17,13 @@ class Register extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
 
-    console.log(JSON.stringify(this.state));
+    console.log(
+      JSON.stringify({
+        email: this.state.email,
+        username: this.state.username,
+        password: this.state.password
+      })
+    );
 
     fetch("/api/accounts/register", {
       headers: {
@@ -25,16 +32,33 @@ class Register extends Component {
       },
       method: "POST",
       body: JSON.stringify(this.state)
-    })
-      .then(res => res.json())
-      .then(result => {
-        console.log(result);
-      });
+    }).then(response => {
+      if (!response.ok) {
+        response.json().then(json => {
+          this.setState({ error: json.message });
+        });
+      }
+    });
   };
+
+  renderMessage() {
+    if (this.state.error.length > 0) {
+      return (
+        <React.Fragment>
+          <br />
+          <div className="alert alert-danger" role="alert">
+            {this.state.error}
+          </div>
+        </React.Fragment>
+      );
+    }
+  }
 
   render() {
     return (
       <form onSubmit={this.handleFormSubmit}>
+        {this.renderMessage()}
+
         <div className="form-group">
           <label>E-mail</label>
           <input

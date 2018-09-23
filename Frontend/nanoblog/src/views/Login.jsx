@@ -31,7 +31,7 @@ class Login extends Component {
     }).then(response => {
       response.json().then(json => {
         if (!response.ok) {
-          this.setState({ error: json });
+          this.setState({ error: json.message });
         } else {
           this.props.auth.setSession(json);
         }

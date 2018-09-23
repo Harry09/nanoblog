@@ -8,9 +8,8 @@ class Entries extends Component {
       return this.props.entries.map(entry => (
         <Entry
           key={entry.id}
-          entryId={entry.id}
           auth={this.props.auth}
-          author={entry.author.userName}
+          author={entry.author}
           date={entry.createTime}
           dataKey={entry.id}
           onDelete={this.props.onDelete}
