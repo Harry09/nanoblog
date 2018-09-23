@@ -69,9 +69,9 @@ namespace Nanoblog.Api.Controllers
 			}
 			catch (Exception ex)
 			{
-				return Json(new ExceptionDto { Message = ex.Message });
+				return BadRequest(new ExceptionDto(ex.Message));
 			}
-        }
+		}
 
 		// POST: entries
 		[HttpPost, Authorize]
@@ -86,12 +86,12 @@ namespace Nanoblog.Api.Controllers
 
 			if (entry.Text is null || entry.Text.Empty())
 			{
-				return BadRequest(new ExceptionDto { Message = "Text cannot be empty!" });
+				return BadRequest(new ExceptionDto("Text cannot be empty!"));
 			}
 
 			if (userId is null)
 			{
-				return BadRequest(new ExceptionDto { Message = "No user data!" });
+				return BadRequest(new ExceptionDto("No user data!"));
 			}
 
 			try
@@ -170,7 +170,7 @@ namespace Nanoblog.Api.Controllers
 			}
 			catch (Exception ex)
 			{
-				return Json(new ExceptionDto { Message = ex.Message });
+				return BadRequest(new ExceptionDto(ex.Message));
 			}
 
 			return Ok();

@@ -15,9 +15,6 @@ namespace Nanoblog.Api.Data.Models
 		public string Password { get; set; }
 
 		[Required]
-		public string Salt { get; set; }
-
-		[Required]
 		public string Role { get; set; }
 
 		[Required, EmailAddress]

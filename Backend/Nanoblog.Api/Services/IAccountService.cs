@@ -10,11 +10,11 @@ namespace Nanoblog.Api.Services
 {
     public interface IAccountService : IService
     {
-		void AddUser(string email, string userName, string password);
+		void Register(string email, string userName, string password);
+
+		JwtDto Login(string email, string password);
 
 		UserDto GetUser(string id);
-
-		UserDto GetUser(string email, string password);
 
 		void DisableAccount(string id);
 

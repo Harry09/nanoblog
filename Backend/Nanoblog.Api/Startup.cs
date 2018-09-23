@@ -2,24 +2,22 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 using AutoMapper;
-using Serilog;
-using Newtonsoft.Json;
 
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Services;
 using Nanoblog.Api.Settings;
+using Nanoblog.Api.Data.Models;
 
 namespace Nanoblog
 {
@@ -32,20 +30,19 @@ namespace Nanoblog
 				.AddJsonFile("appsettings.json", false);
 
 			Configuration = builder.Build();
-
 		}
 
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<AppDbContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
 
-			services.AddScoped<IEntryService, EntryService>();
-			services.AddScoped<IAccountService, AccountService>();
+			services.AddTransient<IEntryService, EntryService>();
+			services.AddTransient<IAccountService, AccountService>();
 
+			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 			services.AddSingleton<IJwtHandler, JwtHandler>();
 
 			services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));

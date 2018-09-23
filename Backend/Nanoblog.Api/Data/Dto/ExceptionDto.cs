@@ -8,6 +8,11 @@ namespace Nanoblog.Api.Data.Dto
 {
     public class ExceptionDto
     {
-		public string Message { get; set; }
+		public string Message { get; private set; }
+
+		public ExceptionDto(string Message)
+		{
+			this.Message = Message;
+		}
 	}
 }

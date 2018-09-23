@@ -11,10 +11,10 @@ using Nanoblog.Api.Data.Dto;
 
 namespace Nanoblog.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/accounts")]
-    public class AccountsController : Controller
-    {
+	[Produces("application/json")]
+	[Route("api/accounts")]
+	public class AccountsController : Controller
+	{
 		readonly IAccountService _accountService;
 		readonly IJwtHandler _jwtHandler;
 
@@ -34,25 +34,27 @@ namespace Nanoblog.Api.Controllers
 
 			try
 			{
-				_accountService.AddUser(data.Email, data.UserName, data.Password);
+				_accountService.Register(data.Email, data.UserName, data.Password);
 			}
 			catch (Exception ex)
 			{
-				return BadRequest(new ExceptionDto { Message = ex.Message });
+				return BadRequest(new ExceptionDto(ex.Message));
 			}
 
-			return Json("ASDF");
+			return Ok();
 		}
 
 		[Route("login")]
 		public IActionResult Login([FromBody] LoginUser data)
 		{
-			var user = _accountService.GetUser(data.Email, data.Password);
-
-			if (user is null)
-				return NotFound("Email or password are incorrect!");
-
-			return Json(_jwtHandler.CreateToken(user.Id, user.Role));
+			try
+			{
+				return Ok(_accountService.Login(data.Email, data.Password));
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new ExceptionDto(ex.Message));
+			}
 		}
-    }
+	}
 }
