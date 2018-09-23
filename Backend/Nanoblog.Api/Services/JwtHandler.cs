@@ -17,11 +17,13 @@ namespace Nanoblog.Api.Services
 {
 	public class JwtHandler : IJwtHandler
 	{
-		JwtSettings _jwtSettings;
+		readonly JwtSettings _jwtSettings;
+		readonly SigningCredentials _signingCredentials;
 
 		public JwtHandler(IOptions<JwtSettings> jwtSettings)
 		{
 			_jwtSettings = jwtSettings.Value;
+			_signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)), SecurityAlgorithms.HmacSha256);
 		}
 
 		public JwtDto CreateToken(string id, string role)
@@ -36,9 +38,6 @@ namespace Nanoblog.Api.Services
 				new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString(), ClaimValueTypes.Integer64)
 			};
 
-			var signingCredentials = new SigningCredentials(
-				new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)), 
-				SecurityAlgorithms.HmacSha256);
 
 			var expires = now.AddMinutes(_jwtSettings.ExpiryMinutes);
 
@@ -47,7 +46,7 @@ namespace Nanoblog.Api.Services
 				claims: claims,
 				notBefore: now,
 				expires: expires,
-				signingCredentials: signingCredentials
+				signingCredentials: _signingCredentials
 			);
 
 			var token = new JwtSecurityTokenHandler().WriteToken(jwt);

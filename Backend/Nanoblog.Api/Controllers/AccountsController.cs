@@ -56,5 +56,46 @@ namespace Nanoblog.Api.Controllers
 				return BadRequest(new ExceptionDto(ex.Message));
 			}
 		}
+
+		[Route("user/{userId}")]
+		public IActionResult GetUser(string userId)
+		{
+			try
+			{
+				return Json(_accountService.GetUser(userId));
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new ExceptionDto(ex.Message));
+			}
+		}
+
+		[Route("tokens/refresh/{token}")]
+		public IActionResult RefreshAccessToken(string token)
+		{
+			try
+			{
+				return Json(_accountService.RefreshAccessToken(token));
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new ExceptionDto(ex.Message));
+			}
+		}
+
+		[HttpPost("tokens/revoke/{token}")]
+		public IActionResult RevokeRefreshToken(string token)
+		{
+			try
+			{
+				_accountService.RevokeRefreshToken(token);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new ExceptionDto(ex.Message));
+			}
+
+			return Ok();
+		}
 	}
 }

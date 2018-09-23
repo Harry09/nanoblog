@@ -16,6 +16,10 @@ namespace Nanoblog.Api.Services
 
 		UserDto GetUser(string id);
 
+		JwtDto RefreshAccessToken(string token);
+
+		void RevokeRefreshToken(string token);
+
 		void DisableAccount(string id);
 
 		void EnableAccount(string id);
