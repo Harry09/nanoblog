@@ -30,10 +30,7 @@ class Home extends Component {
     } else return null;
   }
 
-  // Add
-  handleSubmit = text => {
-    const accessToken = this.props.auth.getAccessToken();
-
+  addEntry = (text, accessToken) => {
     fetch("/api/entries", {
       method: "POST",
       headers: {
@@ -46,17 +43,27 @@ class Home extends Component {
       })
     }).then(response => {
       if (response.ok) {
-        response.json().then(json => {
-          this.updateEntriesList();
-        });
+        this.updateEntriesList();
       }
     });
   };
 
-  // Delete
-  handleDelete = keyId => {
+  // Add
+  handleSubmit = text => {
     const accessToken = this.props.auth.getAccessToken();
 
+    if (accessToken !== null) {
+      var result = this.props.auth.tryRefreshToken(() => {
+        this.addEntry(text, accessToken);
+      });
+
+      if (result === false) {
+        this.addEntry(text, accessToken);
+      }
+    }
+  };
+
+  deleteEntry = (keyId, accessToken) => {
     fetch("/api/entries/" + keyId, {
       method: "DELETE",
       headers: {
@@ -65,11 +72,24 @@ class Home extends Component {
       }
     }).then(response => {
       if (response.ok) {
-        response.json().then(json => {
-          this.updateEntriesList();
-        });
+        this.updateEntriesList();
       }
     });
+  };
+
+  // Delete
+  handleDelete = keyId => {
+    const accessToken = this.props.auth.getAccessToken();
+
+    if (accessToken !== null) {
+      var result = this.props.auth.tryRefreshToken(() => {
+        this.deleteEntry(keyId, accessToken);
+      });
+
+      if (result === false) {
+        this.deleteEntry(keyId, accessToken);
+      }
+    }
   };
 
   // Get

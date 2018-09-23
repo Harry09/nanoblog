@@ -33,46 +33,12 @@ class App extends Component {
     return <Login auth={this.authService} />;
   };
 
-  renderLoginButton() {
-    let button = null;
-
-    if (this.authService.isAuthenticated()) {
-      button = (
-        <button
-          className="btn btn-secondary"
-          onClick={() => this.authService.logout()}
-        >
-          Logout
-        </button>
-      );
-    } else {
-      button = (
-        <React.Fragment>
-          <button
-            className="btn btn-secondary"
-            onClick={() => (document.location.href = "/register")}
-          >
-            Register
-          </button>
-          <button
-            className="btn btn-secondary"
-            onClick={() => (document.location.href = "/login")}
-          >
-            Login
-          </button>
-        </React.Fragment>
-      );
-    }
-
-    return button;
-  }
-
   render() {
-    let logoutButton = this.renderLoginButton();
+    this.authService.tryRefreshToken(() => this.forceUpdate());
 
     return (
       <div className="App">
-        <Navbar>{logoutButton}</Navbar>
+        <Navbar auth={this.authService} />
 
         <main role="main" className="container">
           <Switch>

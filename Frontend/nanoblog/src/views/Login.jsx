@@ -18,24 +18,8 @@ class Login extends Component {
 
     console.log(JSON.stringify(this.state));
 
-    fetch("/api/accounts/login", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-      })
-    }).then(response => {
-      response.json().then(json => {
-        if (!response.ok) {
-          this.setState({ error: json.message });
-        } else {
-          this.props.auth.setSession(json);
-        }
-      });
+    this.props.auth.login(this.state.email, this.state.password, error => {
+      this.setState({ error: error });
     });
   };
 

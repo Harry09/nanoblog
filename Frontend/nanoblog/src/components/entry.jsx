@@ -11,11 +11,7 @@ class Entry extends Component {
 
   renderDeleteButton() {
     if (this.props.auth.isAuthenticated()) {
-      var jwtDecode = require("jwt-decode");
-
-      var token = jwtDecode(this.props.auth.getAccessToken());
-
-      if (token.sub === this.props.author.id) {
+      if (this.props.auth.getUserId() === this.props.author.id) {
         return (
           <div className="post-delete" onClick={this.handleDelete}>
             <a className="post-delete-link" href="">
