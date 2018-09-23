@@ -49,7 +49,7 @@ namespace Nanoblog.Api.Controllers
         {
 			var entries = _context.Entries.Include(x => x.Author);
 
-			return Json(entries.Select(x => _mapper.Map<EntryDto>(x)));
+			return Json(entries.Select(x => _mapper.Map<EntryDto>(x)).OrderByDescending(x => x.CreateTime));
 		}
 
 		// GET: entries/5
