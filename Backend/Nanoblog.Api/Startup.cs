@@ -48,6 +48,8 @@ namespace Nanoblog
 
 			services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
 
+			services.AddCors();
+
 			services.AddAutoMapper();
 
 			var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
@@ -79,6 +81,11 @@ namespace Nanoblog
 
 			app.UseMiddleware<ErrorHandler>();
 			app.UseAuthentication();
+
+			app.UseCors(builder =>
+			{
+				builder.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader();
+			});
 
 			app.UseMvc();
 		}
