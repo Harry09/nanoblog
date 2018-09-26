@@ -24,7 +24,7 @@ namespace Nanoblog.Api.Controllers
 			_jwtHandler = jwtHandler;
 		}
 
-		[Route("register")]
+		[Route("register"), HttpPost]
 		public IActionResult Register([FromBody] RegisterUser data)
 		{
 			if (!ModelState.IsValid)
@@ -37,7 +37,7 @@ namespace Nanoblog.Api.Controllers
 			return Ok();
 		}
 
-		[Route("login")]
+		[Route("login"), HttpPost]
 		public IActionResult Login([FromBody] LoginUser data)
 		{
 			if (!ModelState.IsValid)
