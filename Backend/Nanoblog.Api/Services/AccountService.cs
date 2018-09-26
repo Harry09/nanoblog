@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
 using Nanoblog.Api.Common;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Dto;
 using Nanoblog.Api.Data.Models;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
+using Nanoblog.Api.Data.Exception;
 
 namespace Nanoblog.Api.Services
 {
@@ -35,7 +35,7 @@ namespace Nanoblog.Api.Services
 		{
 			if (_appDbContext.Users.Any(x => x.Email == email || x.UserName == userName))
 			{
-				throw new Exception("This user already exists!");
+				throw new ApiException("This user already exists!");
 			}
 
 			var user = new User
@@ -58,10 +58,10 @@ namespace Nanoblog.Api.Services
 			var user = _appDbContext.Users.SingleOrDefault(x => x.Email == email);
 
 			if (user is null)
-				throw new ArgumentException("Email or password is incorrect!");
+				throw new ApiException("Email or password is incorrect!");
 
 			if (_passwordHasher.VerifyHashedPassword(user, user.Password, password) == PasswordVerificationResult.Failed)
-				throw new ArgumentException("Email or password is incorrect!");
+				throw new ApiException("Email or password is incorrect!");
 
 			var jwt = _jwtHandler.CreateToken(user.Id, user.Role);
 
@@ -84,12 +84,12 @@ namespace Nanoblog.Api.Services
 
 			if (refreshToken == null)
 			{
-				throw new Exception("Refresh token was not found.");
+				throw new ApiException("Refresh token was not found.");
 			}
 
 			if (refreshToken.Revoked)
 			{
-				throw new Exception("Refresh token was revoked");
+				throw new ApiException("Refresh token was revoked");
 			}
 
 			var jwt = _jwtHandler.CreateToken(refreshToken.User.Id, refreshToken.User.Role);
@@ -104,11 +104,11 @@ namespace Nanoblog.Api.Services
 			var refreshToken = GetRefreshToken(token);
 			if (refreshToken == null)
 			{
-				throw new Exception("Refresh token was not found.");
+				throw new ApiException("Refresh token was not found.");
 			}
 			if (refreshToken.Revoked)
 			{
-				throw new Exception("Refresh token was already revoked.");
+				throw new ApiException("Refresh token was already revoked.");
 			}
 			refreshToken.Revoked = true;
 		}

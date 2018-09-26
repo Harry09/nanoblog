@@ -32,14 +32,7 @@ namespace Nanoblog.Api.Controllers
 				return BadRequest(ModelState);
 			}
 
-			try
-			{
-				_accountService.Register(data.Email, data.UserName, data.Password);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(new ExceptionDto(ex.Message));
-			}
+			_accountService.Register(data.Email, data.UserName, data.Password);
 
 			return Ok();
 		}
@@ -47,53 +40,30 @@ namespace Nanoblog.Api.Controllers
 		[Route("login")]
 		public IActionResult Login([FromBody] LoginUser data)
 		{
-			try
+			if (!ModelState.IsValid)
 			{
-				return Ok(_accountService.Login(data.Email, data.Password));
+				return BadRequest(ModelState);
 			}
-			catch (Exception ex)
-			{
-				return BadRequest(new ExceptionDto(ex.Message));
-			}
+
+			return Ok(_accountService.Login(data.Email, data.Password));
 		}
 
 		[Route("user/{userId}")]
 		public IActionResult GetUser(string userId)
 		{
-			try
-			{
-				return Json(_accountService.GetUser(userId));
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(new ExceptionDto(ex.Message));
-			}
+			return Json(_accountService.GetUser(userId));
 		}
 
 		[Route("tokens/refresh/{token}")]
 		public IActionResult RefreshAccessToken(string token)
 		{
-			try
-			{
-				return Json(_accountService.RefreshAccessToken(token));
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(new ExceptionDto(ex.Message));
-			}
+			return Json(_accountService.RefreshAccessToken(token));
 		}
 
 		[HttpPost("tokens/revoke/{token}")]
 		public IActionResult RevokeRefreshToken(string token)
 		{
-			try
-			{
-				_accountService.RevokeRefreshToken(token);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(new ExceptionDto(ex.Message));
-			}
+			_accountService.RevokeRefreshToken(token);
 
 			return Ok();
 		}

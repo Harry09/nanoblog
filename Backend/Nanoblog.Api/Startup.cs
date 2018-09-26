@@ -18,6 +18,7 @@ using Nanoblog.Api.Data;
 using Nanoblog.Api.Services;
 using Nanoblog.Api.Settings;
 using Nanoblog.Api.Data.Models;
+using Nanoblog.Api.Middleware;
 
 namespace Nanoblog
 {
@@ -76,6 +77,7 @@ namespace Nanoblog
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
 
+			app.UseMiddleware<ErrorHandler>();
 			app.UseAuthentication();
 
 			app.UseMvc();

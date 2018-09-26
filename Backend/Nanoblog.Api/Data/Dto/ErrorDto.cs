@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Data.Dto
 {
-    public class ExceptionDto
+    public class ErrorDto
     {
 		public string Message { get; private set; }
 
-		public ExceptionDto(string Message)
+		public ErrorDto(string Message)
 		{
 			this.Message = Message;
 		}

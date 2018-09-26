@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Nanoblog.Api.Extensions;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Dto;
+using Nanoblog.Api.Data.Exception;
 using Nanoblog.Api.Data.Models;
 
 namespace Nanoblog.Api.Services
@@ -27,11 +29,16 @@ namespace Nanoblog.Api.Services
 
 		public void Add(string text, string authorId)
 		{
+			if (text is null || text.Empty())
+			{
+				throw new ApiException("Text cannot be empty!");
+			}
+
 			var user = _dbContext.Users.FirstOrDefault(x => x.Id == authorId);
 
 			if (user is null)
 			{
-				throw new Exception("Cannot find this user!");
+				throw new ApiException("Cannot find this user!");
 			}
 
 			var entry = new Entry
@@ -50,7 +57,7 @@ namespace Nanoblog.Api.Services
 
 			if (entry is null)
 			{
-				throw new Exception($"Entry with id {id} isn't exists!");
+				throw new ApiException($"Entry with id {id} isn't exists!");
 			}
 
 			return _mapper.Map<Entry, EntryDto>(entry);
@@ -62,7 +69,7 @@ namespace Nanoblog.Api.Services
 
 			if (entry is null)
 			{
-				throw new Exception($"Entry with id {id} isn't exists!");
+				throw new ApiException($"Entry with id {id} isn't exists!");
 			}
 
 			_dbContext.Entries.Remove(entry);
@@ -75,7 +82,7 @@ namespace Nanoblog.Api.Services
 
 			if (entry is null)
 			{
-				throw new Exception($"Entry with id {id} isn't exists!");
+				throw new ApiException($"Entry with id {id} isn't exists!");
 			}
 
 			entry.Text = text;

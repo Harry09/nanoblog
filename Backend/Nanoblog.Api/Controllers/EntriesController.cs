@@ -14,11 +14,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using AutoMapper;
 
+using Nanoblog.Api.Services;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
 using Nanoblog.Api.Data.Dto;
-using Nanoblog.Api.Services;
 using Nanoblog.Api.Data.Commands.Entry;
+using Nanoblog.Api.Data.Exception;
 using Nanoblog.Api.Extensions;
 
 namespace Nanoblog.Api.Controllers
@@ -60,17 +61,10 @@ namespace Nanoblog.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+		
+			var entryDto = _entryService.Get(id);
 
-			try
-			{
-				var entryDto = _entryService.Get(id);
-
-				return Ok(entryDto);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(new ExceptionDto(ex.Message));
-			}
+			return Ok(entryDto);
 		}
 
 		// POST: entries
@@ -84,66 +78,19 @@ namespace Nanoblog.Api.Controllers
 
 			var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-			if (entry.Text is null || entry.Text.Empty())
-			{
-				return BadRequest(new ExceptionDto("Text cannot be empty!"));
-			}
-
 			if (userId is null)
 			{
-				return BadRequest(new ExceptionDto("No user data!"));
+				return BadRequest(new ErrorDto("No user data!"));
 			}
 
-			try
-			{
-				_entryService.Add(entry.Text, userId);
+			_entryService.Add(entry.Text, userId);
 
-				return Ok();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex);
-			}
+			return Ok();
 		}
-
-		// PUT: entries/5
-		[HttpPut("{id}"), Authorize]
-        public async Task<IActionResult> UpdateEntry([FromRoute] string id, [FromBody] Entry entry)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != entry.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(entry).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Entries.Any(e => e.Id == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
 		// DELETE: entries/5
 		[HttpDelete("{id}"), Authorize]
-        public async Task<IActionResult> DeleteEntry([FromRoute] string id)
+        public IActionResult DeleteEntry([FromRoute] string id)
         {
             if (!ModelState.IsValid)
             {
@@ -156,22 +103,15 @@ namespace Nanoblog.Api.Controllers
 
 			if (entry is null)
 			{
-				return NotFound("Cannot find entry!");
+				return NotFound(new ApiException("Cannot find entry!"));
 			}
 
 			if (entry.Author.Id != userId)
 			{
-				return BadRequest("You are not author of this post!");
+				return BadRequest(new ApiException("You are not author of this post!"));
 			}
 
-			try
-			{
-				_entryService.Remove(id);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(new ExceptionDto(ex.Message));
-			}
+			_entryService.Remove(id);
 
 			return Ok();
         }
