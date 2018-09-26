@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page - Nanoblog</title>
+
+    <link rel="stylesheet" href="css/sticky-footer.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+   
+    <main role="main" class="container">
+        <h3>Dodaj post</h3>
+        <form id="submit-post" action="/api/entries" method="post">
+            <div class="form-group">
+                <textarea name="text" id="input-text-form" rows="5"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+        </form>
+
+        
+    </main>
+    <div id="blank-space"></div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/handlebars.js"></script>
+    <!--<script src="js/imageViewer.js"></script>-->
+    <script src="js/site.js"></script>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">
+                Piotr Krupa &copy; 2018
+            </span>
+        </div>
+    </footer>
+
+    <script id="entry-template" type="text/x-handlebars-template">
+        <div class="post" post-id="{{id}}">
+            <div class="post-header">
+                <div class="post-author">
+                    <a href="#">{{author}}</a>
+                </div>
+
+                <div class="post-date">
+                    <a href="#">{{date}}</a>
+                </div>
+
+                <div class='post-delete'>
+                    <a class="post-delete-link" href="#">Usuń</a>
+                </div>
+            </div>
+
+            <div class="post-text">
+                {{text}}
+            </div>
+        </div>
+    </script>
+</body>
+</html>

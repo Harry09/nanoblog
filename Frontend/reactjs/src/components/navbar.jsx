@@ -87,15 +87,15 @@ class Navbar extends Component {
         <React.Fragment>
           <button
             className="btn btn-secondary"
-            onClick={() => (document.location.href = "/register")}
-          >
-            Register
-          </button>
-          <button
-            className="btn btn-secondary"
             onClick={() => (document.location.href = "/login")}
           >
             Login
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => (document.location.href = "/register")}
+          >
+            Register
           </button>
         </React.Fragment>
       );
