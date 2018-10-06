@@ -22,8 +22,6 @@ namespace Nanoblog.Api.Data.Models
 		[Required]
 		public DateTime CreateTime { get; protected set; }
 
-		public DateTime UpdateTime { get; set; }
-
 		public Entry()
 		{
 			CreateTime = DateTime.Now;
