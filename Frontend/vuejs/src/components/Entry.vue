@@ -9,7 +9,7 @@
         <a href="">{{entry.createTime}}</a>
         </div>
 
-        <div v-if="entry.author.id === UserStore.user.id" class="post-delete">
+        <div v-if="entry.author.id === UserStore.id" class="post-delete">
           <a href="" class="post-delete-link" v-on:click="onDelete">
             Usuń
           </a>

@@ -22,14 +22,14 @@
         </ul>
     </div>
 
-    <span v-if="UserStore.auth.isAuthenticated">
-        <span v-if="UserStore.user.isLoaded">
+    <span v-if="TokenStore.isAuthenticated">
+        <span v-if="UserStore.isLoaded">
             <span class="navbar-text user-welcome">
-                Witaj, <a href="">{{UserStore.user.userName}}</a>
+                Witaj, <a href="">{{UserStore.userName}}</a>
             </span>
             <button v-on:click="onLogout" class="btn btn-secondary"> Logout</button>
         </span>
-        <span v-if="UserStore.user.isLoaded == false" class="navbar-text">
+        <span v-if="UserStore.isLoaded == false" class="navbar-text">
             Ładowanie...
         </span>
     </span>
@@ -41,11 +41,13 @@
 </template>
 
 <script>
-import UserStore from "@/store/UserStore.js";
+import TokenStore from "@/store/TokenStore";
+import UserStore from "@/store/UserStore";
 
 export default {
   data() {
     return {
+      TokenStore: TokenStore.data,
       UserStore: UserStore.data
     };
   },

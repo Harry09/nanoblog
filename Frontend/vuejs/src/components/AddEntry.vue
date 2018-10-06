@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3>Dodaj post</h3>
-        <form @submit="addEntry">
+        <form v-on:submit="addEntry">
           <div class="form-group">
             <textarea
               id="input-text-form"
@@ -34,7 +34,7 @@ export default {
         let result = await EntryStore.methods.addEntry(this.entryText);
         EntryStore.methods.updateList();
       } catch (exc) {
-        console.log(exc.response);
+        console.log(exc, exc.response);
       }
 
       this.entryText = "";

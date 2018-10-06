@@ -1,6 +1,6 @@
 <template>
     <div>
-      <AddEntry v-if="UserStore.auth.isAuthenticated === true" />
+      <AddEntry v-if="TokenStore.isAuthenticated === true" />
       <Entries />
     </div>
 </template>
@@ -8,14 +8,14 @@
 <script>
 import Entries from "@/components/Entries.vue";
 import AddEntry from "@/components/AddEntry.vue";
-import UserStore from "@/store/UserStore";
+import TokenStore from "@/store/TokenStore";
 
 export default {
   name: "Home",
   components: { Entries, AddEntry },
   data() {
     return {
-      UserStore: UserStore.data
+      TokenStore: TokenStore.data
     };
   }
 };
