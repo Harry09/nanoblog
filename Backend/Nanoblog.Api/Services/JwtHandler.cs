@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Options;
-
-using Nanoblog.Api.Data.Dto;
-using Nanoblog.Api.Settings;
-using Nanoblog.Api.Extensions;
 using Microsoft.IdentityModel.Tokens;
+
+using Nanoblog.Core.Data.Dto;
+using Nanoblog.Core.Extensions;
+using Nanoblog.Api.Settings;
 
 namespace Nanoblog.Api.Services
 {

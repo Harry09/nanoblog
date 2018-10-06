@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Http;
-using Nanoblog.Api.Data.Exception;
+
 using Newtonsoft.Json;
+
+using Nanoblog.Core.Data.Exception;
+using Nanoblog.Core.Data.Dto;
 
 namespace Nanoblog.Api.Middleware
 {
@@ -33,7 +35,7 @@ namespace Nanoblog.Api.Middleware
 
 		private static Task HandleApiErrorAsync(HttpContext context, ApiException exception)
 		{
-			var response = new { message = exception.Message };
+			var response = new ErrorDto(exception.Message);
 			var payload = JsonConvert.SerializeObject(response);
 			context.Response.ContentType = "application/json";
 			context.Response.StatusCode = 400;

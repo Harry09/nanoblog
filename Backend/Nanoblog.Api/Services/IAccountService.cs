@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Nanoblog.Api.Data.Dto;
+using Nanoblog.Core.Data.Dto;
 
 namespace Nanoblog.Api.Services
 {

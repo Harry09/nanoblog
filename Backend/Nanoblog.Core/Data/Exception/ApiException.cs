@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Api.Data.Exception
+namespace Nanoblog.Core.Data.Exception
 {
     public class ApiException : System.Exception
     {

@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Nanoblog.Api.Extensions;
+
+using Nanoblog.Core.Extensions;
+using Nanoblog.Core.Data.Dto;
+using Nanoblog.Core.Data.Exception;
+
 using Nanoblog.Api.Data;
-using Nanoblog.Api.Data.Dto;
-using Nanoblog.Api.Data.Exception;
 using Nanoblog.Api.Data.Models;
 
 namespace Nanoblog.Api.Services

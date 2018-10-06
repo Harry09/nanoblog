@@ -1,4 +1,4 @@
-using Nanoblog.Api.Data.Dto;
+using Nanoblog.Core.Data.Dto;
 
 namespace Nanoblog.Api.Services
 {

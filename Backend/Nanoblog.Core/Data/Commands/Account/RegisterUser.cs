@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Api.Data.Commands.Account
+namespace Nanoblog.Core.Data.Commands.Account
 {
     public class RegisterUser
     {

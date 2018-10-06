@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Api.Data.Dto
+namespace Nanoblog.Core.Data.Dto
 {
     public class JwtDto
     {

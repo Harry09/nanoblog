@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using AutoMapper;
 
-using Nanoblog.Api.Data.Dto;
+using Nanoblog.Core.Data.Dto;
 using Nanoblog.Api.Data.Models;
 
 namespace Nanoblog.Api.Common

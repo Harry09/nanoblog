@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Api.Data.Dto
+namespace Nanoblog.Core.Data.Dto
 {
     public class ErrorDto
     {
 		public string Message { get; private set; }
 
-		public ErrorDto(string Message)
+		public ErrorDto(string message)
 		{
-			this.Message = Message;
+			this.Message = message;
 		}
 	}
 }

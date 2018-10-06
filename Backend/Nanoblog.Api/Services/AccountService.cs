@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
+
+using Nanoblog.Core.Data.Dto;
+using Nanoblog.Core.Data.Exception;
 using Nanoblog.Api.Common;
 using Nanoblog.Api.Data;
-using Nanoblog.Api.Data.Dto;
 using Nanoblog.Api.Data.Models;
-using Nanoblog.Api.Data.Exception;
 
 namespace Nanoblog.Api.Services
 {

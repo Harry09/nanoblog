@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using Nanoblog.Core.Data.Commands.Account;
 using Nanoblog.Api.Services;
-using Nanoblog.Api.Data.Commands.Account;
-using Nanoblog.Api.Data.Dto;
 
 namespace Nanoblog.Api.Controllers
 {

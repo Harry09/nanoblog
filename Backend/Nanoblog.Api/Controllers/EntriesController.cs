@@ -13,14 +13,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using AutoMapper;
-
+using Nanoblog.Core.Data.Dto;
+using Nanoblog.Core.Data.Commands.Entry;
+using Nanoblog.Core.Data.Exception;
+using Nanoblog.Core.Extensions;
 using Nanoblog.Api.Services;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
-using Nanoblog.Api.Data.Dto;
-using Nanoblog.Api.Data.Commands.Entry;
-using Nanoblog.Api.Data.Exception;
-using Nanoblog.Api.Extensions;
 
 namespace Nanoblog.Api.Controllers
 {
