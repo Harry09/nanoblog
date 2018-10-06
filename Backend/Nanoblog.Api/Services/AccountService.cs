@@ -72,6 +72,12 @@ namespace Nanoblog.Api.Services
 
 			jwt.RefreshToken = refreshToken;
 
+			// revoke other tokens for this user
+			foreach (var token in _appDbContext.RefreshTokens.Where(x => x.User == user))
+			{
+				token.Revoked = true;
+			}
+
 			_appDbContext.RefreshTokens.Add(new RefreshToken { User = user, Token = refreshToken });
 			_appDbContext.SaveChanges();
 
@@ -102,15 +108,19 @@ namespace Nanoblog.Api.Services
 		public void RevokeRefreshToken(string token)
 		{
 			var refreshToken = GetRefreshToken(token);
+
 			if (refreshToken == null)
 			{
 				throw new ApiException("Refresh token was not found.");
 			}
+
 			if (refreshToken.Revoked)
 			{
 				throw new ApiException("Refresh token was already revoked.");
 			}
+
 			refreshToken.Revoked = true;
+			_appDbContext.SaveChanges();
 		}
 
 		public void DisableAccount(string id)
