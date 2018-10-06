@@ -23,10 +23,15 @@
     </div>
 
     <span v-if="UserStore.auth.isAuthenticated">
-        <span class="navbar-text user-welcome">
-            Witaj, <a href="">{{UserStore.user.userName}}</a>
+        <span v-if="UserStore.user.isLoaded">
+            <span class="navbar-text user-welcome">
+                Witaj, <a href="">{{UserStore.user.userName}}</a>
+            </span>
+            <button v-on:click="onLogout" class="btn btn-secondary"> Logout</button>
         </span>
-        <button v-on:click="onLogout" class="btn btn-secondary"> Logout</button>
+        <span v-if="UserStore.user.isLoaded == false" class="navbar-text">
+            Ładowanie...
+        </span>
     </span>
     <span v-else>
         <router-link to="/login" class="btn btn-secondary" tag="button">Login</router-link>

@@ -1,5 +1,5 @@
 <template>
-<form @submit="onSubmit" id="login-form">
+<form v-on:submit="handleSubmit">
     <div class="form-group">
         <label htmlFor="input-email-form">E-mail</label>
         <input
@@ -41,7 +41,7 @@ export default {
     };
   },
   methods: {
-    onSubmit(e) {
+    handleSubmit(e) {
       e.preventDefault();
 
       UserStore.methods.login(this.login, this.password);
