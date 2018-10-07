@@ -88,7 +88,6 @@ namespace Nanoblog.Api.Services
 			}
 
 			entry.Text = text;
-			entry.UpdateTime = DateTime.Now;
 
 			_dbContext.SaveChanges();
 		}
