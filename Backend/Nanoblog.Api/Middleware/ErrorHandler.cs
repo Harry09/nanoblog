@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 using Nanoblog.Core.Data.Exception;
 using Nanoblog.Core.Data.Dto;
@@ -36,7 +37,13 @@ namespace Nanoblog.Api.Middleware
 		private static Task HandleApiErrorAsync(HttpContext context, ApiException exception)
 		{
 			var response = new ErrorDto(exception.Message);
-			var payload = JsonConvert.SerializeObject(response);
+
+			var serializerSettings = new JsonSerializerSettings
+			{
+				ContractResolver = new CamelCasePropertyNamesContractResolver()
+			};
+
+			var payload = JsonConvert.SerializeObject(response, serializerSettings);
 			context.Response.ContentType = "application/json";
 			context.Response.StatusCode = 400;
 
