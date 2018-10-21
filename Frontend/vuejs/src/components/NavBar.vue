@@ -25,12 +25,12 @@
     <span v-if="TokenStore.isAuthenticated">
         <span v-if="UserStore.isLoaded">
             <span class="navbar-text user-welcome">
-                Witaj, <a href="">{{UserStore.userName}}</a>
+                <a href="">{{UserStore.userName}}</a>
             </span>
             <button v-on:click="onLogout" class="btn btn-secondary"> Logout</button>
         </span>
         <span v-if="UserStore.isLoaded == false" class="navbar-text">
-            Ładowanie...
+            Loading...
         </span>
     </span>
     <span v-else>

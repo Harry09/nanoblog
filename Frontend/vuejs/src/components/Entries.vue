@@ -6,7 +6,7 @@
             v-bind:entry="entry" 
             />
 
-        <h3 v-if="EntryStore.entries.length === 0">Nic tutaj nie ma ;(</h3>
+        <h3 v-if="EntryStore.entries.length === 0">Nothing here ;(</h3>
     </div>
 </template>
 

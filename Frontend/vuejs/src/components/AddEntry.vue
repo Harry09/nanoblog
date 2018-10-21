@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Dodaj post</h3>
+        <h3>Add entry</h3>
         <form v-on:submit="addEntry">
           <div class="form-group">
             <textarea
@@ -11,7 +11,7 @@
           </div>
 
           <button type="submit" class="btn btn-primary">
-            Dodaj
+            Add
           </button>
         </form>
     </div>

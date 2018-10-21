@@ -10,32 +10,18 @@ const UserStore = {
   },
   methods: {
     async login(login, password) {
-      try {
-        const {
-          data
-        } = await AccountApi.login(login, password);
+      const { data } = await AccountApi.login(login, password);
 
-        TokenStore.methods.setSession(data);
+      TokenStore.methods.setSession(data);
 
-        router.push({
-          name: "home"
-        });
-
-        if (TokenStore.methods.isAuthenticated()) {
-          this.refreshUserInfo();
-        }
-      } catch (ex) {
-        console.log(ex);
+      if (TokenStore.methods.isAuthenticated()) {
+        this.refreshUserInfo();
       }
     },
     async logout() {
       console.log("Logging out...");
 
-      try {
-        await AccountApi.revokeToken(TokenStore.data.refreshToken);
-      } catch (ex) {
-        console.log(ex);
-      }
+      await AccountApi.revokeToken(TokenStore.data.refreshToken);
 
       UserStore.data.id = null;
       UserStore.data.userName = null;
