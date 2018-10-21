@@ -31,14 +31,20 @@ namespace Nanoblog
 				.AddJsonFile("appsettings.json", false);
 
 			Configuration = builder.Build();
+
+			CurrentEnvironment = env;
 		}
 
 		public IConfiguration Configuration { get; }
 
+		private IHostingEnvironment CurrentEnvironment { get; set; }
+
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<AppDbContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
+			if (CurrentEnvironment.IsDevelopment())
+			{
+				services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQLServer")));
+			}
 
 			services.AddTransient<IEntryService, EntryService>();
 			services.AddTransient<IAccountService, AccountService>();

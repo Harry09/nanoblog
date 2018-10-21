@@ -1,11 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanoblog.Api", "Nanoblog.Api\Nanoblog.Api.csproj", "{EA3A81F2-E798-4166-ABA6-FFFFF8B97C8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nanoblog.Core", "Nanoblog.Core\Nanoblog.Core.csproj", "{C048C1CE-A66B-4C79-B523-15C2F9A9A1F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanoblog.Core", "Nanoblog.Core\Nanoblog.Core.csproj", "{C048C1CE-A66B-4C79-B523-15C2F9A9A1F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
