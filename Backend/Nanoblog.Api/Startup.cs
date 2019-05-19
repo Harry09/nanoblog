@@ -66,7 +66,7 @@ namespace Nanoblog
 
 			services.AddCors();
 
-			services.AddAutoMapper();
+			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 			var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
 
