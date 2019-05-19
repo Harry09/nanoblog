@@ -4,7 +4,7 @@ I'm just learning ASP.NET Core and frontend frameworks here creating simple clon
 
 ## Backend
 
-Backend is written in ASP.NET Core 2.0 Api
+Backend is written in ASP.NET Core 2.2 Api
 
 ## Frontend
 
