@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,6 +21,7 @@ using Nanoblog.Api.Services;
 using Nanoblog.Api.Settings;
 using Nanoblog.Api.Data.Models;
 using Nanoblog.Api.Middleware;
+using Nanoblog.Core.Data.Dto;
 
 namespace Nanoblog
 {
@@ -46,7 +49,14 @@ namespace Nanoblog
 				services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQLServer")));
 			}
 
-			services.AddTransient<IEntryService, EntryService>();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddTransient<IEntryService, EntryService>();
 			services.AddTransient<IAccountService, AccountService>();
 
 			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
@@ -74,17 +84,23 @@ namespace Nanoblog
 				};
 			});
 
-			services.AddMvc().AddJsonOptions(options =>
-			{
-				options.SerializerSettings.DateFormatString = "dd-MM-yyyy HH:mm:ss";
-			});
+			services.AddMvc()
+                .AddJsonOptions(options =>
+			    {
+				    options.SerializerSettings.DateFormatString = "dd-MM-yyyy HH:mm:ss";
+			    })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-			loggerFactory.AddDebug();
+            if (env.IsProduction())
+            {
+                app.UseHsts();
+            }
 
+            app.UseHttpsRedirection();
+            app.UseCookiePolicy();
 			app.UseMiddleware<ErrorHandler>();
 			app.UseAuthentication();
 
