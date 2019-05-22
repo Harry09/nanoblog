@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nanoblog/screnns/home.dart';
+import 'package:nanoblog/screens/home.dart';
 
 class NanoblogApp extends StatefulWidget
 {
