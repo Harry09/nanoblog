@@ -2,7 +2,7 @@
 
 Backend written in Asp.Net Core 2.2 and Entity Framework Core
 
-## Instalation
+## How to build
 
 ```bash
 dotnet restore
