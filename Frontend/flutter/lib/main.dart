@@ -8,7 +8,6 @@ void main()
 {
   //debugPaintSizeEnabled=true;
  
-
   AppStateModel model = AppStateModel();
 
   runApp(ScopedModel<AppStateModel>(
