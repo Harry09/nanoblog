@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/model/user.dart';
+import 'package:nanoblog/screens/add_post.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class HomePage extends StatefulWidget
@@ -128,6 +129,20 @@ class HomePageState extends State<HomePage>
       author: defaultUser,
       createTime: "5 hours ago",
       text: "zażółć gęślą jaźń"
+    ));
+  }
+
+  void addPost() async
+  {
+    final String result = await Navigator.push<String>(context, MaterialPageRoute(
+        builder: (context) => AddPostPage()
+      )
+    );
+
+    entries.add(Entry(
+      author: User(userName: "Harry"),
+      createTime: DateTime.now().toString(),
+      text: result
     ));
   }
 

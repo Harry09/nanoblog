@@ -27,10 +27,10 @@ class _AddPostPageState extends State<AddPostPage>
         content: Text("Enter a message!"),
       ));
     }
-    // else
-    // {
-    //   Navigator.pop(context, messageController.text);
-    // }
+    else
+    {
+      Navigator.pop(context, messageController.text);
+    }
   }
 
   @override
