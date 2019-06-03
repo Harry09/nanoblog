@@ -46,14 +46,17 @@ class HomePageState extends State<HomePage>
 
   Widget _buildPostBody(Entry entry)
   {
-    return Align(
-    alignment: Alignment.centerLeft,
-    child: Flex(
-        direction: Axis.vertical,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(entry.text)
-        ],
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Flex(
+          direction: Axis.vertical,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(entry.text)
+          ],
+        )
       )
     );
   }
@@ -71,7 +74,7 @@ class HomePageState extends State<HomePage>
         border: Border.all(color: Colors.white),
         borderRadius: BorderRadius.all(Radius.circular(10))
       ),
-      padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+      padding: EdgeInsets.fromLTRB(5, 5, 5, 10),
       margin: EdgeInsets.symmetric(vertical: 5),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -90,7 +93,7 @@ class HomePageState extends State<HomePage>
     {
       return Container(
         padding: EdgeInsets.all(10),
-        child: Text("Nic tutaj nie ma :(")
+        child: Text("Nothing here :(")
       );
     }    
 
@@ -157,6 +160,10 @@ class HomePageState extends State<HomePage>
             onPressed: refreshData,
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: addPost,
       ),
       body: _buildBody(),
     );
