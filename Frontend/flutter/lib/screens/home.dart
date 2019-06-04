@@ -3,6 +3,7 @@ import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/model/user.dart';
 import 'package:nanoblog/screens/add_post.dart';
+import 'package:nanoblog/screens/login.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class HomePage extends StatefulWidget
@@ -149,6 +150,13 @@ class HomePageState extends State<HomePage>
     ));
   }
 
+  void login()
+  {
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) => LoginPage()
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,6 +166,10 @@ class HomePageState extends State<HomePage>
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: refreshData,
+          ),
+          IconButton(
+            icon: Icon(Icons.person),
+            onPressed: login
           )
         ],
       ),
