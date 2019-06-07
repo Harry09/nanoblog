@@ -43,10 +43,6 @@ class AccountApi
 
       return jwt;
     }
-    else if (result.statusCode == 400)
-    {
-      ApiBase.handleApiError(result.body);
-    }
 
     return null;
   }
@@ -62,11 +58,7 @@ class AccountApi
 
       return user;
     }
-    else if (result.statusCode == 400)
-    {
-      ApiBase.handleApiError(result.body);
-    }
-
+    
     return null;
   }
 }

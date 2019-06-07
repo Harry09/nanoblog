@@ -15,10 +15,6 @@ class EntryApi
 
       return (json as List).map((i) => Entry.fromJson(i)).toList();
     }
-    else if (result.statusCode == 400)
-    {
-      ApiBase.handleApiError(result.body);
-    }
 
     return null;
   }
@@ -32,10 +28,6 @@ class EntryApi
       var json = jsonDecode(result.body);
 
       return Entry.fromJson(json);
-    }
-    else if (result.statusCode == 400)
-    {
-      ApiBase.handleApiError(result.body);
     }
     
     return null;

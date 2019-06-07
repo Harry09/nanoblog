@@ -24,7 +24,14 @@ class ApiBase
   {
     apiUrl = _fixApiUrl(apiUrl);
 
-    return await http.get(baseUrl + apiUrl, headers: headers);
+    var result = await http.get(baseUrl + apiUrl, headers: headers);
+
+    if (result.statusCode == 400)
+    {
+      handleApiError(result.body);
+    }
+    
+    return result;
   }
 
   static Future<http.Response> post(String apiUrl, {@required String jsonBody, String token, Map<String, String> headers}) async
@@ -48,11 +55,18 @@ class ApiBase
       _headers.addAll(headers);
     }
 
-    return await http.post(
+    var result = await http.post(
       baseUrl + apiUrl, 
       headers: _headers,
       body: jsonBody
     );
+
+    if (result.statusCode == 400)
+    {
+      handleApiError(result.body);
+    }
+    
+    return result;
   }
 
   static void handleApiError(String jsonMessage)
