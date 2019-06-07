@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/account_api.dart';
 import 'package:nanoblog/api/entry_api.dart';
+import 'package:nanoblog/exceptions/api_exception.dart';
+import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/model/user.dart';
 import 'package:nanoblog/screens/add_post.dart';
@@ -14,7 +17,9 @@ class HomePage extends StatefulWidget
 
 class HomePageState extends State<HomePage>
 {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Entry> entries;
+  AppStateModel model;
 
   HomePageState()
   {
@@ -138,28 +143,64 @@ class HomePageState extends State<HomePage>
 
   void addPost() async
   {
-    final String result = await Navigator.push<String>(context, MaterialPageRoute(
+    var result = await Navigator.push<String>(context, MaterialPageRoute(
         builder: (context) => AddPostPage()
       )
     );
-
-    entries.add(Entry(
-      author: User(userName: "Harry"),
-      createTime: DateTime.now().toString(),
-      text: result
-    ));
   }
 
-  void login()
+  Future login() async
   {
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) => LoginPage()
-    ));
+    try
+    {
+      var result = await AccountApi.login("email@email.email", "password");
+
+      if (result != null)
+      {
+        model.jwtToken = result;
+
+        var user = await AccountApi.getUser(result.getUserId());
+
+        if (user != null)
+        {
+          setState(() {
+            model.currentUser = user;
+          });
+        }
+      }
+    }
+    on ApiException catch(ex)
+    {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(ex.toString()),
+      ));
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    model = ScopedModel.of<AppStateModel>(context, rebuildOnChange: true);
+
+    Widget loginWidget;
+
+    if (model.currentUser == null)
+    {
+      loginWidget = IconButton(
+        icon: Icon(Icons.person),
+        onPressed: login
+      );
+    }
+    else
+    {
+      loginWidget = FlatButton(
+        child: Text(model.currentUser.userName),
+        onPressed: () {},
+      );
+    }
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Nanoblog"),
         actions: <Widget>[
@@ -167,10 +208,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(Icons.refresh),
             onPressed: refreshData,
           ),
-          IconButton(
-            icon: Icon(Icons.person),
-            onPressed: login
-          )
+          loginWidget
         ],
       ),
       floatingActionButton: FloatingActionButton(
