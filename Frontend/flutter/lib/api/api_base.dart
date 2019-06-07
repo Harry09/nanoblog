@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
+import 'package:nanoblog/exceptions/api_exception.dart';
+import 'package:nanoblog/model/api_error.dart';
 
 
 class ApiBase
@@ -49,5 +53,13 @@ class ApiBase
       headers: _headers,
       body: jsonBody
     );
+  }
+
+  static void handleApiError(String jsonMessage)
+  {
+      var jsonData = json.decode(jsonMessage);
+      var apiError = ApiError.fromJson(jsonData);
+
+      throw ApiException(apiError);
   }
 }
