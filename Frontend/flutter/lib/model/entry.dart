@@ -10,7 +10,7 @@ class Entry
 
   Entry({this.id, this.author, this.text, this.createTime});
 
-  Entry.fromJson(Map json)
+  Entry.fromJson(Map<String, dynamic> json)
   {
     this.id = json['id'];
     this.author = User.fromJson(json['author']);

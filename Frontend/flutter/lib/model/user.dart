@@ -8,7 +8,7 @@ class User
 
   User({this.id, this.userName, this.email, this.role, this.joinTime});
 
-  User.fromJson(Map json)
+  User.fromJson(Map<String, dynamic> json)
   {
     this.id = json["id"];
     this.userName = json["userName"];

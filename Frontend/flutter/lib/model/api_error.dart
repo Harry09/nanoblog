@@ -5,7 +5,7 @@ class ApiError
 
   ApiError(this.message);
 
-  ApiError.fromJson(Map json)
+  ApiError.fromJson(Map<String, dynamic> json)
   {
     this.message = json["message"];
   }
