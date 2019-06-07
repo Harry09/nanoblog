@@ -8,13 +8,7 @@ class Entry
   String text;
   String createTime;
 
-  Entry({String id, User author, String text, String createTime})
-  {
-    this.id = id;
-    this.author = author;
-    this.text = text;
-    this.createTime = createTime;
-  }
+  Entry({this.id, this.author, this.text, this.createTime});
 
   Entry.fromJson(Map json)
   {

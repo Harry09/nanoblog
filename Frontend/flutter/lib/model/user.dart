@@ -6,14 +6,7 @@ class User
   String role;
   String joinTime;
 
-  User({String id, String userName, String email, String role, String joinTime})
-  {
-    this.id = id;
-    this.userName = userName;
-    this.email = email;
-    this.role = role;
-    this.joinTime = joinTime;
-  }
+  User({this.id, this.userName, this.email, this.role, this.joinTime});
 
   User.fromJson(Map json)
   {

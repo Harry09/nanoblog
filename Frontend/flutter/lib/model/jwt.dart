@@ -4,12 +4,7 @@ class Jwt
   String refreshToken;
   BigInt expires;
 
-  Jwt({String token, String refreshToken, BigInt expires})
-  {
-    this.token = token;
-    this.refreshToken = refreshToken;
-    this.expires = expires;
-  }
+  Jwt({this.token, this.refreshToken, this.expires});
 
   Jwt.fromJson(Map json)
   {
