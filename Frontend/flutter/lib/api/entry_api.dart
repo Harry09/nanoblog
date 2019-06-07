@@ -35,5 +35,6 @@ class EntryApi extends ApiBase
       return Entry.fromJson(json);
     }
     
+    return null;
   }
 }
