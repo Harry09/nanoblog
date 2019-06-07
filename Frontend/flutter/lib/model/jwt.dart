@@ -1,3 +1,5 @@
+import 'package:corsac_jwt/corsac_jwt.dart';
+
 class Jwt
 {
   String token;
@@ -11,5 +13,17 @@ class Jwt
     this.token = json["token"];
     this.refreshToken = json["refreshToken"];
     this.expires = BigInt.from(json["expires"]);
+  }
+
+  String getUserId()
+  {
+    var jwt = JWT.parse(token);
+
+    if (jwt != null)
+    {
+      return jwt.subject;
+    }
+    
+    return null;
   }
 }
