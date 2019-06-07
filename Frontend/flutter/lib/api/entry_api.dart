@@ -2,15 +2,12 @@ import 'dart:convert';
 
 import 'package:nanoblog/api/api_base.dart';
 import 'package:nanoblog/model/entry.dart';
-import 'package:http/http.dart' as http;
 
-class EntryApi extends ApiBase 
+class EntryApi 
 {
   static Future<List<Entry>> getEntries() async
   {
-    String url = "${ApiBase.baseUrl}/entries";
-    
-    var result = await http.get(url);
+    var result = await ApiBase.get("/entries");
 
     if (result.statusCode == 200)
     {
@@ -24,9 +21,7 @@ class EntryApi extends ApiBase
 
   static Future<Entry> getEntry(String id) async
   {
-    String url = "${ApiBase.baseUrl}/entries/$id";
-
-    var result = await http.get(url);
+    var result = await ApiBase.get("/entries/$id");
 
     if (result.statusCode == 200)
     {
