@@ -53,16 +53,16 @@ namespace Nanoblog.Api.Controllers
 			return Json(_accountService.GetUser(userId));
 		}
 
-		[Route("tokens/refresh/{token}")]
-		public IActionResult RefreshAccessToken(string token)
+		[Route("tokens/refresh/{refreshToken}")]
+		public IActionResult RefreshAccessToken(string refreshToken)
 		{
-			return Json(_accountService.RefreshAccessToken(token));
+			return Json(_accountService.RefreshAccessToken(refreshToken));
 		}
 
-		[HttpPost("tokens/revoke/{token}")]
-		public IActionResult RevokeRefreshToken(string token)
+		[HttpPost("tokens/revoke/{refreshToken}")]
+		public IActionResult RevokeRefreshToken(string refreshToken)
 		{
-			_accountService.RevokeRefreshToken(token);
+			_accountService.RevokeRefreshToken(refreshToken);
 
 			return Ok();
 		}
