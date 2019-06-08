@@ -1,6 +1,6 @@
 # Nanoblog
 
-I'm just learning ASP.NET Core and frontend frameworks here creating simple clone of reddit/twitter (i don't know yet)
+I'm just learning new technologies here, creating some kinda microblog.
 
 ## Backend
 
@@ -8,13 +8,17 @@ Backend is written in ASP.NET Core 2.2 Api
 
 ## Frontend
 
-Frontend is written in ReactJS and VueJS, now I'm working on Flutter port
+- ReactJS (abandoned, i just hate this technology)
+- VueJS
+- Flutter
+- WPF (TODO)
 
 ## Plans
 
 - ~~Entry~~
 - Comments
-- Votes
-- Subreddits
+- Karma
+- Tags
+- Mentioning other users
 - Sorting
 - Animations
