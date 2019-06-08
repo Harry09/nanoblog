@@ -75,9 +75,17 @@ class JwtService
 
   Future load() async
   {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (prefs.containsKey("token") == false ||
+        prefs.containsKey("refreshToken") == false ||
+        prefs.containsKey("expires") == false)
+    {
+        return;
+    }
+
     _jwtToken = Jwt();
 
-    final prefs = await SharedPreferences.getInstance();
     _jwtToken.token = prefs.getString("token");
     _jwtToken.refreshToken = prefs.getString("refreshToken");
     _jwtToken.expires = prefs.getInt("expires");

@@ -46,6 +46,11 @@ class HomePageState extends State<HomePage>
 
     if (model.jwtService.jwtToken != null)
     {
+      await model.jwtService.tryRefreshToken();
+
+      if (model.jwtService.isExpired())
+        return;
+
       var user = await AccountApi.getUser(model.jwtService.jwtToken.getUserId());
 
         if (user != null)

@@ -29,6 +29,9 @@ class Jwt
 
   bool isExpired()
   {
+    if (expires == null)
+      return true;
+
     return expires < DateTime.now().millisecondsSinceEpoch;
   }
 }
