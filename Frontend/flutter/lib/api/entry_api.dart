@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:nanoblog/api/api_base.dart';
 import 'package:nanoblog/model/entry.dart';
+import 'package:nanoblog/model/jwt.dart';
 
 class EntryApi 
 {
@@ -32,4 +33,36 @@ class EntryApi
     
     return null;
   }
+
+  static Future<bool> addEntry(String text, Jwt jwtToken) async
+  {
+    var jsonBody = json.encode({
+      "text": text
+    });
+
+    var result = await ApiBase.post(
+      "/entries",
+      jsonBody: jsonBody,
+      token: jwtToken.token
+      );
+
+    if (result.statusCode == 200)
+    {
+      return true;
+    }
+
+    return false;
+  }
+
+  static Future<bool> deleteEntry(String id) async
+  {
+    var result = await ApiBase.delete("/entries/$id");
+
+    if (result.statusCode == 200)
+    {
+      return true;
+    }
+
+    return false;
+  }    
 }

@@ -69,6 +69,20 @@ class ApiBase
     return result;
   }
 
+  static Future<http.Response> delete(String apiUrl, {Map<String, String> headers}) async
+  {
+    apiUrl = _fixApiUrl(apiUrl);
+
+    var result = await http.delete(baseUrl + apiUrl, headers: headers);
+
+    if (result.statusCode == 400)
+    {
+      handleApiError(result.body);
+    }
+
+    return result;
+  }
+
   static void handleApiError(String jsonMessage)
   {
       var jsonData = json.decode(jsonMessage);
