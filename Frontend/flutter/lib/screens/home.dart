@@ -105,10 +105,15 @@ class HomePageState extends State<HomePage>
 
     return Container(
       color: Colors.grey[200],
-      child: ListView.builder(
-        padding: EdgeInsets.all(10),
-        itemCount: entries.length,
-        itemBuilder: (BuildContext ctxt, int index) => _buildPost(entries[index])
+      child: Center(
+        child: RefreshIndicator(
+          onRefresh: refreshData,
+          child: ListView.builder(
+            padding: EdgeInsets.all(10),
+            itemCount: entries.length,
+            itemBuilder: (BuildContext ctxt, int index) => _buildPost(entries[index])
+          ),
+        ), 
       )
     );
   }
@@ -155,6 +160,8 @@ class HomePageState extends State<HomePage>
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text("Post added!"),
       ));
+
+      refreshData();
     }
     else
     {
