@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:nanoblog/api/account_api.dart';
 import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
@@ -8,6 +9,7 @@ import 'package:nanoblog/model/user.dart';
 import 'package:nanoblog/screens/add_post.dart';
 import 'package:nanoblog/screens/login.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget
 {
@@ -25,6 +27,34 @@ class HomePageState extends State<HomePage>
   {
     entries = List<Entry>();
     // mockData();
+  }
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      tryLogin();
+      refreshData();
+    });
+  }
+
+  void tryLogin() async
+  {
+    await model.jwtService.load();
+
+    if (model.jwtService.jwtToken != null)
+    {
+      var user = await AccountApi.getUser(model.jwtService.jwtToken.getUserId());
+
+        if (user != null)
+        {
+          setState(() {
+            model.currentUser = user;
+          });
+        }
+    }
   }
 
   Widget _buildPostHeader(Entry entry)
@@ -126,24 +156,24 @@ class HomePageState extends State<HomePage>
     });
   }
 
-  void mockData()
-  {
-    var defaultUser = User(
-      userName: "Harry"
-    );
+  // void mockData()
+  // {
+  //   var defaultUser = User(
+  //     userName: "Harry"
+  //   );
 
-    entries.add(Entry(
-      author: defaultUser,
-      createTime: "10 hours ago",
-      text: "Sint commodo proident pariatur in qui ea non. Anim aute culpa duis non sunt incididunt laborum nisi tempor."
-    ));
+  //   entries.add(Entry(
+  //     author: defaultUser,
+  //     createTime: "10 hours ago",
+  //     text: "Sint commodo proident pariatur in qui ea non. Anim aute culpa duis non sunt incididunt laborum nisi tempor."
+  //   ));
 
-    entries.add(Entry(
-      author: defaultUser,
-      createTime: "5 hours ago",
-      text: "zażółć gęślą jaźń"
-    ));
-  }
+  //   entries.add(Entry(
+  //     author: defaultUser,
+  //     createTime: "5 hours ago",
+  //     text: "zażółć gęślą jaźń"
+  //   ));
+  // }
 
   void addPost() async
   {
@@ -179,7 +209,7 @@ class HomePageState extends State<HomePage>
 
       if (result != null)
       {
-        model.jwtToken = result;
+        model.jwtService.setJwt(result);
 
         var user = await AccountApi.getUser(result.getUserId());
 
@@ -217,7 +247,7 @@ class HomePageState extends State<HomePage>
     {
       loginWidget = FlatButton(
         child: Text(model.currentUser.userName),
-        onPressed: () {},
+        onPressed: () {}, // show profile or sth
       );
     }
 

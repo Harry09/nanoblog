@@ -46,23 +46,13 @@ class EntryApi
       token: jwtToken.token
       );
 
-    if (result.statusCode == 200)
-    {
-      return true;
-    }
-
-    return false;
+    return result.statusCode == 200;
   }
 
   static Future<bool> deleteEntry(String id) async
   {
     var result = await ApiBase.delete("/entries/$id");
 
-    if (result.statusCode == 200)
-    {
-      return true;
-    }
-
-    return false;
+    return result.statusCode == 200;
   }    
 }

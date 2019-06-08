@@ -39,13 +39,15 @@ class _AddPostPageState extends State<AddPostPage>
     }
     else
     {
-      if (model.jwtToken == null)
+      if (model.jwtService.jwtToken == null)
       {
         _showMessage("You have to login!");
         return;
       }
 
-      bool result = await EntryApi.addEntry(messageController.text, model.jwtToken);
+      await model.jwtService.tryRefreshToken();
+
+      bool result = await EntryApi.addEntry(messageController.text, model.jwtService.jwtToken);
       
       Navigator.pop(context, result);
     }

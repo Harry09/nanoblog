@@ -4,7 +4,7 @@ class Jwt
 {
   String token;
   String refreshToken;
-  BigInt expires;
+  int expires;
 
   Jwt({this.token, this.refreshToken, this.expires});
 
@@ -12,7 +12,7 @@ class Jwt
   {
     this.token = json["token"];
     this.refreshToken = json["refreshToken"];
-    this.expires = BigInt.from(json["expires"]);
+    this.expires = json["expires"];
   }
 
   String getUserId()
@@ -25,5 +25,10 @@ class Jwt
     }
     
     return null;
+  }
+
+  bool isExpired()
+  {
+    return expires < DateTime.now().millisecondsSinceEpoch;
   }
 }

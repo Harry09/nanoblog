@@ -61,4 +61,26 @@ class AccountApi
     
     return null;
   }
+
+  static Future<Jwt> refreshAccessToken(String refreshToken) async
+  {
+    var result = await ApiBase.get("/accounts/tokens/refresh/$refreshToken");
+
+    if (result.statusCode == 200)
+    {
+      var jsonData = json.decode(result.body);
+      var jwt = Jwt.fromJson(jsonData);
+
+      return jwt;
+    }
+
+    return null;
+  }
+
+  static Future<bool> revokeRefreshToken(String refreshToken) async
+  {
+    var result = await ApiBase.get("/accounts/tokens/revoke/$refreshToken");
+
+    return result.statusCode == 200;
+  }
 }
