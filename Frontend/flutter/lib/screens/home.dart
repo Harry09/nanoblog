@@ -24,7 +24,7 @@ class HomePageState extends State<HomePage>
   HomePageState()
   {
     entries = List<Entry>();
-    mockData();
+    // mockData();
   }
 
   Widget _buildPostHeader(Entry entry)
@@ -119,7 +119,6 @@ class HomePageState extends State<HomePage>
     setState(() {
       entries = entries_;
     });
-
   }
 
   void mockData()
@@ -143,10 +142,26 @@ class HomePageState extends State<HomePage>
 
   void addPost() async
   {
-    var result = await Navigator.push<String>(context, MaterialPageRoute(
+    var result = await Navigator.push<bool>(context, MaterialPageRoute(
         builder: (context) => AddPostPage()
       )
     );
+
+    if (result == null)
+      return;
+
+    if (result)
+    {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text("Post added!"),
+      ));
+    }
+    else
+    {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text("Something went wrong :/"),
+      ));
+    }
   }
 
   Future login() async

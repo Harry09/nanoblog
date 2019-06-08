@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/entry_api.dart';
+import 'package:nanoblog/model/app_state_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class AddPostPage extends StatefulWidget
 {
@@ -12,6 +15,8 @@ class _AddPostPageState extends State<AddPostPage>
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  AppStateModel model;
+
   @override
   void dispose()
   {
@@ -19,23 +24,38 @@ class _AddPostPageState extends State<AddPostPage>
     super.dispose();
   }
 
-  void onSubmit(BuildContext context)
+  void _showMessage(String message)
+  {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
+
+  void _onSubmit() async
   {
     if (messageController.text.isEmpty)
     {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text("Enter a message!"),
-      ));
+      _showMessage("Enter a message!");
     }
     else
     {
-      Navigator.pop(context, messageController.text);
+      if (model.jwtToken == null)
+      {
+        _showMessage("You have to login!");
+        return;
+      }
+
+      bool result = await EntryApi.addEntry(messageController.text, model.jwtToken);
+      
+      Navigator.pop(context, result);
     }
   }
 
   @override
   Widget build(BuildContext context)
   {
+    model = ScopedModel.of<AppStateModel>(context);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -43,7 +63,7 @@ class _AddPostPageState extends State<AddPostPage>
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.arrow_forward),
-            onPressed: () => onSubmit(context),
+            onPressed: _onSubmit,
           )
         ],
       ),
