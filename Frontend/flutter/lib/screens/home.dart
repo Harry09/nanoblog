@@ -234,6 +234,48 @@ class HomePageState extends State<HomePage>
     }
   }
 
+  Future logoff() async
+  {
+    await model.jwtService.resetToken();
+    
+    setState(() {
+      model.currentUser = null;
+    });
+
+  }
+
+  Future showProfileOptions() async
+  {
+    _scaffoldKey.currentState.showBottomSheet((BuildContext context) {
+      return Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child:  Text(
+                  model.currentUser.userName,
+                  style: TextStyle(
+                    fontSize: 24
+                  ),
+                )
+              )
+            ),
+            ListTile(
+              leading: new Icon(Icons.exit_to_app),
+              title: new Text('Log off'),
+              onTap: () {
+                Navigator.pop(_scaffoldKey.currentContext);
+                logoff();
+              },
+            )
+          ],
+        )
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context)
   {
@@ -252,7 +294,7 @@ class HomePageState extends State<HomePage>
     {
       loginWidget = FlatButton(
         child: Text(model.currentUser.userName),
-        onPressed: () {}, // show profile or sth
+        onPressed: showProfileOptions,
       );
     }
 
