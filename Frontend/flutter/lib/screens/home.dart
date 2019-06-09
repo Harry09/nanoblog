@@ -246,7 +246,9 @@ class HomePageState extends State<HomePage>
 
   Future showProfileOptions() async
   {
-    _scaffoldKey.currentState.showBottomSheet((BuildContext context) {
+    showModalBottomSheet(
+      context: _scaffoldKey.currentContext,
+      builder: (BuildContext context) {
       return Container(
         child: Column(
           mainAxisSize: MainAxisSize.min,
