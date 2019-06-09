@@ -102,9 +102,59 @@ class HomePageState extends State<HomePage>
     );
   }
 
+  void entryMoreOptions(Entry entry)
+  {
+    List<Widget> columnItems;
+
+    if (model.currentUser != null && model.currentUser.id == entry.author.id)
+    {
+      columnItems = [
+        ListTile(
+          leading: Icon(Icons.delete),
+          title: Text("Delete entry"),
+        )
+      ];
+    }
+    else
+    {
+      columnItems = [
+        Center(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(
+              "Nothing here :(",
+              style: TextStyle(
+                fontSize: 24
+              ),
+          ),
+          )
+        )
+      ];
+    }
+
+    showModalBottomSheet(
+      context: _scaffoldKey.currentContext,
+      builder: (BuildContext context) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: columnItems
+          ),
+        );
+      }
+    );
+  }
+
   Widget _buildPostFooter(Entry entry)
   {
-
+    return Align(
+      alignment: Alignment.centerRight,
+      child: IconButton(
+        icon: Icon(Icons.more_vert),
+        onPressed: () => entryMoreOptions(entry),
+        padding: EdgeInsets.all(0),
+      ),
+    );
   }
 
   Widget _buildPost(Entry entry)
@@ -122,7 +172,7 @@ class HomePageState extends State<HomePage>
         children: [
           _buildPostHeader(entry),
           _buildPostBody(entry),
-          //_buildPostFooter()
+          _buildPostFooter(entry)
         ],
       )
     );
@@ -160,25 +210,6 @@ class HomePageState extends State<HomePage>
       entries = entries_;
     });
   }
-
-  // void mockData()
-  // {
-  //   var defaultUser = User(
-  //     userName: "Harry"
-  //   );
-
-  //   entries.add(Entry(
-  //     author: defaultUser,
-  //     createTime: "10 hours ago",
-  //     text: "Sint commodo proident pariatur in qui ea non. Anim aute culpa duis non sunt incididunt laborum nisi tempor."
-  //   ));
-
-  //   entries.add(Entry(
-  //     author: defaultUser,
-  //     createTime: "5 hours ago",
-  //     text: "zażółć gęślą jaźń"
-  //   ));
-  // }
 
   void addPost() async
   {
