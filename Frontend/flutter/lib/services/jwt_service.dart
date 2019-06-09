@@ -81,7 +81,7 @@ class JwtService
         prefs.containsKey("refreshToken") == false ||
         prefs.containsKey("expires") == false)
     {
-        return;
+      return;
     }
 
     _jwtToken = Jwt();

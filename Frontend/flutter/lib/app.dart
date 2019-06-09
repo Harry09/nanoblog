@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nanoblog/screens/home.dart';
+import 'package:nanoblog/screens/login.dart';
+import 'package:nanoblog/screens/startup.dart';
 
 class NanoblogApp extends StatefulWidget
 {
@@ -13,9 +16,14 @@ class NanoblogState extends State<NanoblogApp>
   {
     return MaterialApp( 
       title: "Todo App",
-      home: HomePage(),
+      routes: <String, WidgetBuilder> {
+        "/home": (_) => HomePage(),
+        "/login": (_) => LoginPage(),
+      },
+      home: StartupPage(),
       theme: ThemeData(
-        primaryColor: Colors.white
+        primaryColor: Colors.white,
+        accentColor: Colors.teal
       ),
     );
   }

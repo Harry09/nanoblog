@@ -35,31 +35,8 @@ class HomePageState extends State<HomePage>
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      tryLogin();
       refreshData();
     });
-  }
-
-  void tryLogin() async
-  {
-    await model.jwtService.load();
-
-    if (model.jwtService.jwtToken != null)
-    {
-      await model.jwtService.tryRefreshToken();
-
-      if (model.jwtService.isExpired())
-        return;
-        
-      var user = await AccountApi.getUser(model.jwtService.jwtToken.getUserId());
-
-        if (user != null)
-        {
-          setState(() {
-            model.currentUser = user;
-          });
-        }
-    }
   }
 
   Widget _buildPostHeader(Entry entry)
@@ -237,35 +214,6 @@ class HomePageState extends State<HomePage>
     }
   }
 
-  Future login() async
-  {
-    try
-    {
-      // only for debug
-      var result = await AccountApi.login("email@email.email", "password");
-
-      if (result != null)
-      {
-        model.jwtService.setJwt(result);
-
-        var user = await AccountApi.getUser(result.getUserId());
-
-        if (user != null)
-        {
-          setState(() {
-            model.currentUser = user;
-          });
-        }
-      }
-    }
-    on ApiException catch(ex)
-    {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(ex.toString()),
-      ));
-    }
-  }
-
   Future logoff() async
   {
     await model.jwtService.resetToken();
@@ -273,6 +221,8 @@ class HomePageState extends State<HomePage>
     setState(() {
       model.currentUser = null;
     });
+
+    Navigator.pushNamedAndRemoveUntil(_scaffoldKey.currentContext, "/login", (_) => false);
   }
 
   Future showProfileOptions() async
@@ -323,14 +273,7 @@ class HomePageState extends State<HomePage>
 
     Widget loginWidget;
 
-    if (model.currentUser == null)
-    {
-      loginWidget = IconButton(
-        icon: Icon(Icons.person),
-        onPressed: login
-      );
-    }
-    else
+    if (model.currentUser != null)
     {
       loginWidget = FlatButton(
         child: Text(model.currentUser.userName),

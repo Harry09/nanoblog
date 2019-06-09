@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
+import 'package:nanoblog/api/account_api.dart';
+import 'package:nanoblog/model/app_state_model.dart';
+import 'package:nanoblog/exceptions/api_exception.dart';
+import 'package:nanoblog/screens/loading.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class LoginPage extends StatefulWidget
 {
@@ -15,6 +19,8 @@ class _LoginPageState extends State<LoginPage>
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
+  AppStateModel _model;
+
   @override
   void dispose()
   {
@@ -23,14 +29,60 @@ class _LoginPageState extends State<LoginPage>
     super.dispose();
   }
 
+  Future<bool> _toProcess() async
+  {
+    try
+    {
+      // only for debug
+      var result = await AccountApi.login("email@email.email", "password");
+
+      if (result != null)
+      {
+        _model.jwtService.setJwt(result);
+
+        var user = await AccountApi.getUser(result.getUserId());
+
+        if (user != null)
+        {
+          _model.currentUser = user;
+          return true;
+        }
+      }
+    }
+    on ApiException catch(ex)
+    {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(ex.toString()),
+      ));
+
+      return false;
+    }
+
+    return false;
+  }
+
+  void _onSuccess(BuildContext context)
+  {
+    Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+  }
+
+  void _onFail(BuildContext context)
+  {
+    Navigator.pop(context);
+  }
+
   void login(BuildContext context)
   {
-    
-    if (_formKey.currentState.validate())
+    // if (_formKey.currentState.validate())
     {
-      Navigator.pop(context, Tuple2<String, String>(email.text, password.text));
-
-      Navigator.
+      Navigator.push(context, MaterialPageRoute(
+        builder: (c2) => LoadingPage(
+          message: "Logging in...",
+          toProcess: _toProcess,
+          onSuccess: () => _onSuccess(context),
+          onFail: () => _onFail(context),
+        )
+      ));
     }
   }
 
@@ -56,6 +108,8 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context)
   {
+    _model = ScopedModel.of(context, rebuildOnChange: true);
+
     return Scaffold(
       key: _scaffoldKey,
       body: Column(
