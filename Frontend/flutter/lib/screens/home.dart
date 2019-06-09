@@ -246,6 +246,13 @@ class HomePageState extends State<HomePage>
 
   Future showProfileOptions() async
   {
+    var username;
+
+    if (model.currentUser != null)
+    {
+      username = model.currentUser.userName;
+    }
+
     showModalBottomSheet(
       context: _scaffoldKey.currentContext,
       builder: (BuildContext context) {
@@ -256,8 +263,8 @@ class HomePageState extends State<HomePage>
             Center(
               child: Padding(
                 padding: EdgeInsets.all(16),
-                child:  Text(
-                  model.currentUser.userName,
+                child: Text(
+                  username,
                   style: TextStyle(
                     fontSize: 24
                   ),
