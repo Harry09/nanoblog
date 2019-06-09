@@ -311,6 +311,15 @@ class HomePageState extends State<HomePage>
         onPressed: showProfileOptions,
       );
     }
+    else
+    {
+      loginWidget = FlatButton(
+        child: Text("Login"),
+        onPressed: () {
+          Navigator.pushNamedAndRemoveUntil(context, "/login", (_) => false);
+        },
+      );
+    }
 
     return Scaffold(
       key: _scaffoldKey,
