@@ -50,7 +50,7 @@ class HomePageState extends State<HomePage>
 
       if (model.jwtService.isExpired())
         return;
-
+        
       var user = await AccountApi.getUser(model.jwtService.jwtToken.getUserId());
 
         if (user != null)
@@ -76,8 +76,8 @@ class HomePageState extends State<HomePage>
               entry.author.userName,
               style: TextStyle(
                 fontWeight: FontWeight.bold
-                )
-              ),
+              )
+            ),
           ),
           Text(entry.createTime)
         ],
@@ -205,9 +205,9 @@ class HomePageState extends State<HomePage>
 
   Future refreshData() async
   {
-    var entries_ = await EntryApi.getEntries();
+    final entries = await EntryApi.getEntries();
     setState(() {
-      entries = entries_;
+      this.entries = entries;
     });
   }
 
@@ -241,6 +241,7 @@ class HomePageState extends State<HomePage>
   {
     try
     {
+      // only for debug
       var result = await AccountApi.login("email@email.email", "password");
 
       if (result != null)
@@ -272,7 +273,6 @@ class HomePageState extends State<HomePage>
     setState(() {
       model.currentUser = null;
     });
-
   }
 
   Future showProfileOptions() async
