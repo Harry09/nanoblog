@@ -49,9 +49,9 @@ class EntryApi
     return result.statusCode == 200;
   }
 
-  static Future<bool> deleteEntry(String id) async
+  static Future<bool> deleteEntry(String id, Jwt jwtToken) async
   {
-    var result = await ApiBase.delete("/entries/$id");
+    var result = await ApiBase.delete("/entries/$id", token: jwtToken.token);
 
     return result.statusCode == 200;
   }    

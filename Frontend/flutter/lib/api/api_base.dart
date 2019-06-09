@@ -69,11 +69,25 @@ class ApiBase
     return result;
   }
 
-  static Future<http.Response> delete(String apiUrl, {Map<String, String> headers}) async
+  static Future<http.Response> delete(String apiUrl, {String token, Map<String, String> headers}) async
   {
     apiUrl = _fixApiUrl(apiUrl);
 
-    var result = await http.delete(baseUrl + apiUrl, headers: headers);
+    var _headers = Map<String, String>();
+
+    if (token != null)
+    {
+      _headers.addAll({
+        "Authorization": "Bearer $token"
+      });
+    }
+
+    if (headers != null)
+    {
+      _headers.addAll(headers);
+    }
+
+    var result = await http.delete(baseUrl + apiUrl, headers: _headers);
 
     if (result.statusCode == 400)
     {

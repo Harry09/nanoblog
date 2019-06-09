@@ -39,6 +39,13 @@ class HomePageState extends State<HomePage>
     });
   }
 
+  void _showSnackBar(String message)
+  {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
+
   Widget _buildPostHeader(Entry entry)
   {
     return 
@@ -79,6 +86,31 @@ class HomePageState extends State<HomePage>
     );
   }
 
+  Future _deletePost(Entry entry) async
+  {
+    if (model.jwtService.jwtToken == null)
+      return;
+
+    model.jwtService.tryRefreshToken();
+
+    try
+    {
+      if (await EntryApi.deleteEntry(entry.id, model.jwtService.jwtToken))
+      {
+        refreshData();
+      }
+      else
+      {
+        _showSnackBar("Cannot remove post!");
+      }
+
+    }
+    on ApiException catch (ex)
+    {
+      _showSnackBar(ex.toString());
+    }
+  }
+
   void entryMoreOptions(Entry entry)
   {
     List<Widget> columnItems;
@@ -89,6 +121,10 @@ class HomePageState extends State<HomePage>
         ListTile(
           leading: Icon(Icons.delete),
           title: Text("Delete entry"),
+          onTap: () {
+            Navigator.pop(_scaffoldKey.currentContext);
+            _deletePost(entry);
+          }
         )
       ];
     }
@@ -200,17 +236,12 @@ class HomePageState extends State<HomePage>
 
     if (result)
     {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text("Post added!"),
-      ));
-
+      _showSnackBar("Post added!");
       refreshData();
     }
     else
     {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text("Something went wrong :/"),
-      ));
+      _showSnackBar("Something went wrong :/");
     }
   }
 
