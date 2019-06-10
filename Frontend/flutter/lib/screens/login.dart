@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage>
     try
     {
       // only for debug
-      var result = await AccountApi.login("email@email.email", "password");
+      var result = await AccountApi.login("harry@harry.com", "password");
 
       if (result != null)
       {
@@ -51,10 +51,24 @@ class _LoginPageState extends State<LoginPage>
     }
     on ApiException catch(ex)
     {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(ex.toString()),
-      ));
+      
+      if (_scaffoldKey != null && _scaffoldKey.currentState != null)
+      {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(ex.toString()),
+        ));
+      }
 
+      return false;
+    }
+    on Exception
+    {
+      if (_scaffoldKey != null && _scaffoldKey.currentState != null)
+      {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text("Cannot login"),
+        ));
+      }
       return false;
     }
 

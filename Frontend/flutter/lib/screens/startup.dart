@@ -21,16 +21,23 @@ class _StartupPageState extends State<StartupPage>
 
     if (_model.jwtService.jwtToken != null)
     {
+      try
+      {
         await _model.jwtService.tryRefreshToken();
 
-      if (_model.jwtService.isExpired())
+        if (_model.jwtService.isExpired())
+          return false;
+
+        var user = await AccountApi.getUser(_model.jwtService.jwtToken.getUserId());
+
+        _model.currentUser = user;
+
+        return true;
+      }
+      on Exception
+      {
         return false;
-
-      var user = await AccountApi.getUser(_model.jwtService.jwtToken.getUserId());
-
-      _model.currentUser = user;
-
-      return true;
+      }
     }
 
     return false;

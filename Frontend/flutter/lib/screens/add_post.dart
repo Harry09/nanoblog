@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nanoblog/api/entry_api.dart';
+import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -45,11 +46,18 @@ class _AddPostPageState extends State<AddPostPage>
         return;
       }
 
-      await model.jwtService.tryRefreshToken();
+      try
+      {
+        await model.jwtService.tryRefreshToken();
 
-      bool result = await EntryApi.addEntry(messageController.text, model.jwtService.jwtToken);
-      
-      Navigator.pop(context, result);
+        bool result = await EntryApi.addEntry(messageController.text, model.jwtService.jwtToken);
+
+        Navigator.pop(context, result);
+      }
+      on ApiException catch (ex)
+      {
+        _showMessage(ex.toString());
+      }
     }
   }
 
