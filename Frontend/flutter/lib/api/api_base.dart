@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
@@ -39,14 +40,14 @@ class ApiBase
     apiUrl = _fixApiUrl(apiUrl);
 
     var _headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
+      HttpHeaders.contentTypeHeader: "application/json",
+      HttpHeaders.acceptHeader: "application/json",
     };
 
     if (token != null)
     {
       _headers.addAll({
-        "Authorization": "Bearer $token"
+        HttpHeaders.authorizationHeader: "Bearer $token"
       });
     }
 
@@ -78,7 +79,7 @@ class ApiBase
     if (token != null)
     {
       _headers.addAll({
-        "Authorization": "Bearer $token"
+        HttpHeaders.authorizationHeader: "Bearer $token"
       });
     }
 
