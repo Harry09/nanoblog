@@ -8,9 +8,7 @@ class JwtService
 
   Jwt get jwtToken => _jwtToken;
 
-  JwtService()
-  {
-  }
+  JwtService();
 
   bool isExpired()
   {
