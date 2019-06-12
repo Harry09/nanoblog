@@ -7,11 +7,11 @@ import 'package:scoped_model/scoped_model.dart';
 
 class EntryListItem extends StatefulWidget
 {
-  const EntryListItem({Key key, this.entry, this.onEntryDelete}) : super(key: key);
+  const EntryListItem({Key key, this.entry, this.onEntryDeleted}) : super(key: key);
 
   final Entry entry;
 
-  final Function onEntryDelete;
+  final Function onEntryDeleted;
 
   @override
   _EntryListItemState createState() => _EntryListItemState();
@@ -90,13 +90,13 @@ class _EntryListItemState extends State<EntryListItem> {
       alignment: Alignment.centerRight,
       child: IconButton(
         icon: Icon(Icons.more_vert),
-        onPressed: () => entryMoreOptions(context),
+        onPressed: () => _showMoreOptions(context),
         padding: EdgeInsets.all(0),
       ),
     );
   }
 
-  void entryMoreOptions(BuildContext context)
+  void _showMoreOptions(BuildContext context)
   {
     List<Widget> columnItems;
 
@@ -155,7 +155,7 @@ class _EntryListItemState extends State<EntryListItem> {
     {
       if (await EntryApi.deleteEntry(widget.entry.id, _model.jwtService.jwtToken))
       {
-        widget.onEntryDelete();
+        widget.onEntryDeleted();
       }
       else
       {

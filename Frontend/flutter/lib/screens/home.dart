@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget
 class HomePageState extends State<HomePage>
 {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _entryListKey = GlobalKey<EntryListState>();
   AppStateModel _model;
 
   HomePageState();
@@ -56,7 +57,10 @@ class HomePageState extends State<HomePage>
         child: Icon(Icons.add),
         onPressed: _addPost,
       ),
-      body: EntryList(loader: EntryApi.getEntries),
+      body: EntryList(
+          key: _entryListKey, 
+          loader: EntryApi.getEntries
+        ),
     );
   }
 
@@ -79,6 +83,8 @@ class HomePageState extends State<HomePage>
           onPressed: () {}, // TODO: show post
         ),
       ));
+
+      _entryListKey.currentState.reloadEntries();
     }
     else
     {

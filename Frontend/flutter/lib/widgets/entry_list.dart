@@ -21,10 +21,10 @@ class EntryList extends StatefulWidget
   final EntryListLoader loader;
 
   @override
-  _EntryListState createState() => _EntryListState();
+  EntryListState createState() => EntryListState();
 }
 
-class _EntryListState extends State<EntryList>
+class EntryListState extends State<EntryList>
 {
   List<Entry> _entries;
 
@@ -36,7 +36,7 @@ class _EntryListState extends State<EntryList>
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _reloadEntries();
+      reloadEntries();
     });
   }
 
@@ -63,21 +63,21 @@ class _EntryListState extends State<EntryList>
       case _ListStatus.Loading:
         return Center(
           child: Padding(
-          padding: EdgeInsets.all(16),
-          child: CircularProgressIndicator()
+            padding: EdgeInsets.all(16),
+            child: CircularProgressIndicator()
             ),
-          );
+        );
       case _ListStatus.Loaded:
         return Center(
         child: RefreshIndicator(
-          onRefresh: _reloadEntries,
+          onRefresh: reloadEntries,
           child: ListView.builder(
             padding: EdgeInsets.all(10),
             itemCount: _entries.length,
             itemBuilder: (BuildContext ctxt, int index) {
               return EntryListItem(
                 entry: _entries[index],
-                onEntryDelete: _onEntryDelete
+                onEntryDeleted: _onEntryDeleted
                 );
             }
           ),
@@ -88,12 +88,12 @@ class _EntryListState extends State<EntryList>
     return null;
   }
 
-  void _onEntryDelete() async
+  void _onEntryDeleted() async
   {
-    await _reloadEntries();
+    await reloadEntries();
   }
 
-  Future _reloadEntries() async
+  Future reloadEntries() async
   {
     setState(() {
       _status = _ListStatus.Loading;
