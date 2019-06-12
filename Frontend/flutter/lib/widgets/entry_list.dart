@@ -61,9 +61,11 @@ class _EntryListState extends State<EntryList>
           ),
         );
       case _ListStatus.Loading:
-        return Padding(
+        return Center(
+          child: Padding(
           padding: EdgeInsets.all(16),
           child: CircularProgressIndicator()
+            ),
           );
       case _ListStatus.Loaded:
         return Center(
