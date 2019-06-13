@@ -34,7 +34,7 @@ class EntryApi
     return null;
   }
 
-  static Future<bool> addEntry(String text, Jwt jwtToken) async
+  static Future<Entry> addEntry(String text, Jwt jwtToken) async
   {
     var jsonBody = json.encode({
       "text": text
@@ -46,7 +46,14 @@ class EntryApi
       token: jwtToken.token
       );
 
-    return result.statusCode == 200;
+    if (result.statusCode == 200)
+    {
+      var json = jsonDecode(result.body);
+
+      return Entry.fromJson(json);
+    }
+
+    return null;
   }
 
   static Future<bool> deleteEntry(String id, Jwt jwtToken) async

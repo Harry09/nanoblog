@@ -39,9 +39,8 @@ class AccountApi
     if (result.statusCode == 200)
     {
       var jsonData = json.decode(result.body);
-      var jwt = Jwt.fromJson(jsonData);
-
-      return jwt;
+      
+      return Jwt.fromJson(jsonData);
     }
 
     return null;
@@ -54,9 +53,8 @@ class AccountApi
     if (result.statusCode == 200)
     {
       var jsonData = json.decode(result.body);
-      var user = User.fromJson(jsonData);
 
-      return user;
+      return User.fromJson(jsonData);
     }
     
     return null;
@@ -69,9 +67,8 @@ class AccountApi
     if (result.statusCode == 200)
     {
       var jsonData = json.decode(result.body);
-      var jwt = Jwt.fromJson(jsonData);
 
-      return jwt;
+      return Jwt.fromJson(jsonData);
     }
 
     return null;

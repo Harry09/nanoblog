@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/model/app_state_model.dart';
+import 'package:nanoblog/model/entry.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class AddPostPage extends StatefulWidget
@@ -50,7 +51,7 @@ class _AddPostPageState extends State<AddPostPage>
       {
         await model.jwtService.tryRefreshToken();
 
-        bool result = await EntryApi.addEntry(messageController.text, model.jwtService.jwtToken);
+        Entry result = await EntryApi.addEntry(messageController.text, model.jwtService.jwtToken);
 
         Navigator.pop(context, result);
       }

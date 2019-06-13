@@ -4,6 +4,7 @@ import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/screens/add_post.dart';
+import 'package:nanoblog/screens/entry_detail.dart';
 import 'package:nanoblog/widgets/entry_list.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -66,32 +67,32 @@ class HomePageState extends State<HomePage>
 
   void _addPost() async
   {
-    var result = await Navigator.push<bool>(context, MaterialPageRoute(
+    var result = await Navigator.push<Entry>(context, MaterialPageRoute(
         builder: (context) => AddPostPage()
       )
     );
 
     if (result == null)
-      return;
-
-    if (result)
-    {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text("Post added!"),
-        action: SnackBarAction(
-          label: "Show",
-          onPressed: () {}, // TODO: show post
-        ),
-      ));
-
-      _entryListKey.currentState.reloadEntries();
-    }
-    else
     {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text("Something went wrong :/"),
       ));
+      return;
     }
+
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text("Post added!"),
+      action: SnackBarAction(
+        label: "Show",
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (_) => EntryDetailPage(entry: result)
+          ));
+        },
+      ),
+    ));
+
+    _entryListKey.currentState.reloadEntries();
   }
 
   Future logoff() async
