@@ -29,7 +29,7 @@ namespace Nanoblog.Api.Services
 			_accountService = accountService;
 		}
 
-		public void Add(string text, string authorId)
+		public EntryDto Add(string text, string authorId)
 		{
 			if (text is null || text.Empty())
 			{
@@ -51,6 +51,8 @@ namespace Nanoblog.Api.Services
 
 			_dbContext.Entries.Add(entry);
 			_dbContext.SaveChanges();
+
+            return _mapper.Map<Entry, EntryDto>(entry);
 		}
 
 		public EntryDto Get(string id)

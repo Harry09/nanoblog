@@ -4,7 +4,7 @@ namespace Nanoblog.Api.Services
 {
     public interface IEntryService : IService
     {
-		void Add(string text, string authorId);
+        EntryDto Add(string text, string authorId);
 
 		void Remove(string id);
 		

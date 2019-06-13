@@ -82,9 +82,9 @@ namespace Nanoblog.Api.Controllers
 				return BadRequest(new ErrorDto("No user data!"));
 			}
 
-			_entryService.Add(entry.Text, userId);
 
-			return Ok();
+
+            return Ok(_entryService.Add(entry.Text, userId));
 		}
 
 		// DELETE: entries/5
