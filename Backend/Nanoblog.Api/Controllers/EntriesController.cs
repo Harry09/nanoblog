@@ -61,9 +61,7 @@ namespace Nanoblog.Api.Controllers
                 return BadRequest(ModelState);
             }
 		
-			var entryDto = _entryService.Get(id);
-
-			return Ok(entryDto);
+			return Ok(_entryService.Get(id));
 		}
 
 		// POST: entries
@@ -81,8 +79,6 @@ namespace Nanoblog.Api.Controllers
 			{
 				return BadRequest(new ErrorDto("No user data!"));
 			}
-
-
 
             return Ok(_entryService.Add(entry.Text, userId));
 		}
@@ -105,7 +101,7 @@ namespace Nanoblog.Api.Controllers
 				return NotFound(new ApiException("Cannot find entry!"));
 			}
 
-			if (entry.Author.Id != userId)
+			if (entry.AuthorId != userId)
 			{
 				return BadRequest(new ApiException("You are not author of this post!"));
 			}

@@ -17,8 +17,11 @@ namespace Nanoblog.Api.Common
 		{
 			Mapper.Initialize(config =>
 			{
-				config.CreateMap<User, UserDto>();
-				config.CreateMap<Entry, EntryDto>();
+                config.CreateMap<User, UserDto>();
+                config.CreateMap<Entry, EntryDto>()
+                        .ForMember(
+                                vm => vm.AuthorId,
+                                m => m.MapFrom(u => u.Author.Id));
 			});
 		}
 	}
