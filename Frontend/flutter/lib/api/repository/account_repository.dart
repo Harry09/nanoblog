@@ -2,7 +2,6 @@
 import 'package:nanoblog/api/account_api.dart';
 import 'package:nanoblog/api/response/jwt_response.dart';
 import 'package:nanoblog/model/jwt.dart';
-import 'package:nanoblog/model/jwt.dart';
 import 'package:nanoblog/model/user.dart';
 
 class AccountRepository

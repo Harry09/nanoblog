@@ -19,6 +19,7 @@ class _EntryDetailPageState extends State<EntryDetailPage>
   Widget build(BuildContext context)
   {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text("Entry Detail"),
       ),
