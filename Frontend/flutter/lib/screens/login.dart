@@ -34,13 +34,13 @@ class _LoginPageState extends State<LoginPage>
     try
     {
       // only for debug
-      var result = await AccountApi.login("harry@harry.com", "password");
+      var result = await _model.accountRepository.login("harry@harry.com", "password");
 
       if (result != null)
       {
         _model.jwtService.setJwt(result);
 
-        var user = await AccountApi.getUser(result.getUserId());
+        var user = await _model.accountRepository.getUser(result.getUserId(), forceCacheUpdate: true);
 
         if (user != null)
         {

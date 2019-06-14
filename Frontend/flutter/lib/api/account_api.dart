@@ -1,14 +1,12 @@
 import 'dart:convert';
 
 import 'package:nanoblog/api/api_base.dart';
-import 'package:nanoblog/exceptions/api_exception.dart';
-import 'package:nanoblog/model/api_error.dart';
-import 'package:nanoblog/model/jwt.dart';
-import 'package:nanoblog/model/user.dart';
+import 'package:nanoblog/api/response/jwt_response.dart';
+import 'package:nanoblog/api/response/user_response.dart';
 
 class AccountApi
 {
-  static Future register(String email, String userName, String password) async
+  static Future<bool> register(String email, String userName, String password) async
   {
     var body = json.encode({
       "email": email,
@@ -18,16 +16,15 @@ class AccountApi
 
     var result = await ApiBase.post("/accounts/register", jsonBody: body);
 
-    if (result.statusCode == 400)
+    if (result.statusCode == 200)
     {
-      var jsonData = json.decode(result.body);
-      var apiError = ApiError.fromJson(jsonData);
-
-      throw ApiException(apiError);
+      return true;
     }
+
+    return false;
   }
 
-  static Future<Jwt> login(String email, String password) async
+  static Future<JwtResponse> login(String email, String password) async
   {
     var body = json.encode({
       "email": email,
@@ -40,13 +37,13 @@ class AccountApi
     {
       var jsonData = json.decode(result.body);
       
-      return Jwt.fromJson(jsonData);
+      return JwtResponse.fromJson(jsonData);
     }
 
     return null;
   }
 
-  static Future<User> getUser(String userId) async
+  static Future<UserResponse> getUser(String userId) async
   {
     var result = await ApiBase.get("/accounts/user/$userId");
 
@@ -54,13 +51,13 @@ class AccountApi
     {
       var jsonData = json.decode(result.body);
 
-      return User.fromJson(jsonData);
+      return UserResponse.fromJson(jsonData);
     }
     
     return null;
   }
 
-  static Future<Jwt> refreshAccessToken(String refreshToken) async
+  static Future<JwtResponse> refreshAccessToken(String refreshToken) async
   {
     var result = await ApiBase.get("/accounts/tokens/refresh/$refreshToken");
 
@@ -68,7 +65,7 @@ class AccountApi
     {
       var jsonData = json.decode(result.body);
 
-      return Jwt.fromJson(jsonData);
+      return JwtResponse.fromJson(jsonData);
     }
 
     return null;

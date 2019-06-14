@@ -17,7 +17,7 @@ class _AddPostPageState extends State<AddPostPage>
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  AppStateModel model;
+  AppStateModel _model;
 
   @override
   void dispose()
@@ -41,7 +41,7 @@ class _AddPostPageState extends State<AddPostPage>
     }
     else
     {
-      if (model.jwtService.jwtToken == null)
+      if (_model.jwtService.jwtToken == null)
       {
         _showMessage("You have to login!");
         return;
@@ -49,9 +49,9 @@ class _AddPostPageState extends State<AddPostPage>
 
       try
       {
-        await model.jwtService.tryRefreshToken();
+        await _model.jwtService.tryRefreshToken();
 
-        Entry result = await EntryApi.addEntry(messageController.text, model.jwtService.jwtToken);
+        Entry result = await _model.entryRepository.addEntry(messageController.text, _model.jwtService.jwtToken);
 
         Navigator.pop(context, result);
       }
@@ -65,7 +65,7 @@ class _AddPostPageState extends State<AddPostPage>
   @override
   Widget build(BuildContext context)
   {
-    model = ScopedModel.of<AppStateModel>(context);
+    _model = ScopedModel.of<AppStateModel>(context);
 
     return Scaffold(
       key: _scaffoldKey,

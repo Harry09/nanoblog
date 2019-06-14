@@ -1,4 +1,4 @@
-import 'package:nanoblog/api/account_api.dart';
+import 'package:nanoblog/api/repository/account_repository.dart';
 import 'package:nanoblog/model/jwt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,7 +8,9 @@ class JwtService
 
   Jwt get jwtToken => _jwtToken;
 
-  JwtService();
+  AccountRepository _accountRepository;
+
+  JwtService(this._accountRepository);
 
   bool isExpired()
   {
@@ -23,7 +25,7 @@ class JwtService
     if (jwtToken == null)
       return;
 
-    var result = await AccountApi.refreshAccessToken(jwtToken.refreshToken);
+    var result = await _accountRepository.refreshAccessToken(jwtToken.refreshToken);
 
     if (result != null)
     {
@@ -43,7 +45,7 @@ class JwtService
     if (_jwtToken == null)
       return;
 
-    await AccountApi.revokeRefreshToken(_jwtToken.refreshToken);
+    await _accountRepository.revokeRefreshToken(_jwtToken.refreshToken);
   }
 
   Future setJwt(Jwt jwtToken) async

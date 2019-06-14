@@ -60,7 +60,7 @@ class HomePageState extends State<HomePage>
       ),
       body: EntryList(
           key: _entryListKey, 
-          loader: EntryApi.getEntries
+          loader: _model.entryRepository.getEntries
         ),
     );
   }

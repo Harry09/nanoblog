@@ -28,7 +28,7 @@ class _StartupPageState extends State<StartupPage>
         if (_model.jwtService.isExpired())
           return false;
 
-        var user = await AccountApi.getUser(_model.jwtService.jwtToken.getUserId());
+        var user = await _model.accountRepository.getUser(_model.jwtService.jwtToken.getUserId(), forceCacheUpdate: true);
 
         _model.currentUser = user;
 
