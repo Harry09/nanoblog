@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nanoblog/model/entry.dart';
+import 'package:nanoblog/screens/entry_detail.dart';
 import 'package:nanoblog/widgets/entry_list_item.dart';
 
 typedef EntryListLoader = Future<List<Entry>> Function();
@@ -77,7 +78,8 @@ class EntryListState extends State<EntryList>
             itemBuilder: (BuildContext ctxt, int index) {
               return EntryListItem(
                 entry: _entries[index],
-                onEntryDeleted: _onEntryDeleted
+                onEntryDeleted: _onEntryDeleted,
+                onTap: () => _onEntryTap(_entries[index]),
                 );
             }
           ),
@@ -91,6 +93,13 @@ class EntryListState extends State<EntryList>
   void _onEntryDeleted() async
   {
     await reloadEntries();
+  }
+
+  void _onEntryTap(Entry entry) async
+  {
+    Navigator.push(context, MaterialPageRoute(
+      builder: (_) => EntryDetailPage(entry: entry)
+    ));
   }
 
   Future reloadEntries() async

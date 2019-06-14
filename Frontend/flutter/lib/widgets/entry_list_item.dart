@@ -7,11 +7,12 @@ import 'package:scoped_model/scoped_model.dart';
 
 class EntryListItem extends StatefulWidget
 {
-  const EntryListItem({Key key, this.entry, this.onEntryDeleted}) : super(key: key);
+  const EntryListItem({Key key, this.entry, this.onEntryDeleted, this.onTap}) : super(key: key);
 
   final Entry entry;
 
   final Function onEntryDeleted;
+  final Function onTap;
 
   @override
   _EntryListItemState createState() => _EntryListItemState();
@@ -26,22 +27,25 @@ class _EntryListItemState extends State<EntryListItem> {
   {
     _model = ScopedModel.of(context, rebuildOnChange: true);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.white),
-        borderRadius: BorderRadius.all(Radius.circular(10))
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
+        padding: EdgeInsets.fromLTRB(5, 5, 5, 10),
+        margin: EdgeInsets.symmetric(vertical: 5),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildHeader(context),
+            _buildBody(context),
+            _buildFooter(context)
+          ],
+        )
       ),
-      padding: EdgeInsets.fromLTRB(5, 5, 5, 10),
-      margin: EdgeInsets.symmetric(vertical: 5),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildHeader(context),
-          _buildBody(context),
-          _buildFooter(context)
-        ],
-      )
     );
   }
 
@@ -52,13 +56,16 @@ class _EntryListItemState extends State<EntryListItem> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: Text(
-              widget.entry.author.userName,
-              style: TextStyle(
-                fontWeight: FontWeight.bold
-              )
+          GestureDetector(
+            onTap: () {}, // TODO: show profile
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                widget.entry.author.userName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold
+                )
+              ),
             ),
           ),
           Text(widget.entry.createTime)
