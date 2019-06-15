@@ -20,13 +20,10 @@ namespace Nanoblog.Api.Services
 		readonly AppDbContext _dbContext;
 		readonly IMapper _mapper;
 
-		readonly IAccountService _accountService;
-
-		public EntryService(AppDbContext appDbContext, IMapper mapper, IAccountService accountService)
+		public EntryService(AppDbContext appDbContext, IMapper mapper)
 		{
 			_dbContext = appDbContext;
 			_mapper = mapper;
-			_accountService = accountService;
 		}
 
 		public EntryDto Add(string text, string authorId)
@@ -57,11 +54,11 @@ namespace Nanoblog.Api.Services
 
 		public EntryDto Get(string id)
 		{
-			var entry = _dbContext.Entries.Include(x => x.Author).SingleOrDefault(x => x.Id == id);
+			var entry = _dbContext.Entries.SingleOrDefault(x => x.Id == id);
 
 			if (entry is null)
 			{
-				throw new ApiException($"Entry with id {id} isn't exists!");
+				throw new ApiException($"Entry with id {id} doesn't exist!");
 			}
 
 			return _mapper.Map<Entry, EntryDto>(entry);
@@ -73,7 +70,7 @@ namespace Nanoblog.Api.Services
 
 			if (entry is null)
 			{
-				throw new ApiException($"Entry with id {id} isn't exists!");
+				throw new ApiException($"Entry with id {id} doesn't exist!");
 			}
 
 			_dbContext.Entries.Remove(entry);
@@ -86,7 +83,7 @@ namespace Nanoblog.Api.Services
 
 			if (entry is null)
 			{
-				throw new ApiException($"Entry with id {id} isn't exists!");
+				throw new ApiException($"Entry with id {id} doesn't exist!");
 			}
 
 			entry.Text = text;
