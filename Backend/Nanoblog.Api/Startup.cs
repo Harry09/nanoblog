@@ -1,7 +1,5 @@
 using System;
-using System.Linq;
 using System.Text;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,11 +19,10 @@ using Nanoblog.Api.Services;
 using Nanoblog.Api.Settings;
 using Nanoblog.Api.Data.Models;
 using Nanoblog.Api.Middleware;
-using Nanoblog.Core.Data.Dto;
 
 namespace Nanoblog
 {
-	public class Startup
+    public class Startup
 	{
 		public Startup(IHostingEnvironment env)
 		{
@@ -57,6 +54,7 @@ namespace Nanoblog
             });
 
             services.AddTransient<IEntryService, EntryService>();
+            services.AddTransient<ICommentService, CommentService>();
 			services.AddTransient<IAccountService, AccountService>();
 
 			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
