@@ -1,15 +1,16 @@
 using Nanoblog.Core.Data.Dto;
+using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Services
 {
     public interface IEntryService : IService
     {
-        EntryDto Add(string text, string authorId);
+        Task<EntryDto> AddAsync(string text, string authorId);
 
-		void Remove(string id);
+		Task RemoveAsync(string id);
 		
-		void Update(string id, string text);
+		Task UpdateAsync(string id, string text);
 		
-		EntryDto Get(string id);
+		Task<EntryDto> GetAsync(string id);
     }
 }

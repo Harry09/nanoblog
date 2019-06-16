@@ -32,7 +32,7 @@ namespace Nanoblog.Api.Services
 			_passwordHasher = passwordHasher;
 		}
 
-		public void Register(string email, string userName, string password)
+		public async Task RegisterAsync(string email, string userName, string password)
 		{
 			if (_appDbContext.Users.Any(x => x.Email == email || x.UserName == userName))
 			{
@@ -50,11 +50,11 @@ namespace Nanoblog.Api.Services
 
 			user.Password = hash;
 
-			_appDbContext.Users.Add(user);
-			_appDbContext.SaveChanges();
+			await _appDbContext.Users.AddAsync(user);
+			await _appDbContext.SaveChangesAsync();
 		}
 
-		public JwtDto Login(string email, string password)
+		public async Task<JwtDto> LoginAsync(string email, string password)
 		{
 			var user = _appDbContext.Users.SingleOrDefault(x => x.Email == email);
 
@@ -79,8 +79,8 @@ namespace Nanoblog.Api.Services
 				token.Revoked = true;
 			}
 
-			_appDbContext.RefreshTokens.Add(new RefreshToken { User = user, Token = refreshToken });
-			_appDbContext.SaveChanges();
+			await _appDbContext.RefreshTokens.AddAsync(new RefreshToken { User = user, Token = refreshToken });
+			await _appDbContext.SaveChangesAsync();
 
 			return jwt;
 		}
@@ -100,13 +100,12 @@ namespace Nanoblog.Api.Services
 			}
 
 			var jwt = _jwtHandler.CreateToken(refreshToken.User.Id, refreshToken.User.Role);
-			;
 			jwt.RefreshToken = refreshToken.Token;
 
 			return jwt;
 		}
 
-		public void RevokeRefreshToken(string token)
+		public async Task RevokeRefreshTokenAsync(string token)
 		{
 			var refreshToken = GetRefreshToken(token);
 
@@ -121,32 +120,23 @@ namespace Nanoblog.Api.Services
 			}
 
 			refreshToken.Revoked = true;
-			_appDbContext.SaveChanges();
+			await _appDbContext.SaveChangesAsync();
 		}
 
-		public void DisableAccount(string id)
+		public async Task<UserDto> GetUserAsync(string id)
 		{
-		}
-
-		public void EnableAccount(string id)
-		{
-		}
-
-		public UserDto GetUser(string id)
-		{
-			var user = _appDbContext.Users.FirstOrDefault(x => x.Id == id);
+            var user = await _appDbContext.Users.FindAsync(id);
 
 			return _mapper.Map<UserDto>(user);
-		}
-
-		public void UpdateUser(string id, string email, string userName, string password)
-		{
 		}
 
 		private RefreshToken GetRefreshToken(string token)
 		{
 			return _appDbContext.RefreshTokens.Include(x => x.User).ToList().SingleOrDefault(x => x.Token == token);
-
 		}
-	}
+
+        public Task DisableAccountAsync(string id) => throw new NotImplementedException();
+        public Task EnableAccountAsync(string id) => throw new NotImplementedException();
+        public Task UpdateUserAsync(string id, string email, string userName, string password) => throw new NotImplementedException();
+    }
 }

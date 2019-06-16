@@ -26,14 +26,14 @@ namespace Nanoblog.Api.Services
 			_mapper = mapper;
 		}
 
-		public EntryDto Add(string text, string authorId)
+		public async Task<EntryDto> AddAsync(string text, string authorId)
 		{
 			if (text is null || text.Empty())
 			{
 				throw new ApiException("Text cannot be empty!");
 			}
 
-			var user = _dbContext.Users.FirstOrDefault(x => x.Id == authorId);
+            var user = await _dbContext.Users.FindAsync(authorId);
 
 			if (user is null)
 			{
@@ -46,49 +46,46 @@ namespace Nanoblog.Api.Services
 				Author = user
 			};
 
-			_dbContext.Entries.Add(entry);
-			_dbContext.SaveChanges();
+			await _dbContext.Entries.AddAsync(entry);
+			await _dbContext.SaveChangesAsync();
 
             return _mapper.Map<Entry, EntryDto>(entry);
 		}
 
-		public EntryDto Get(string id)
+		public async Task<EntryDto> GetAsync(string id)
 		{
-			var entry = _dbContext.Entries.SingleOrDefault(x => x.Id == id);
+            var entry = await FindEntryAsync(id);
 
-			if (entry is null)
-			{
-				throw new ApiException($"Entry with id {id} doesn't exist!");
-			}
-
-			return _mapper.Map<Entry, EntryDto>(entry);
+            return _mapper.Map<Entry, EntryDto>(entry);
 		}
 
-		public void Remove(string id)
+		public async Task RemoveAsync(string id)
 		{
-			var entry = _dbContext.Entries.SingleOrDefault(x => x.Id == id);
+            var entry = await FindEntryAsync(id);
 
-			if (entry is null)
-			{
-				throw new ApiException($"Entry with id {id} doesn't exist!");
-			}
-
-			_dbContext.Entries.Remove(entry);
-			_dbContext.SaveChanges();
+            _dbContext.Entries.Remove(entry);
+			await _dbContext.SaveChangesAsync();
 		}
 
-		public void Update(string id, string text)
+		public async Task UpdateAsync(string id, string text)
 		{
-			var entry = _dbContext.Entries.SingleOrDefault(x => x.Id == id);
-
-			if (entry is null)
-			{
-				throw new ApiException($"Entry with id {id} doesn't exist!");
-			}
+            var entry = await FindEntryAsync(id);
 
 			entry.Text = text;
 
-			_dbContext.SaveChanges();
+			await _dbContext.SaveChangesAsync();
 		}
+
+        private async Task<Entry> FindEntryAsync(string id)
+        {
+            var entry = await _dbContext.Entries.Include(x => x.Author).SingleOrDefaultAsync(x => x.Id == id);
+
+            if (entry is null)
+            {
+                throw new ApiException($"Entry with id {id} doesn't exist!");
+            }
+
+            return entry;
+        }
 	}
 }

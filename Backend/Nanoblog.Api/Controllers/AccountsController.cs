@@ -7,13 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 
 using Nanoblog.Core.Data.Commands.Account;
 using Nanoblog.Api.Services;
+using Nanoblog.Core.Data.Dto;
 
 namespace Nanoblog.Api.Controllers
 {
 	[Produces("application/json")]
 	[Route("api/accounts")]
+    [ApiController]
 	public class AccountsController : Controller
-	{
+    {
 		readonly IAccountService _accountService;
 		readonly IJwtHandler _jwtHandler;
 
@@ -23,46 +25,51 @@ namespace Nanoblog.Api.Controllers
 			_jwtHandler = jwtHandler;
 		}
 
-		[Route("register"), HttpPost]
-		public IActionResult Register([FromBody] RegisterUser data)
+        // POST: api/accounts/register
+		[HttpPost("register")]
+		public async Task<IActionResult> Register([FromBody] RegisterUser data)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			_accountService.Register(data.Email, data.UserName, data.Password);
+			await _accountService.RegisterAsync(data.Email, data.UserName, data.Password);
 
 			return Ok();
 		}
 
-		[Route("login"), HttpPost]
-		public IActionResult Login([FromBody] LoginUser data)
+        // POST: api/accounts/login
+		[HttpPost("login")]
+		public async Task<ActionResult<JwtDto>> Login([FromBody] LoginUser data)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			return Ok(_accountService.Login(data.Email, data.Password));
+			return await _accountService.LoginAsync(data.Email, data.Password);
 		}
 
-		[Route("user/{userId}")]
-		public IActionResult GetUser(string userId)
+        // GET: api/accounts/user/5
+		[HttpGet("user/{userId}")]
+		public async Task<ActionResult<UserDto>> GetUser(string userId)
 		{
-			return Json(_accountService.GetUser(userId));
+			return await _accountService.GetUserAsync(userId);
 		}
 
-		[Route("tokens/refresh/{refreshToken}")]
-		public IActionResult RefreshAccessToken(string refreshToken)
+        // GET: api/accounts/tokens/refresh/5
+        [HttpGet("tokens/refresh/{refreshToken}")]
+		public ActionResult<JwtDto> RefreshAccessToken(string refreshToken)
 		{
-			return Json(_accountService.RefreshAccessToken(refreshToken));
+			return _accountService.RefreshAccessToken(refreshToken);
 		}
 
-		[HttpPost("tokens/revoke/{refreshToken}")]
-		public IActionResult RevokeRefreshToken(string refreshToken)
+        // GET: api/accounts/tokens/revoke/5
+		[HttpGet("tokens/revoke/{refreshToken}")]
+		public async Task<IActionResult> RevokeRefreshToken(string refreshToken)
 		{
-			_accountService.RevokeRefreshToken(refreshToken);
+			await _accountService.RevokeRefreshTokenAsync(refreshToken);
 
 			return Ok();
 		}

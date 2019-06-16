@@ -10,20 +10,20 @@ namespace Nanoblog.Api.Services
 {
     public interface IAccountService : IService
     {
-		void Register(string email, string userName, string password);
+		Task RegisterAsync(string email, string userName, string password);
 
-		JwtDto Login(string email, string password);
+		Task<JwtDto> LoginAsync(string email, string password);
 
-		UserDto GetUser(string id);
+		Task<UserDto> GetUserAsync(string id);
 
 		JwtDto RefreshAccessToken(string token);
 
-		void RevokeRefreshToken(string token);
+		Task RevokeRefreshTokenAsync(string token);
 
-		void DisableAccount(string id);
+		Task DisableAccountAsync(string id);
 
-		void EnableAccount(string id);
+		Task EnableAccountAsync(string id);
 
-		void UpdateUser(string id, string email, string userName, string password);
+		Task UpdateUserAsync(string id, string email, string userName, string password);
     }
 }
