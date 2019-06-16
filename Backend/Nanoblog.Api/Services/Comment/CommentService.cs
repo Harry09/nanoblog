@@ -58,12 +58,7 @@ namespace Nanoblog.Api.Services
 
         public async Task<CommentDto> GetAsync(string id)
         {
-            var comment = await _dbContext.Comments.FindAsync(id);
-
-            if (comment is null)
-            {
-                throw new ApiException($"Comment with id {id} doesn't exist!");
-            }
+            var comment = await FindCommentAsync(id);
 
             return _mapper.Map<Comment, CommentDto>(comment);
         }
@@ -84,12 +79,7 @@ namespace Nanoblog.Api.Services
 
         public async Task RemoveAsync(string id)
         {
-            var comment = await _dbContext.Comments.FindAsync(id);
-
-            if (comment is null)
-            {
-                throw new ApiException($"Comment with id {id} doesn't exist!");
-            }
+            var comment = await FindCommentAsync(id);
 
             _dbContext.Comments.Remove(comment);
             await _dbContext.SaveChangesAsync();
@@ -97,16 +87,26 @@ namespace Nanoblog.Api.Services
 
         public async Task UpdateAsync(string id, string text)
         {
-            var comment = await _dbContext.Comments.FindAsync(id);
+            var comment = await FindCommentAsync(id);
+
+            comment.Text = text;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task<Comment> FindCommentAsync(string id)
+        {
+            var comment = await _dbContext.Comments
+                .Include(x => x.Author)
+                .Include(x => x.Parent)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             if (comment is null)
             {
                 throw new ApiException($"Comment with id {id} doesn't exist!");
             }
 
-            comment.Text = text;
-
-            await _dbContext.SaveChangesAsync();
+            return comment;
         }
     }
 }
