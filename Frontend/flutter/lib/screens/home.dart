@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/screens/add_post.dart';
 import 'package:nanoblog/screens/entry_detail.dart';
-import 'package:nanoblog/widgets/entry_list.dart';
+import 'package:nanoblog/widgets/entry/entry_list.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class HomePage extends StatefulWidget

@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nanoblog/model/entry.dart';
-import 'package:nanoblog/widgets/entry_list_item.dart';
+import 'package:nanoblog/widgets/entry/entry_list_item.dart';
 
 class EntryDetailPage extends StatefulWidget
 {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/screens/entry_detail.dart';
-import 'package:nanoblog/widgets/entry_list_item.dart';
+import 'package:nanoblog/widgets/entry/entry_list_item.dart';
 
 typedef EntryListLoader = Future<List<Entry>> Function();
 
