@@ -20,7 +20,7 @@ class HomePageState extends State<HomePage>
 
   HomePageState();
 
-    @override
+  @override
   Widget build(BuildContext context)
   {
     _model = ScopedModel.of<AppStateModel>(context, rebuildOnChange: true);
