@@ -45,7 +45,7 @@ class AccountApi
 
   static Future<UserResponse> getUser(String userId) async
   {
-    var result = await ApiBase.get("/accounts/user/$userId");
+    var result = await ApiBase.get("/accounts/user/byId/$userId");
 
     if (result.statusCode == 200)
     {
