@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/entry.dart';
-import 'package:nanoblog/widgets/comment/comment_list.dart';
+import 'package:nanoblog/widgets/comment/comment_list_item.dart';
 import 'package:nanoblog/widgets/entry/entry_list_item.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -31,18 +31,79 @@ class _EntryDetailPageState extends State<EntryDetailPage>
       appBar: AppBar(
         title: Text("Entry Detail"),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          EntryListItem(
-            entry: widget.entry,
-          ),
-          CommentList(
-            loader: () => _model.commentRepository.getComments(widget.entry.id),
-            refreshIndicator: false,
-          )
-        ]
-      ),
+      body: _buildBody()
     );
+  }
+
+  Widget _buildBody()
+  {
+    return FutureBuilder<List<Widget>>(
+      initialData: <Widget>[
+        EntryListItem(
+          entry: widget.entry,
+          onEntryDeleted: () {},
+        )
+      ],
+      future: _loadData(),
+      builder: (ctx, AsyncSnapshot<List<Widget>> snapshot) {
+        switch(snapshot.connectionState)
+        {
+          case ConnectionState.none:
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  "Nothing here :(",
+                  style: TextStyle(
+                    fontSize: 32
+                  ),
+                ),
+              ),
+            );
+          case ConnectionState.waiting:
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: CircularProgressIndicator()
+              ),
+            );
+          case ConnectionState.active:
+          case ConnectionState.done:
+            return ListView(
+              children: snapshot.data,
+            );
+        }
+      },
+    );
+  }
+
+  Future<List<Widget>> _loadData() async
+  {
+    var widgets = <Widget>[
+      EntryListItem(
+        entry: widget.entry,
+        onEntryDeleted: () {},
+      ),
+      Container(
+        padding: EdgeInsets.all(10),
+        child: Text(
+          "Comments",
+          style: TextStyle(
+            fontSize: 16
+          ),
+        )
+      )
+    ];
+
+    var comments = await _model.commentRepository.getComments(widget.entry.id);
+
+    for (var comment in comments)
+    {
+      widgets.add(CommentListItem(
+        comment: comment
+      ));
+    }
+
+    return widgets;
   }
 }
