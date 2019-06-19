@@ -14,7 +14,9 @@ namespace Nanoblog.Api.Services
 
 		Task<JwtDto> LoginAsync(string email, string password);
 
-		Task<UserDto> GetUserAsync(string id);
+		Task<UserDto> GetUserByIdAsync(string id);
+
+        Task<UserDto> GetUserByEmailAsync(string email);
 
 		JwtDto RefreshAccessToken(string token);
 

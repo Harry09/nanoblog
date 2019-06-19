@@ -51,12 +51,33 @@ namespace Nanoblog.Api.Controllers
 			return await _accountService.LoginAsync(data.Email, data.Password);
 		}
 
-        // GET: api/accounts/user/5
-		[HttpGet("user/{userId}")]
-		public async Task<ActionResult<UserDto>> GetUser(string userId)
+        // GET: api/accounts/user/byId/5
+		[HttpGet("user/byId/{userId}")]
+		public async Task<ActionResult<UserDto>> GetUserById(string userId)
 		{
-			return await _accountService.GetUserAsync(userId);
-		}
+            var user = await _accountService.GetUserByIdAsync(userId);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
+        // GET: api/accounts/user/byEmail/{email}
+        [HttpGet("user/byEmail/{email}")]
+        public async Task<ActionResult<UserDto>> GetUserByEmail(string email)
+        {
+            var user = await _accountService.GetUserByEmailAsync(email);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
 
         // GET: api/accounts/tokens/refresh/5
         [HttpGet("tokens/refresh/{refreshToken}")]

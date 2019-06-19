@@ -123,14 +123,21 @@ namespace Nanoblog.Api.Services
 			await _appDbContext.SaveChangesAsync();
 		}
 
-		public async Task<UserDto> GetUserAsync(string id)
-		{
+        public async Task<UserDto> GetUserByIdAsync(string id)
+        {
             var user = await _appDbContext.Users.FindAsync(id);
 
-			return _mapper.Map<UserDto>(user);
-		}
+            return _mapper.Map<UserDto>(user);
+        }
 
-		private RefreshToken GetRefreshToken(string token)
+        public async Task<UserDto> GetUserByEmailAsync(string email)
+        {
+            var user = await _appDbContext.Users.SingleOrDefaultAsync(x => x.Email == email);
+
+            return _mapper.Map<UserDto>(user);
+        }
+
+        private RefreshToken GetRefreshToken(string token)
 		{
 			return _appDbContext.RefreshTokens.Include(x => x.User).ToList().SingleOrDefault(x => x.Token == token);
 		}
