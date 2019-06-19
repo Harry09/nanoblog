@@ -1,0 +1,91 @@
+### Variables
+@serverIp = http://localhost
+@serverPort = 53188
+@serverAddress = {{serverIp}}:{{serverPort}}
+@token = {{login.response.body.$.token}}
+@refreshToken = {{login.response.body.$.refreshToken}}
+@userEmail = xxx
+@userId = {{getUserByEmail.response.body.$.id}}
+@entryId = f6f269ee-1617-42a2-868a-b7ea688e45ee
+@commentId = xxx
+
+
+
+### -------------------- Account --------------------
+
+### Register
+POST {{serverAddress}}/api/accounts/register
+Content-Type: application/json
+
+{
+    "email": "harry@harry.com",
+    "userName": "Harry",
+    "password": "password"
+}
+
+### Login
+# @name login
+POST {{serverAddress}}/api/accounts/login
+Content-Type: application/json
+
+{
+    "email": "harry@harry.com",
+    "password": "password"
+}
+
+### Get user by id
+GET {{serverAddress}}/api/accounts/user/byId/{{userId}}
+
+### Get user by email
+# @name getUserByEmail
+GET {{serverAddress}}/api/accounts/user/byEmail/{{userEmail}}
+
+### Refresh access token
+GET {{serverAddress}}/api/accounts/tokens/refresh/{{refreshToken}}
+
+### Revoke refresh token
+GET {{serverAddress}}/api/accounts/tokens/revoke/{{refreshToken}}
+
+### -------------------- Entries --------------------
+### Get entries
+GET {{serverAddress}}/api/entries
+
+### Get entry
+GET {{serverAddress}}/api/entries/{{entryId}}
+
+### Add entry
+POST {{serverAddress}}/api/entries
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "text": "text"
+}
+
+### Delete entry
+DELETE {{serverAddress}}/api/entries/{{entryId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### -------------------- Comments --------------------
+### Get comment
+GET {{serverAddress}}/api/comments/{{commentId}}
+
+### Get comments for entry
+GET {{serverAddress}}/api/comments/entry/{{entryId}}
+
+### Add comment
+POST {{serverAddress}}/api/comments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "entryId": "{{entryId}}",
+    "text": "message"
+}
+
+### Delete comment
+DELETE {{serverAddress}}/api/comments/{{commentId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
