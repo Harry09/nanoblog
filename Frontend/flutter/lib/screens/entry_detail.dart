@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
+import 'package:nanoblog/screens/add_comment.dart';
 import 'package:nanoblog/widgets/comment/comment_list_item.dart';
 import 'package:nanoblog/widgets/entry/entry_list_item.dart';
 import 'package:nanoblog/widgets/future_list_view.dart';
@@ -22,7 +23,8 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 {
   AppStateModel _model;
 
-  var _listViewKey = GlobalKey<FutureListViewState>();
+  var _commentsListKey = GlobalKey<FutureListViewState>();
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState()
@@ -30,7 +32,7 @@ class _EntryDetailPageState extends State<EntryDetailPage>
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _listViewKey.currentState.reloadItems();
+      _commentsListKey.currentState.reloadItems();
     });
   }
 
@@ -40,21 +42,31 @@ class _EntryDetailPageState extends State<EntryDetailPage>
     _model = ScopedModel.of(context, rebuildOnChange: true);
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text("Entry Detail"),
       ),
       body: RefreshIndicator(
-        onRefresh: () => _listViewKey.currentState.reloadItems(),
+        onRefresh: () => _commentsListKey.currentState.reloadItems(),
         child: _buildBody()
-      )
+      ),
+      bottomSheet: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: TextField(
+          decoration: InputDecoration(
+            hintText: "Add comment"
+          ),
+          onTap: _addComment,
+        ),
+      ),
     );
   }
 
   Widget _buildBody()
   {
     return FutureListView<Widget>(
-      key: _listViewKey,
+      key: _commentsListKey,
       loader: _loadData,
       loadedBuilder: (ctx, w) => w,
     );
@@ -111,6 +123,23 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 
   void _onCommentDeleted() async
   {
-    _listViewKey.currentState.reloadItems();
+    _commentsListKey.currentState.reloadItems();
+  }
+
+  void _addComment() async
+  {
+    var result = await Navigator.push(context, MaterialPageRoute(
+      builder: (ctx) => AddCommentPage(entry: widget.entry,)
+    ));
+
+    if (result == null)
+    {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text("Something went wrong :/"),
+      ));
+      return;
+    }
+
+    await _commentsListKey.currentState.reloadItems();
   }
 }

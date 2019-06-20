@@ -43,10 +43,13 @@ class EntryListState extends State<EntryList>
         child: FutureListView<Entry>(
           key: _listViewKey,
           loader: widget.loader,
-          loadedBuilder: (ctx, entry) => EntryListItem(
-            entry: entry,
-            onEntryDeleted: _onEntryDeleted,
-            onTap: () => _onEntryTap(entry)
+          loadedBuilder: (ctx, entry) => Container(
+            margin: EdgeInsets.symmetric(vertical: 3),
+            child: EntryListItem(
+              entry: entry,
+              onEntryDeleted: _onEntryDeleted,
+              onTap: () => _onEntryTap(entry)
+            )
           )
         )
       )

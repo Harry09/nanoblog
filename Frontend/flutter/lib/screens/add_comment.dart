@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/model/app_state_model.dart';
+import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/entry.dart';
+import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class AddPostPage extends StatefulWidget
+class AddCommentPage extends StatefulWidget 
 {
+  const AddCommentPage({Key key, @required this.entry}) : super(key: key);
+
+  final Entry entry;
+
   @override
-  _AddPostPageState createState() => _AddPostPageState();
+  _AddCommentPageState createState() => _AddCommentPageState();
 }
 
-class _AddPostPageState extends State<AddPostPage>
+class _AddCommentPageState extends State<AddCommentPage>
 {
   var messageController = TextEditingController();
 
@@ -21,12 +26,11 @@ class _AddPostPageState extends State<AddPostPage>
   @override
   Widget build(BuildContext context)
   {
-    _model = ScopedModel.of<AppStateModel>(context);
+    _model = ScopedModel.of<AppStateModel>(context, rebuildOnChange: true);
 
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Add post"),
+        title: Text("Add comment"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.arrow_forward),
@@ -38,7 +42,7 @@ class _AddPostPageState extends State<AddPostPage>
         padding: EdgeInsets.all(16),
         child: TextField(
           decoration: InputDecoration(
-            hintText: "Your post"
+            hintText: "You comment"
           ),
           textCapitalization: TextCapitalization.sentences,
           keyboardType: TextInputType.multiline,
@@ -51,7 +55,7 @@ class _AddPostPageState extends State<AddPostPage>
     );
   }
 
-  @override
+    @override
   void dispose()
   {
     messageController.dispose();
@@ -83,7 +87,11 @@ class _AddPostPageState extends State<AddPostPage>
       {
         await _model.jwtService.tryRefreshToken();
 
-        Entry result = await _model.entryRepository.addEntry(messageController.text, _model.jwtService.jwtToken);
+        Comment result = await _model.commentRepository.addComment(
+          widget.entry.id,
+          messageController.text, 
+          _model.jwtService.jwtToken
+        );
 
         Navigator.pop(context, result);
       }

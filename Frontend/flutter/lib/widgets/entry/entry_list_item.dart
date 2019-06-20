@@ -35,7 +35,6 @@ class _EntryListItemState extends State<EntryListItem> {
           border: Border.all(color: Colors.white),
         ),
         padding: EdgeInsets.fromLTRB(5, 5, 5, 10),
-        margin: EdgeInsets.symmetric(vertical: 5),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
