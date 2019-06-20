@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/screens/entry_detail.dart';
 import 'package:nanoblog/widgets/entry/entry_list_item.dart';
+import 'package:nanoblog/widgets/future_list_view.dart';
 
 typedef EntryListLoader = Future<List<Entry>> Function();
 
@@ -20,12 +21,15 @@ class EntryList extends StatefulWidget
 
 class EntryListState extends State<EntryList>
 {
+  var _listViewKey = GlobalKey<FutureListViewState<Entry>>();
+
   @override
   void initState()
   {
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
+      _listViewKey.currentState.reloadItems();
     });
   }
 
@@ -36,49 +40,16 @@ class EntryListState extends State<EntryList>
       color: Colors.grey[200],
       child: RefreshIndicator(
         onRefresh: reloadEntries,
-        child: FutureBuilder<List<Entry>>(
-          future: widget.loader(),
-          builder: (ctx, AsyncSnapshot snapshot) {
-            switch (snapshot.connectionState)
-            {
-              case ConnectionState.none:
-                return Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      "Nothing here :(",
-                      style: TextStyle(
-                        fontSize: 32
-                      ),
-                    ),
-                  ),
-                );
-              case ConnectionState.waiting:
-                return Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: CircularProgressIndicator()
-                  ),
-                );
-              case ConnectionState.active:
-              case ConnectionState.done:
-                return _buildListView(ctx, snapshot);
-            }
-          },
+        child: FutureListView<Entry>(
+          key: _listViewKey,
+          loader: widget.loader,
+          loadedBuilder: (ctx, entry) => EntryListItem(
+            entry: entry,
+            onEntryDeleted: _onEntryDeleted,
+            onTap: () => _onEntryTap(entry)
+          )
         )
       )
-    );
-  }
-
-  Widget _buildListView(BuildContext ctx, AsyncSnapshot<List<Entry>> snapshot)
-  {
-    return ListView.builder(
-      itemCount: snapshot.data.length,
-      itemBuilder: (ctx, i) => EntryListItem(
-        entry: snapshot.data[i],
-        onEntryDeleted: _onEntryDeleted,
-        onTap: () => _onEntryTap(snapshot.data[i]),
-      ),
     );
   }
 
@@ -96,7 +67,6 @@ class EntryListState extends State<EntryList>
 
   Future reloadEntries() async
   {
-    // force rebuild
-    setState(() {});
+    await _listViewKey.currentState.reloadItems();
   }
 }
