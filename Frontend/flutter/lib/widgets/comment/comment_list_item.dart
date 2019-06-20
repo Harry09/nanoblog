@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/comment.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:nanoblog/exceptions/api_exception.dart';
 
 class CommentListItem extends StatefulWidget
 {
@@ -93,9 +94,85 @@ class _CommentListItemState extends State<CommentListItem>
         child: IconButton(
           icon: Icon(Icons.more_vert, size: 24,),
           padding: EdgeInsets.all(2),
-          onPressed: () {} // TODO: Show more options
+          onPressed: () => _showMoreOptions(context)
         ),
       ),
     );
+  }
+
+  void _showMoreOptions(BuildContext context)
+  {
+    List<Widget> columnItems;
+
+    if (_model.currentUser != null && _model.currentUser.id == widget.comment.author.id)
+    {
+      columnItems = [
+        ListTile(
+          leading: Icon(Icons.delete),
+          title: Text("Delete comment"),
+          onTap: () {
+            Navigator.pop(context);
+            _deletePost(context);
+          }
+        )
+      ];
+    }
+    else
+    {
+      columnItems = [
+        Center(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(
+              "Nothing here :(",
+              style: TextStyle(
+                fontSize: 24
+              ),
+          ),
+          )
+        )
+      ];
+    }
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: columnItems
+          ),
+        );
+      }
+    );
+  }
+
+  Future _deletePost(BuildContext context) async
+  {
+    if (_model.jwtService.jwtToken == null)
+      return;
+
+    _model.jwtService.tryRefreshToken();
+
+    try
+    {
+      if (await _model.commentRepository.deleteComment(widget.comment.id, _model.jwtService.jwtToken))
+      {
+        widget.onCommentDeleted();
+      }
+      else
+      {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("Cannot remove post!"),
+        ));
+      }
+
+    }
+    on ApiException catch (ex)
+    {
+      Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(ex.toString()),
+        ));
+    }
   }
 }

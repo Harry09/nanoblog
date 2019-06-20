@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nanoblog/model/app_state_model.dart';
-import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/widgets/comment/comment_list_item.dart';
 import 'package:nanoblog/widgets/entry/entry_list_item.dart';
@@ -72,8 +71,6 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 
     var comments = await _model.commentRepository.getComments(widget.entry.id);
 
-    var label;
-
     if (comments.isEmpty)
     {
       widgets.add(Container(
@@ -101,15 +98,19 @@ class _EntryDetailPageState extends State<EntryDetailPage>
       ));
     }
 
-
-
     for (var comment in comments)
     {
       widgets.add(CommentListItem(
-        comment: comment
+        comment: comment,
+        onCommentDeleted: _onCommentDeleted,
       ));
     }
 
     return widgets;
+  }
+
+  void _onCommentDeleted() async
+  {
+    _listViewKey.currentState.reloadItems();
   }
 }

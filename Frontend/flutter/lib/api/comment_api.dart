@@ -60,7 +60,7 @@ class CommentApi
 
   static Future<bool> deleteComment(String id, Jwt jwtToken) async
   {
-    var result = await ApiBase.delete("/entries/$id", token: jwtToken.token);
+    var result = await ApiBase.delete("/comments/$id", token: jwtToken.token);
     
     return result.statusCode == 200;
   }

@@ -163,7 +163,7 @@ class _EntryListItemState extends State<EntryListItem> {
 
     try
     {
-      if (await EntryApi.deleteEntry(widget.entry.id, _model.jwtService.jwtToken))
+      if (await _model.entryRepository.deleteEntry(widget.entry.id, _model.jwtService.jwtToken))
       {
         widget.onEntryDeleted();
       }
