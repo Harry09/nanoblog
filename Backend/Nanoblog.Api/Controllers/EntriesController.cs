@@ -39,7 +39,10 @@ namespace Nanoblog.Api.Controllers
 		[HttpGet]
         public ActionResult<EntryDto> GetEntries()
         {
-			var entries = _context.Entries.Include(x => x.Author).OrderByDescending(x => x.CreateTime);
+			var entries = _context.Entries
+                .Include(x => x.Author)
+                .Where(x => x.Deleted == false)
+                .OrderByDescending(x => x.CreateTime);
 
             return Ok(_mapper.Map<IEnumerable<Entry>, IEnumerable<EntryDto>>(entries));
 		}

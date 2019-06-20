@@ -38,7 +38,7 @@ namespace Nanoblog.Api.Services
 
             var entry = await _dbContext.Entries.FindAsync(entryId);
 
-            if (entry is null)
+            if (entry is null || entry.Deleted)
             {
                 throw new ApiException("Cannot find entry!");
             }
@@ -60,6 +60,11 @@ namespace Nanoblog.Api.Services
         {
             var comment = await FindCommentAsync(id);
 
+            if (comment != null && comment.Deleted)
+            {
+                return null;
+            }
+
             return _mapper.Map<Comment, CommentDto>(comment);
         }
 
@@ -72,7 +77,12 @@ namespace Nanoblog.Api.Services
                 throw new ApiException($"Cannot find entry with id: {entryId}");
             }
 
-            var comments = _dbContext.Comments.Include(x => x.Author).Include(x => x.Parent).Where(x => x.Parent.Id == entryId).OrderBy(x => x.CreateTime);
+            var comments = _dbContext.Comments
+                .Include(x => x.Author)
+                .Include(x => x.Parent)
+                .Where(x => x.Parent.Id == entryId)
+                .Where(x => x.Deleted == false)
+                .OrderBy(x => x.CreateTime);
 
             return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
         }
@@ -81,7 +91,8 @@ namespace Nanoblog.Api.Services
         {
             var comment = await FindCommentAsync(id);
 
-            _dbContext.Comments.Remove(comment);
+            comment.Deleted = true;
+
             await _dbContext.SaveChangesAsync();
         }
 

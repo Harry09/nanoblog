@@ -19,6 +19,8 @@ namespace Nanoblog.Api.Data.Models
 		[Required]
 		public string Text { get; set; }
 
+        public bool Deleted { get; set; }
+
 		[Required]
 		public DateTime CreateTime { get; protected set; }
 

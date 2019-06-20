@@ -56,6 +56,11 @@ namespace Nanoblog.Api.Services
 		{
             var entry = await FindEntryAsync(id);
 
+            if (entry != null && entry.Deleted)
+            {
+                return null;
+            }
+
             return _mapper.Map<Entry, EntryDto>(entry);
 		}
 
@@ -63,7 +68,8 @@ namespace Nanoblog.Api.Services
 		{
             var entry = await FindEntryAsync(id);
 
-            _dbContext.Entries.Remove(entry);
+            entry.Deleted = true;
+
 			await _dbContext.SaveChangesAsync();
 		}
 
@@ -78,7 +84,9 @@ namespace Nanoblog.Api.Services
 
         private async Task<Entry> FindEntryAsync(string id)
         {
-            var entry = await _dbContext.Entries.Include(x => x.Author).SingleOrDefaultAsync(x => x.Id == id);
+            var entry = await _dbContext.Entries
+                .Include(x => x.Author)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             if (entry is null)
             {
