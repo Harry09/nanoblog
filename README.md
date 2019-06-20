@@ -16,7 +16,7 @@ Backend is written in ASP.NET Core 2.2 Api
 ## Plans
 
 - ~~Entry~~
-- Comments
+- ~~Comments~~
 - Karma
 - Tags
 - Mentioning other users
