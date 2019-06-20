@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:nanoblog/api/comment_api.dart';
 import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/model/app_state_model.dart';
@@ -21,6 +23,18 @@ class EntryListItem extends StatefulWidget
 class _EntryListItemState extends State<EntryListItem> {
 
   AppStateModel _model;
+
+  int _commentCount = 0;
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _getCommentCount();
+    });
+  }
 
   @override
   Widget build(BuildContext context)
@@ -91,17 +105,29 @@ class _EntryListItemState extends State<EntryListItem> {
 
   Widget _buildFooter(BuildContext context)
   {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: SizedBox(
-        width: 28,
-        height: 28,
-        child: IconButton(
-          icon: Icon(Icons.more_vert, size: 24,),
-          padding: EdgeInsets.all(2),
-          onPressed: () => _showMoreOptions(context),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        SizedBox(
+          width: 70,
+          height: 28,
+          child: FlatButton.icon(
+            icon: Icon(Icons.comment, size: 24),
+            label: Text(_commentCount.toString()),
+            padding: EdgeInsets.all(2),
+            onPressed: widget.onTap,
+          )
         ),
-      ),
+        SizedBox(
+          width: 28,
+          height: 28,
+          child: FlatButton(
+            child: Icon(Icons.more_vert, size: 24,),
+            padding: EdgeInsets.all(2),
+            onPressed: () => _showMoreOptions(context),
+          ),
+        ),
+      ],
     );
   }
 
@@ -152,7 +178,6 @@ class _EntryListItemState extends State<EntryListItem> {
     );
   }
 
-  
   Future _deletePost(BuildContext context) async
   {
     if (_model.jwtService.jwtToken == null)
@@ -179,6 +204,18 @@ class _EntryListItemState extends State<EntryListItem> {
       Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(ex.toString()),
         ));
+    }
+  }
+
+  void _getCommentCount() async
+  {
+    var comments = await CommentApi.getComments(widget.entry.id);
+
+    if (comments != null)
+    {
+      setState(() {
+        _commentCount = comments.length;
+      });
     }
   }
 }
