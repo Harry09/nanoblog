@@ -87,10 +87,14 @@ class _CommentListItemState extends State<CommentListItem>
   {
     return Align(
       alignment: Alignment.centerRight,
-      child: IconButton(
-        icon: Icon(Icons.more_vert),
-        onPressed: () {}, // TODO: Show more options
-        padding: EdgeInsets.all(0),
+      child: SizedBox(
+        width: 28,
+        height: 28,
+        child: IconButton(
+          icon: Icon(Icons.more_vert, size: 24,),
+          padding: EdgeInsets.all(2),
+          onPressed: () {} // TODO: Show more options
+        ),
       ),
     );
   }

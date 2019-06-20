@@ -33,7 +33,6 @@ class _EntryListItemState extends State<EntryListItem> {
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.all(Radius.circular(10))
         ),
         padding: EdgeInsets.fromLTRB(5, 5, 5, 10),
         margin: EdgeInsets.symmetric(vertical: 5),
@@ -95,10 +94,14 @@ class _EntryListItemState extends State<EntryListItem> {
   {
     return Align(
       alignment: Alignment.centerRight,
-      child: IconButton(
-        icon: Icon(Icons.more_vert),
-        onPressed: () => _showMoreOptions(context),
-        padding: EdgeInsets.all(0),
+      child: SizedBox(
+        width: 28,
+        height: 28,
+        child: IconButton(
+          icon: Icon(Icons.more_vert, size: 24,),
+          padding: EdgeInsets.all(2),
+          onPressed: () => _showMoreOptions(context),
+        ),
       ),
     );
   }
