@@ -72,7 +72,7 @@ namespace Nanoblog.Api.Services
                 throw new ApiException($"Cannot find entry with id: {entryId}");
             }
 
-            var comments = _dbContext.Comments.Include(x => x.Author).Include(x => x.Parent).Where(x => x.Parent.Id == entryId);
+            var comments = _dbContext.Comments.Include(x => x.Author).Include(x => x.Parent).Where(x => x.Parent.Id == entryId).OrderBy(x => x.CreateTime);
 
             return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
         }
