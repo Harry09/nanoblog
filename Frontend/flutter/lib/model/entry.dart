@@ -1,4 +1,5 @@
 
+import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/user.dart';
 
 class Entry
@@ -8,5 +9,7 @@ class Entry
   String text;
   String createTime;
 
-  Entry({this.id, this.author, this.text, this.createTime});
+  List<Comment> comments;
+
+  Entry({this.id, this.author, this.text, this.createTime, this.comments});
 }

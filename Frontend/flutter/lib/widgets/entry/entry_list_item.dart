@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:nanoblog/api/comment_api.dart';
-import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
@@ -23,18 +20,6 @@ class EntryListItem extends StatefulWidget
 class _EntryListItemState extends State<EntryListItem> {
 
   AppStateModel _model;
-
-  int _commentCount = 0;
-
-  @override
-  void initState()
-  {
-    super.initState();
-
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _getCommentCount();
-    });
-  }
 
   @override
   Widget build(BuildContext context)
@@ -113,7 +98,7 @@ class _EntryListItemState extends State<EntryListItem> {
           height: 28,
           child: FlatButton.icon(
             icon: Icon(Icons.comment, size: 24),
-            label: Text(_commentCount.toString()),
+            label: Text(widget.entry.comments.length.toString()),
             padding: EdgeInsets.all(2),
             onPressed: widget.onTap,
           )
@@ -197,25 +182,12 @@ class _EntryListItemState extends State<EntryListItem> {
           content: Text("Cannot remove post!"),
         ));
       }
-
     }
     on ApiException catch (ex)
     {
       Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(ex.toString()),
         ));
-    }
-  }
-
-  void _getCommentCount() async
-  {
-    var comments = await CommentApi.getComments(widget.entry.id);
-
-    if (comments != null)
-    {
-      setState(() {
-        _commentCount = comments.length;
-      });
     }
   }
 }

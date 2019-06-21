@@ -1,8 +1,5 @@
-
-
 import 'package:nanoblog/api/comment_api.dart';
 import 'package:nanoblog/api/repository/account_repository.dart';
-import 'package:nanoblog/api/repository/entry_repository.dart';
 import 'package:nanoblog/api/response/comment_response.dart';
 import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/jwt.dart';
@@ -10,9 +7,8 @@ import 'package:nanoblog/model/jwt.dart';
 class CommentRepository
 {
   AccountRepository _accountRepository;
-  EntryRepository _entryRepository;
 
-  CommentRepository(this._accountRepository, this._entryRepository);
+  CommentRepository(this._accountRepository);
 
   Future<List<Comment>> getComments(String entryId) async
   {
@@ -62,12 +58,9 @@ class CommentRepository
   {
     var user = await _accountRepository.getUser(comment.authorId);
 
-    var entry = await _entryRepository.getEntry(comment.parentId);
-
     return Comment(
       id: comment.id,
       author: user,
-      parent: entry,
       text: comment.text,
       createTime: comment.createTime
     );

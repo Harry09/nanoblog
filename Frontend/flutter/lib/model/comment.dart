@@ -5,9 +5,8 @@ class Comment
 {
   String id;
   User author;
-  Entry parent;
   String text;
   String createTime;
 
-  Comment({this.id, this.author, this.parent, this.text, this.createTime});
+  Comment({this.id, this.author, this.text, this.createTime});
 }

@@ -1,15 +1,18 @@
-
+import 'package:nanoblog/api/comment_api.dart';
 import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/api/repository/account_repository.dart';
+import 'package:nanoblog/api/repository/comment_repository.dart';
 import 'package:nanoblog/api/response/entry_response.dart';
+import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/model/jwt.dart';
 
 class EntryRepository
 {
   AccountRepository _accountRepository;
+  CommentRepository _commentRepository;
 
-  EntryRepository(this._accountRepository);
+  EntryRepository(this._accountRepository, this._commentRepository);
 
   Future<List<Entry>> getEntries() async
   {
@@ -57,13 +60,16 @@ class EntryRepository
 
   Future<Entry> _getEntry(EntryResponse entry) async
   {
-      var user = await _accountRepository.getUser(entry.authorId);
+    var user = await _accountRepository.getUser(entry.authorId);
 
-      return Entry(
-        author: user,
-        createTime: entry.createTime,
-        id: entry.id,
-        text: entry.text
-      );
+    var comments = await _commentRepository.getComments(entry.id);
+
+    return Entry(
+      id: entry.id,
+      author: user,
+      text: entry.text,
+      comments: comments,
+      createTime: entry.createTime,
+    );
   }
 }
