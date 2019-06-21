@@ -6,7 +6,7 @@
 @refreshToken = {{login.response.body.$.refreshToken}}
 @userEmail = xxx
 @userId = {{getUserByEmail.response.body.$.id}}
-@entryId = f6f269ee-1617-42a2-868a-b7ea688e45ee
+@entryId = xxx
 @commentId = xxx
 
 

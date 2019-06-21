@@ -28,23 +28,8 @@ namespace Nanoblog.Api.Services
 
 		public async Task<EntryDto> AddAsync(string text, string authorId)
 		{
-			if (text is null || text.Empty())
-			{
-				throw new ApiException("Text cannot be empty!");
-			}
-
             var user = await _dbContext.Users.FindAsync(authorId);
-
-			if (user is null)
-			{
-				throw new ApiException("Cannot find this user!");
-			}
-
-			var entry = new Entry
-			{
-				Text = text,
-				Author = user
-			};
+            var entry = new Entry(user, text);
 
 			await _dbContext.Entries.AddAsync(entry);
 			await _dbContext.SaveChangesAsync();
@@ -68,7 +53,7 @@ namespace Nanoblog.Api.Services
 		{
             var entry = await FindEntryAsync(id);
 
-            entry.Deleted = true;
+            entry.Delete();
 
 			await _dbContext.SaveChangesAsync();
 		}
@@ -77,7 +62,7 @@ namespace Nanoblog.Api.Services
 		{
             var entry = await FindEntryAsync(id);
 
-			entry.Text = text;
+			entry.SetText(text);
 
 			await _dbContext.SaveChangesAsync();
 		}

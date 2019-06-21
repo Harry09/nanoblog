@@ -166,7 +166,6 @@ class _CommentListItemState extends State<CommentListItem>
           content: Text("Cannot remove post!"),
         ));
       }
-
     }
     on ApiException catch (ex)
     {
@@ -175,4 +174,4 @@ class _CommentListItemState extends State<CommentListItem>
         ));
     }
   }
-}
+} 

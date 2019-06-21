@@ -1,33 +1,58 @@
+using Nanoblog.Core.Data.Exception;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Nanoblog.Core.Extensions;
 
 namespace Nanoblog.Api.Data.Models
 {
     public class Entry
     {
-		[Key]
-		public string Id { get; set; }
+        [Key]
+        public string Id { get; private set; }
 
-		[Required]
-		public User Author { get; set; }
+		public User Author { get; private set; }
 
-		[Required]
-		public string Text { get; set; }
+		public string Text { get; private set; }
 
-        public bool Deleted { get; set; }
+        public bool Deleted { get; private set; }
 
-		[Required]
-		public DateTime CreateTime { get; protected set; }
+		public DateTime CreateTime { get; }
 
-		public Entry()
+        public Entry()
+        {
+            CreateTime = DateTime.Now;
+        }
+
+        public Entry(User user, string text) : this()
 		{
-			CreateTime = DateTime.Now;
+            SetAuthor(user);
+            SetText(text);
 		}
 
+        public void SetAuthor(User user)
+        {
+            if (user is null)
+            {
+                throw new ApiException("Invalid entry user id");
+            }
+
+            Author = user;
+        }
+
+        public void SetText(string text)
+        {
+            if (text is null || text.IsEmpty())
+            {
+                throw new ApiException("Entry text is empty");
+            }
+
+            Text = text.Trim();
+        }
+
+        public void Delete()
+        {
+            Deleted = true;
+        }
 	}
 }

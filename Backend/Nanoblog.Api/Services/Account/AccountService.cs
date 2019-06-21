@@ -39,16 +39,11 @@ namespace Nanoblog.Api.Services
 				throw new ApiException("This user already exists!");
 			}
 
-			var user = new User
-			{
-				Email = email,
-				UserName = userName,
-				Role = Roles.UserRole
-			};
+            var user = new User(userName, email, Roles.UserRole);
 
 			var hash = _passwordHasher.HashPassword(user, password);
 
-			user.Password = hash;
+            user.SetPasswordHash(hash);
 
 			await _appDbContext.Users.AddAsync(user);
 			await _appDbContext.SaveChangesAsync();
@@ -61,7 +56,7 @@ namespace Nanoblog.Api.Services
 			if (user is null)
 				throw new ApiException("Email or password is incorrect!");
 
-			if (_passwordHasher.VerifyHashedPassword(user, user.Password, password) == PasswordVerificationResult.Failed)
+			if (_passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password) == PasswordVerificationResult.Failed)
 				throw new ApiException("Email or password is incorrect!");
 
 			var jwt = _jwtHandler.CreateToken(user.Id, user.Role);
@@ -89,14 +84,9 @@ namespace Nanoblog.Api.Services
 		{
 			var refreshToken = GetRefreshToken(token);
 
-			if (refreshToken == null)
-			{
-				throw new ApiException("Refresh token was not found.");
-			}
-
 			if (refreshToken.Revoked)
 			{
-				throw new ApiException("Refresh token was revoked");
+				throw new ApiException("Refresh token is revoked");
 			}
 
 			var jwt = _jwtHandler.CreateToken(refreshToken.User.Id, refreshToken.User.Role);
@@ -108,11 +98,6 @@ namespace Nanoblog.Api.Services
 		public async Task RevokeRefreshTokenAsync(string token)
 		{
 			var refreshToken = GetRefreshToken(token);
-
-			if (refreshToken == null)
-			{
-				throw new ApiException("Refresh token was not found.");
-			}
 
 			if (refreshToken.Revoked)
 			{
@@ -139,7 +124,14 @@ namespace Nanoblog.Api.Services
 
         private RefreshToken GetRefreshToken(string token)
 		{
-			return _appDbContext.RefreshTokens.Include(x => x.User).ToList().SingleOrDefault(x => x.Token == token);
+            var refreshToken = _appDbContext.RefreshTokens.Include(x => x.User).ToList().SingleOrDefault(x => x.Token == token);
+
+            if (refreshToken == null)
+            {
+                throw new ApiException("Refresh token doesn't exist!");
+            }
+
+            return refreshToken;
 		}
 
         public Task DisableAccountAsync(string id) => throw new NotImplementedException();

@@ -24,31 +24,10 @@ namespace Nanoblog.Api.Services
 
         public async Task<CommentDto> AddAsync(string text, string authorId, string entryId)
         {
-            if (text is null || text.Empty())
-            {
-				throw new ApiException("Text cannot be empty!");
-            }
-
             var user = await _dbContext.Users.FindAsync(authorId);
-
-            if (user is null)
-            {
-                throw new ApiException("Cannot find this user!");
-            }
-
             var entry = await _dbContext.Entries.FindAsync(entryId);
 
-            if (entry is null || entry.Deleted)
-            {
-                throw new ApiException("Cannot find entry!");
-            }
-
-            var comment = new Comment
-            {
-                Author = user,
-                Parent = entry,
-                Text = text
-            };
+            var comment = new Comment(user, entry, text);
 
             await _dbContext.Comments.AddAsync(comment);
             await _dbContext.SaveChangesAsync();
@@ -91,7 +70,7 @@ namespace Nanoblog.Api.Services
         {
             var comment = await FindCommentAsync(id);
 
-            comment.Deleted = true;
+            comment.Delete();
 
             await _dbContext.SaveChangesAsync();
         }
@@ -100,7 +79,7 @@ namespace Nanoblog.Api.Services
         {
             var comment = await FindCommentAsync(id);
 
-            comment.Text = text;
+            comment.SetText(text);
 
             await _dbContext.SaveChangesAsync();
         }
