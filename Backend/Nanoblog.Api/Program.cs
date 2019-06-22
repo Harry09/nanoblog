@@ -19,7 +19,8 @@ namespace Nanoblog
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseKestrel(options => {
+                .UseKestrel(options =>
+                {
                     options.ListenAnyIP(53188);
                 })
                 .UseStartup<Startup>()
@@ -29,5 +30,5 @@ namespace Nanoblog
                     logging.AddConsole();
                     logging.AddDebug();
                 });
-	}
+    }
 }

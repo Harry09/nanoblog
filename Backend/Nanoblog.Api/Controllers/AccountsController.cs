@@ -17,12 +17,10 @@ namespace Nanoblog.Api.Controllers
 	public class AccountsController : Controller
     {
 		readonly IAccountService _accountService;
-		readonly IJwtHandler _jwtHandler;
 
-		public AccountsController(IAccountService accountService, IJwtHandler jwtHandler)
+		public AccountsController(IAccountService accountService)
 		{
 			_accountService = accountService;
-			_jwtHandler = jwtHandler;
 		}
 
         // POST: api/accounts/register

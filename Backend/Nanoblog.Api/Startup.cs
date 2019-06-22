@@ -19,6 +19,8 @@ using Nanoblog.Api.Services;
 using Nanoblog.Api.Settings;
 using Nanoblog.Api.Data.Models;
 using Nanoblog.Api.Middleware;
+using Nanoblog.Core.Data.Dto;
+using Nanoblog.Api.Common;
 
 namespace Nanoblog
 {
@@ -64,9 +66,15 @@ namespace Nanoblog
 
 			services.AddCors();
 
-			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.CreateMap<User, UserDto>();
+                cfg.CreateMap<Entry, EntryDto>();
+                cfg.CreateMap<Comment, CommentDto>();
+            }, 
+            AppDomain.CurrentDomain.GetAssemblies());
 
-			var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
 
 			services.AddAuthentication(options =>
 			{
@@ -90,7 +98,7 @@ namespace Nanoblog
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 		}
 
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
             if (env.IsProduction())
             {
