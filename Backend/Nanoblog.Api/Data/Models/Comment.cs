@@ -20,7 +20,7 @@ namespace Nanoblog.Api.Data.Models
 
         public bool Deleted { get; private set; }
 
-        public DateTime CreateTime { get; }
+        public DateTime CreateTime { get; private set; }
 
         public Comment()
         {
