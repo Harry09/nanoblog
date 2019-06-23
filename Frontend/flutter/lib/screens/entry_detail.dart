@@ -26,10 +26,16 @@ class _EntryDetailPageState extends State<EntryDetailPage>
   var _commentsListKey = GlobalKey<FutureListViewState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  Entry _entry;
+
   @override
   void initState()
   {
     super.initState();
+
+    setState(() {
+      _entry = widget.entry;
+    });
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _commentsListKey.currentState.reloadItems();
@@ -48,7 +54,7 @@ class _EntryDetailPageState extends State<EntryDetailPage>
         title: Text("Entry Detail"),
       ),
       body: RefreshIndicator(
-        onRefresh: () => _commentsListKey.currentState.reloadItems(),
+        onRefresh: _onRefresh,
         child: _buildBody()
       ),
       bottomSheet: Container(
@@ -65,6 +71,17 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 
   Widget _buildBody()
   {
+    if (_entry == null)
+    {
+      return Center(
+        child: Text(
+          "Entry not found!",
+          style: TextStyle(
+            fontSize: 32
+          )),
+      );
+    }
+
     return FutureListView<Widget>(
       key: _commentsListKey,
       loader: _loadData,
@@ -74,14 +91,17 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 
   Future<List<Widget>> _loadData() async
   {
+    if (_entry == null)
+      return null;
+
     var widgets = <Widget>[
       EntryListItem(
-        entry: widget.entry,
-        onEntryDeleted: () {},
+        entry: _entry,
+        onEntryDeleted: _onRefresh
       ),
     ];
 
-    var comments = await _model.commentRepository.getComments(widget.entry.id);
+    var comments = await _model.commentRepository.getComments(_entry.id);
 
     if (comments.isEmpty)
     {
@@ -121,15 +141,26 @@ class _EntryDetailPageState extends State<EntryDetailPage>
     return widgets;
   }
 
+  Future<void> _onRefresh() async
+  {
+    var entry = await _model.entryRepository.getEntry(_entry.id);
+
+    setState(() {
+     _entry = entry; 
+    });
+
+    await _commentsListKey.currentState.reloadItems();
+  }
+
   void _onCommentDeleted() async
   {
-    _commentsListKey.currentState.reloadItems();
+    await _onRefresh();
   }
 
   void _addComment() async
   {
     var result = await Navigator.push(context, MaterialPageRoute(
-      builder: (ctx) => AddCommentPage(entry: widget.entry,)
+      builder: (ctx) => AddCommentPage(entry: _entry)
     ));
 
     if (result == null)
@@ -140,6 +171,6 @@ class _EntryDetailPageState extends State<EntryDetailPage>
       return;
     }
 
-    await _commentsListKey.currentState.reloadItems();
+    await _onRefresh();
   }
 }

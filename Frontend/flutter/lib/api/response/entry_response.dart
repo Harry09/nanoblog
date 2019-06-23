@@ -5,7 +5,9 @@ class EntryResponse
   String text;
   String createTime;
 
-  EntryResponse({this.id, this.authorId, this.text, this.createTime});
+  int commentsCount;
+
+  EntryResponse({this.id, this.authorId, this.text, this.createTime, this.commentsCount});
 
   EntryResponse.fromJson(Map<String, dynamic> json)
   {
@@ -13,5 +15,6 @@ class EntryResponse
     this.authorId = json['authorId'];
     this.text = json['text'];
     this.createTime = json['createTime'];
+    this.commentsCount = json['commentsCount'];
   }
 }

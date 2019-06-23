@@ -17,7 +17,7 @@ class AppStateModel extends Model
   {
     accountRepository = AccountRepository();
     jwtService = JwtService(accountRepository);
+    entryRepository = EntryRepository(accountRepository);
     commentRepository = CommentRepository(accountRepository);
-    entryRepository = EntryRepository(accountRepository, commentRepository);
   }
 }

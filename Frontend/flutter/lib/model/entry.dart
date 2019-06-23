@@ -9,7 +9,7 @@ class Entry
   String text;
   String createTime;
 
-  List<Comment> comments;
+  int commentsCount;
 
-  Entry({this.id, this.author, this.text, this.createTime, this.comments});
+  Entry({this.id, this.author, this.text, this.createTime, this.commentsCount});
 }

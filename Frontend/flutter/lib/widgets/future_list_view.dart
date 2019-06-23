@@ -102,12 +102,12 @@ class FutureListViewState<T> extends State<FutureListView<T>>
       _status = _ListStatus.Waiting;
     });
 
-    final entries = await widget.loader();
+    final items = await widget.loader();
 
     setState(() {
-      this._items = entries;
+      _items = items;
 
-      if (this._items.isEmpty)
+      if (_items == null || _items.isEmpty)
       {
         _status = _ListStatus.Empty;
       }

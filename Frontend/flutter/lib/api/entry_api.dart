@@ -6,9 +6,9 @@ import 'package:nanoblog/model/jwt.dart';
 
 class EntryApi 
 {
-  static Future<List<EntryResponse>> getEntries() async
+  static Future<List<EntryResponse>> getNewest() async
   {
-    var result = await ApiBase.get("/entries");
+    var result = await ApiBase.get("/entries/newest");
 
     if (result.statusCode == 200)
     {

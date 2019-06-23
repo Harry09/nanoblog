@@ -10,13 +10,12 @@ import 'package:nanoblog/model/jwt.dart';
 class EntryRepository
 {
   AccountRepository _accountRepository;
-  CommentRepository _commentRepository;
 
-  EntryRepository(this._accountRepository, this._commentRepository);
+  EntryRepository(this._accountRepository);
 
-  Future<List<Entry>> getEntries() async
+  Future<List<Entry>> getNewest() async
   {
-    var response = await EntryApi.getEntries();
+    var response = await EntryApi.getNewest();
 
     if (response == null)
       return null;
@@ -62,13 +61,11 @@ class EntryRepository
   {
     var user = await _accountRepository.getUser(entry.authorId);
 
-    var comments = await _commentRepository.getComments(entry.id);
-
     return Entry(
       id: entry.id,
       author: user,
       text: entry.text,
-      comments: comments,
+      commentsCount: entry.commentsCount,
       createTime: entry.createTime,
     );
   }

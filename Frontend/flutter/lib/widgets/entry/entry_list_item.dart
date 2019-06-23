@@ -98,7 +98,7 @@ class _EntryListItemState extends State<EntryListItem> {
           height: 28,
           child: FlatButton.icon(
             icon: Icon(Icons.comment, size: 24),
-            label: Text(widget.entry.comments.length.toString()),
+            label: Text(widget.entry.commentsCount.toString()),
             padding: EdgeInsets.all(2),
             onPressed: widget.onTap,
           )

@@ -58,7 +58,7 @@ class HomePageState extends State<HomePage>
       ),
       body: EntryList(
           key: _entryListKey, 
-          loader: _model.entryRepository.getEntries
+          loader: _model.entryRepository.getNewest
         ),
     );
   }
