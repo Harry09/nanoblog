@@ -46,7 +46,7 @@ namespace Nanoblog.Api.Services
                 return null;
             }
 
-            return _mapper.Map<Entry, EntryDto>(entry);
+            return await GetEntryDto(entry);
 		}
 
 		public async Task RemoveAsync(string id)
@@ -66,6 +66,17 @@ namespace Nanoblog.Api.Services
 
 			await _dbContext.SaveChangesAsync();
 		}
+
+        private async Task<EntryDto> GetEntryDto(Entry entry)
+        {
+            var entryDto = _mapper.Map<Entry, EntryDto>(entry);
+
+            var comments = await _commentService.GetCommentsAsync(entry.Id);
+
+            entryDto.CommentsCount = comments.Count();
+
+            return entryDto;
+        }
 
         private async Task<Entry> FindEntryAsync(string id)
         {
