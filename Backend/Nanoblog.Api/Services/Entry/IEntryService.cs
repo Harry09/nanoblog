@@ -1,4 +1,5 @@
 using Nanoblog.Core.Data.Dto;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Services
@@ -12,5 +13,7 @@ namespace Nanoblog.Api.Services
 		Task UpdateAsync(string id, string text);
 		
 		Task<EntryDto> GetAsync(string id);
+
+        Task<IEnumerable<EntryDto>> GetNewestAsync();
     }
 }

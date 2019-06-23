@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,6 @@ using Nanoblog.Core.Data.Exception;
 using Nanoblog.Api.Services;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
-using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Controllers
 {
@@ -35,17 +35,14 @@ namespace Nanoblog.Api.Controllers
 			_entryService = entryService;
 		}
 
-		// GET: api/entries
-		[HttpGet]
-        public ActionResult<EntryDto> GetEntries()
+		// GET: api/entries/newest
+		[HttpGet("newest")]
+        public async Task<ActionResult<IEnumerable<EntryDto>>> GetNewestEntries()
         {
-			var entries = _context.Entries
-                .Include(x => x.Author)
-                .Where(x => x.Deleted == false)
-                .OrderByDescending(x => x.CreateTime);
+            var entries = await _entryService.GetNewestAsync();
 
-            return Ok(_mapper.Map<IEnumerable<Entry>, IEnumerable<EntryDto>>(entries));
-		}
+            return entries.ToList();
+        }
 
         // GET: api/entries/5
         [HttpGet("{id}")]

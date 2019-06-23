@@ -18,12 +18,14 @@ namespace Nanoblog.Api.Services
 	public class EntryService : IEntryService
 	{
 		readonly AppDbContext _dbContext;
+        readonly ICommentService _commentService;
 		readonly IMapper _mapper;
 
-		public EntryService(AppDbContext appDbContext, IMapper mapper)
+		public EntryService(AppDbContext appDbContext, ICommentService commentService, IMapper mapper)
 		{
 			_dbContext = appDbContext;
-			_mapper = mapper;
+            _commentService = commentService;
+            _mapper = mapper;
 		}
 
 		public async Task<EntryDto> AddAsync(string text, string authorId)
@@ -48,8 +50,24 @@ namespace Nanoblog.Api.Services
 
             return await GetEntryDto(entry);
 		}
+        public async Task<IEnumerable<EntryDto>> GetNewestAsync()
+        {
+            var entries = _dbContext.Entries
+                            .Include(x => x.Author)
+                            .Where(x => x.Deleted == false)
+                            .OrderByDescending(x => x.CreateTime);
 
-		public async Task RemoveAsync(string id)
+            var entriesDto = new List<EntryDto>(entries.Count());
+
+            foreach (var entry in entries)
+            {
+                entriesDto.Add(await GetEntryDto(entry));
+            }
+
+            return entriesDto;
+        }
+
+        public async Task RemoveAsync(string id)
 		{
             var entry = await FindEntryAsync(id);
 
@@ -91,5 +109,5 @@ namespace Nanoblog.Api.Services
 
             return entry;
         }
-	}
+    }
 }
