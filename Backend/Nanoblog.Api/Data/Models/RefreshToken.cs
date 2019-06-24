@@ -5,10 +5,10 @@ namespace Nanoblog.Api.Data.Models
     public class RefreshToken
     {
         [Key]
-		public string Token { get; set; }
+        public string Token { get; set; }
 
-		public User User { get; set; }
+        public User User { get; set; }
 
-		public bool Revoked { get; set; } = false;
-	}
+        public bool Revoked { get; set; } = false;
+    }
 }

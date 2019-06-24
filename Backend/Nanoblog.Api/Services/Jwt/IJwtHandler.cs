@@ -4,6 +4,6 @@ namespace Nanoblog.Api.Services
 {
     public interface IJwtHandler
     {
-		JwtDto CreateToken(string id, string role);
+        JwtDto CreateToken(string id, string role);
     }
 }

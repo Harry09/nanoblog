@@ -1,58 +1,53 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-using Nanoblog.Core.Data.Commands.Account;
 using Nanoblog.Api.Services;
+using Nanoblog.Core.Data.Commands.Account;
 using Nanoblog.Core.Data.Dto;
+using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Controllers
 {
-	[Produces("application/json")]
-	[Route("api/accounts")]
+    [Produces("application/json")]
+    [Route("api/accounts")]
     [ApiController]
-	public class AccountsController : Controller
+    public class AccountsController : Controller
     {
-		readonly IAccountService _accountService;
+        readonly IAccountService _accountService;
 
-		public AccountsController(IAccountService accountService)
-		{
-			_accountService = accountService;
-		}
+        public AccountsController(IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
 
         // POST: api/accounts/register
-		[HttpPost("register")]
-		public async Task<IActionResult> Register([FromBody] RegisterUser data)
-		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterUser data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-			await _accountService.RegisterAsync(data.Email, data.UserName, data.Password);
+            await _accountService.RegisterAsync(data.Email, data.UserName, data.Password);
 
-			return Ok();
-		}
+            return Ok();
+        }
 
         // POST: api/accounts/login
-		[HttpPost("login")]
-		public async Task<ActionResult<JwtDto>> Login([FromBody] LoginUser data)
-		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
+        [HttpPost("login")]
+        public async Task<ActionResult<JwtDto>> Login([FromBody] LoginUser data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-			return await _accountService.LoginAsync(data.Email, data.Password);
-		}
+            return await _accountService.LoginAsync(data.Email, data.Password);
+        }
 
         // GET: api/accounts/user/byId/5
-		[HttpGet("user/byId/{userId}")]
-		public async Task<ActionResult<UserDto>> GetUserById(string userId)
-		{
+        [HttpGet("user/byId/{userId}")]
+        public async Task<ActionResult<UserDto>> GetUserById(string userId)
+        {
             var user = await _accountService.GetUserByIdAsync(userId);
 
             if (user is null)
@@ -79,18 +74,18 @@ namespace Nanoblog.Api.Controllers
 
         // GET: api/accounts/tokens/refresh/5
         [HttpGet("tokens/refresh/{refreshToken}")]
-		public ActionResult<JwtDto> RefreshAccessToken(string refreshToken)
-		{
-			return _accountService.RefreshAccessToken(refreshToken);
-		}
+        public ActionResult<JwtDto> RefreshAccessToken(string refreshToken)
+        {
+            return _accountService.RefreshAccessToken(refreshToken);
+        }
 
         // GET: api/accounts/tokens/revoke/5
-		[HttpGet("tokens/revoke/{refreshToken}")]
-		public async Task<IActionResult> RevokeRefreshToken(string refreshToken)
-		{
-			await _accountService.RevokeRefreshTokenAsync(refreshToken);
+        [HttpGet("tokens/revoke/{refreshToken}")]
+        public async Task<IActionResult> RevokeRefreshToken(string refreshToken)
+        {
+            await _accountService.RevokeRefreshTokenAsync(refreshToken);
 
-			return Ok();
-		}
-	}
+            return Ok();
+        }
+    }
 }

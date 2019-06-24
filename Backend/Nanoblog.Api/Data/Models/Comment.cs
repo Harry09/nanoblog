@@ -1,9 +1,8 @@
 ﻿using Nanoblog.Core.Data.Exception;
+using Nanoblog.Core.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-
-using Nanoblog.Core.Extensions;
 
 namespace Nanoblog.Api.Data.Models
 {

@@ -1,8 +1,8 @@
 using Nanoblog.Core.Data.Exception;
+using Nanoblog.Core.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Nanoblog.Core.Extensions;
 
 namespace Nanoblog.Api.Data.Models
 {
@@ -11,13 +11,13 @@ namespace Nanoblog.Api.Data.Models
         [Key]
         public string Id { get; private set; }
 
-		public User Author { get; private set; }
+        public User Author { get; private set; }
 
-		public string Text { get; private set; }
+        public string Text { get; private set; }
 
         public bool Deleted { get; private set; }
 
-		public DateTime CreateTime { get; private set; }
+        public DateTime CreateTime { get; private set; }
 
         public Entry()
         {
@@ -25,10 +25,10 @@ namespace Nanoblog.Api.Data.Models
         }
 
         public Entry(User user, string text) : this()
-		{
+        {
             SetAuthor(user);
             SetText(text);
-		}
+        }
 
         public void SetAuthor(User user)
         {
@@ -54,5 +54,5 @@ namespace Nanoblog.Api.Data.Models
         {
             Deleted = true;
         }
-	}
+    }
 }

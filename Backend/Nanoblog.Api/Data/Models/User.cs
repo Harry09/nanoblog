@@ -1,10 +1,10 @@
+using Nanoblog.Core;
+using Nanoblog.Core.Data.Exception;
+using Nanoblog.Core.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mail;
-using Nanoblog.Api.Common;
-using Nanoblog.Core.Data.Exception;
-using Nanoblog.Core.Extensions;
 
 namespace Nanoblog.Api.Data.Models
 {
@@ -13,24 +13,24 @@ namespace Nanoblog.Api.Data.Models
         [Key]
         public string Id { get; private set; }
 
-		public string UserName { get; private set; }
+        public string UserName { get; private set; }
 
         public string Email { get; private set; }
 
-		public string PasswordHash { get; private set; }
+        public string PasswordHash { get; private set; }
 
-		public string Role { get; private set; }
+        public string Role { get; private set; }
 
-		public DateTime JoinTime { get; }
+        public DateTime JoinTime { get; }
 
-		public User(string userName, string email, string role)
-		{
+        public User(string userName, string email, string role)
+        {
             SetUserName(userName);
             SetEmail(email);
             SetRole(role);
 
-			JoinTime = DateTime.Now;
-		}
+            JoinTime = DateTime.Now;
+        }
 
         public void SetUserName(string userName)
         {
@@ -87,5 +87,5 @@ namespace Nanoblog.Api.Data.Models
 
             Role = role;
         }
-	}
+    }
 }

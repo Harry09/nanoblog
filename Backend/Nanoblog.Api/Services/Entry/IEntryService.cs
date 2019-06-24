@@ -8,11 +8,11 @@ namespace Nanoblog.Api.Services
     {
         Task<EntryDto> AddAsync(string text, string authorId);
 
-		Task RemoveAsync(string id);
-		
-		Task UpdateAsync(string id, string text);
-		
-		Task<EntryDto> GetAsync(string id);
+        Task RemoveAsync(string id);
+
+        Task UpdateAsync(string id, string text);
+
+        Task<EntryDto> GetAsync(string id);
 
         Task<IEnumerable<EntryDto>> GetNewestAsync();
     }

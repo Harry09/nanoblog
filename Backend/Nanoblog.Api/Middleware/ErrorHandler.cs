@@ -1,53 +1,47 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-
+using Nanoblog.Core.Data.Dto;
+using Nanoblog.Core.Data.Exception;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-
-using Nanoblog.Core.Data.Exception;
-using Nanoblog.Core.Data.Dto;
+using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Middleware
 {
     public class ErrorHandler
     {
-		readonly RequestDelegate _next;
+        readonly RequestDelegate _next;
 
-		public ErrorHandler(RequestDelegate next)
-		{
-			_next = next;
-		}
+        public ErrorHandler(RequestDelegate next)
+        {
+            _next = next;
+        }
 
-		public async Task Invoke(HttpContext context)
-		{
-			try
-			{
-				await _next(context);
-			}
-			catch (ApiException ex)
-			{
-				await HandleApiErrorAsync(context, ex);
-			}
-		}
+        public async Task Invoke(HttpContext context)
+        {
+            try
+            {
+                await _next(context);
+            }
+            catch (ApiException ex)
+            {
+                await HandleApiErrorAsync(context, ex);
+            }
+        }
 
-		private static Task HandleApiErrorAsync(HttpContext context, ApiException exception)
-		{
-			var response = new ErrorDto(exception.Message);
+        private static Task HandleApiErrorAsync(HttpContext context, ApiException exception)
+        {
+            var response = new ErrorDto(exception.Message);
 
-			var serializerSettings = new JsonSerializerSettings
-			{
-				ContractResolver = new CamelCasePropertyNamesContractResolver()
-			};
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
 
-			var payload = JsonConvert.SerializeObject(response, serializerSettings);
-			context.Response.ContentType = "application/json";
-			context.Response.StatusCode = 400;
+            var payload = JsonConvert.SerializeObject(response, serializerSettings);
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = 400;
 
-			return context.Response.WriteAsync(payload);
-		}
+            return context.Response.WriteAsync(payload);
+        }
     }
 }

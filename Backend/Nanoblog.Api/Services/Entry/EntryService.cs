@@ -1,46 +1,41 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-
-using Nanoblog.Core.Extensions;
-using Nanoblog.Core.Data.Dto;
-using Nanoblog.Core.Data.Exception;
-
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
+using Nanoblog.Core.Data.Dto;
+using Nanoblog.Core.Data.Exception;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Services
 {
-	public class EntryService : IEntryService
-	{
-		readonly AppDbContext _dbContext;
+    public class EntryService : IEntryService
+    {
+        readonly AppDbContext _dbContext;
         readonly ICommentService _commentService;
-		readonly IMapper _mapper;
+        readonly IMapper _mapper;
 
-		public EntryService(AppDbContext appDbContext, ICommentService commentService, IMapper mapper)
-		{
-			_dbContext = appDbContext;
+        public EntryService(AppDbContext appDbContext, ICommentService commentService, IMapper mapper)
+        {
+            _dbContext = appDbContext;
             _commentService = commentService;
             _mapper = mapper;
-		}
+        }
 
-		public async Task<EntryDto> AddAsync(string text, string authorId)
-		{
+        public async Task<EntryDto> AddAsync(string text, string authorId)
+        {
             var user = await _dbContext.Users.FindAsync(authorId);
             var entry = new Entry(user, text);
 
-			await _dbContext.Entries.AddAsync(entry);
-			await _dbContext.SaveChangesAsync();
+            await _dbContext.Entries.AddAsync(entry);
+            await _dbContext.SaveChangesAsync();
 
             return _mapper.Map<Entry, EntryDto>(entry);
-		}
+        }
 
-		public async Task<EntryDto> GetAsync(string id)
-		{
+        public async Task<EntryDto> GetAsync(string id)
+        {
             var entry = await FindEntryAsync(id);
 
             if (entry != null && entry.Deleted)
@@ -49,7 +44,7 @@ namespace Nanoblog.Api.Services
             }
 
             return await GetEntryDto(entry);
-		}
+        }
         public async Task<IEnumerable<EntryDto>> GetNewestAsync()
         {
             var entries = _dbContext.Entries
@@ -68,22 +63,22 @@ namespace Nanoblog.Api.Services
         }
 
         public async Task RemoveAsync(string id)
-		{
+        {
             var entry = await FindEntryAsync(id);
 
             entry.Delete();
 
-			await _dbContext.SaveChangesAsync();
-		}
+            await _dbContext.SaveChangesAsync();
+        }
 
-		public async Task UpdateAsync(string id, string text)
-		{
+        public async Task UpdateAsync(string id, string text)
+        {
             var entry = await FindEntryAsync(id);
 
-			entry.SetText(text);
+            entry.SetText(text);
 
-			await _dbContext.SaveChangesAsync();
-		}
+            await _dbContext.SaveChangesAsync();
+        }
 
         private async Task<EntryDto> GetEntryDto(Entry entry)
         {

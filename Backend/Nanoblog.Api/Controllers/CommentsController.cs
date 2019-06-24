@@ -1,17 +1,14 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Nanoblog.Api.Data;
+using Nanoblog.Api.Services;
+using Nanoblog.Core.Data.Commands.Comment;
+using Nanoblog.Core.Data.Dto;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Nanoblog.Api.Data;
-using Nanoblog.Api.Data.Models;
-using Nanoblog.Api.Services;
-using Nanoblog.Core.Data.Commands.Comment;
-using Nanoblog.Core.Data.Dto;
 
 namespace Nanoblog.Api.Controllers
 {

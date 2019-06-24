@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
 using Nanoblog.Core.Data.Dto;
 using Nanoblog.Core.Data.Exception;
-using Nanoblog.Core.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Services
 {
