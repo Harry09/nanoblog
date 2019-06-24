@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Api.Common
+namespace Nanoblog.Core
 {
     public static class Roles
     {

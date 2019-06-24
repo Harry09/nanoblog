@@ -11,9 +11,9 @@ using AutoMapper;
 
 using Nanoblog.Core.Data.Dto;
 using Nanoblog.Core.Data.Exception;
-using Nanoblog.Api.Common;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
+using Nanoblog.Core;
 
 namespace Nanoblog.Api.Services
 {

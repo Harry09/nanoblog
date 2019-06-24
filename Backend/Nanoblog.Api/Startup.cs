@@ -20,7 +20,6 @@ using Nanoblog.Api.Settings;
 using Nanoblog.Api.Data.Models;
 using Nanoblog.Api.Middleware;
 using Nanoblog.Core.Data.Dto;
-using Nanoblog.Api.Common;
 
 namespace Nanoblog
 {
