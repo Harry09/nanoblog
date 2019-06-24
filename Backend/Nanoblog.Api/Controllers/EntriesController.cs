@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Services;
+using Nanoblog.Core.Data;
+using Nanoblog.Core.Data.Commands;
 using Nanoblog.Core.Data.Commands.Entry;
 using Nanoblog.Core.Data.Dto;
 using Nanoblog.Core.Data.Exception;
@@ -34,9 +36,16 @@ namespace Nanoblog.Api.Controllers
 
         // GET: api/entries/newest
         [HttpGet("newest")]
-        public async Task<ActionResult<IEnumerable<EntryDto>>> GetNewestEntries()
+        public async Task<ActionResult<IEnumerable<EntryDto>>> GetNewestEntries([FromQuery] PagedQuery pagedQuery)
         {
             var entries = await _entryService.GetNewestAsync();
+
+            if (pagedQuery.LimitPerPage > 0)
+            {
+                var pagedResult = PagedResult<EntryDto>.Create(pagedQuery, entries);
+
+                entries = pagedResult.Items;
+            }
 
             return entries.ToList();
         }

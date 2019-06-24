@@ -48,7 +48,7 @@ GET {{serverAddress}}/api/accounts/tokens/revoke/{{refreshToken}}
 
 ### -------------------- Entries --------------------
 ### Get entries
-GET {{serverAddress}}/api/entries
+GET {{serverAddress}}/api/entries/newest?currentPage=1&limitPerPage=3
 
 ### Get entry
 GET {{serverAddress}}/api/entries/{{entryId}}

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Services;
+using Nanoblog.Core.Data;
+using Nanoblog.Core.Data.Commands;
 using Nanoblog.Core.Data.Commands.Comment;
 using Nanoblog.Core.Data.Dto;
 using System.Collections.Generic;
@@ -37,9 +39,16 @@ namespace Nanoblog.Api.Controllers
 
         // GET: api/comments/entry/5
         [HttpGet("entry/{entryId}")]
-        public async Task<ActionResult<IEnumerable<CommentDto>>> GetComments(string entryId)
+        public async Task<ActionResult<IEnumerable<CommentDto>>> GetComments(string entryId, [FromQuery] PagedQuery pagedQuery)
         {
             var comments = await _commentService.GetCommentsAsync(entryId);
+
+            if (pagedQuery.LimitPerPage > 0)
+            {
+                var pagedResult = PagedResult<CommentDto>.Create(pagedQuery, comments);
+
+                comments = pagedResult.Items;
+            }
 
             return comments.ToList();
         }
