@@ -1,15 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nanoblog/screens/home.dart';
 import 'package:nanoblog/screens/login.dart';
 import 'package:nanoblog/screens/startup.dart';
 
-class NanoblogApp extends StatefulWidget
-{
-  State<StatefulWidget> createState() => new NanoblogState();
-}
-
-class NanoblogState extends State<NanoblogApp>
+class NanoblogApp extends StatelessWidget
 {
   @override
   Widget build(BuildContext context)
