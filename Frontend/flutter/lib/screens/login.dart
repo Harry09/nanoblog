@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nanoblog/api/account_api.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/screens/loading.dart';

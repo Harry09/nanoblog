@@ -9,7 +9,7 @@ class NanoblogApp extends StatelessWidget
   Widget build(BuildContext context)
   {
     return MaterialApp( 
-      title: "Todo App",
+      title: "Nanoblog",
       routes: <String, WidgetBuilder> {
         "/home": (_) => HomePage(),
         "/login": (_) => LoginPage(),
