@@ -1,14 +1,22 @@
 import 'dart:convert';
 
 import 'package:nanoblog/api/api_base.dart';
+import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/api/response/entry_response.dart';
 import 'package:nanoblog/model/jwt.dart';
 
 class EntryApi 
 {
-  static Future<List<EntryResponse>> getNewest() async
+  static Future<List<EntryResponse>> getNewest({PagedQuery pagedQuery}) async
   {
-    var result = await ApiBase.get("/entries/newest");
+    var url = "/entries/newest";
+
+    if (pagedQuery != null)
+    {
+      url += "?${pagedQuery.getQuery()}}";
+    }
+
+    var result = await ApiBase.get(url);
 
     if (result.statusCode == 200)
     {

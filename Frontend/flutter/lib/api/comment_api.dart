@@ -2,14 +2,22 @@
 import 'dart:convert';
 
 import 'package:nanoblog/api/api_base.dart';
+import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/api/response/comment_response.dart';
 import 'package:nanoblog/model/jwt.dart';
 
 class CommentApi
 {
-  static Future<List<CommentResponse>> getComments(String entryId) async
+  static Future<List<CommentResponse>> getComments(String entryId, {PagedQuery pagedQuery}) async
   {
-    var result = await ApiBase.get("/comments/entry/$entryId");
+    var url = "/comments/entry/$entryId";
+
+    if (pagedQuery != null)
+    {
+      url += "?${pagedQuery.getQuery()}";
+    }
+
+    var result = await ApiBase.get(url);
 
     if (result.statusCode == 200)
     {
