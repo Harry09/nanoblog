@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/screens/add_post.dart';
@@ -17,6 +18,8 @@ class HomePageState extends State<HomePage>
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _entryListKey = GlobalKey<EntryListState>();
   AppStateModel _model;
+
+  int _loaderPage = 0;
 
   HomePageState();
 
@@ -58,9 +61,37 @@ class HomePageState extends State<HomePage>
       ),
       body: EntryList(
           key: _entryListKey, 
-          loader: _model.entryRepository.getNewest
+          loader: _entryListLoader,
+          extraLoader: _entryListExtraLoader,
         ),
     );
+  }
+
+  Future<List<Entry>> _entryListLoader() async
+  {
+    _loaderPage = 0;
+
+    return await _model.entryRepository.getNewest(pagedQuery: PagedQuery(
+      currentPage: 0,
+      limitPerPage: 10
+    ));
+  }
+
+  Future<List<Entry>> _entryListExtraLoader() async
+  {
+    _loaderPage += 1;
+
+    var pagedQuery = PagedQuery(
+      currentPage: _loaderPage,
+      limitPerPage: 10 
+    );
+
+    var items = await _model.entryRepository.getNewest(pagedQuery: pagedQuery);
+
+    if (items == null || items.isEmpty)
+      return null;
+
+    return items;
   }
 
   void _addPost() async

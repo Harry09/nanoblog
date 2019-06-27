@@ -1,9 +1,7 @@
-import 'package:nanoblog/api/comment_api.dart';
 import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/api/repository/account_repository.dart';
-import 'package:nanoblog/api/repository/comment_repository.dart';
+import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/api/response/entry_response.dart';
-import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/model/jwt.dart';
 
@@ -13,9 +11,9 @@ class EntryRepository
 
   EntryRepository(this._accountRepository);
 
-  Future<List<Entry>> getNewest() async
+  Future<List<Entry>> getNewest({PagedQuery pagedQuery}) async
   {
-    var response = await EntryApi.getNewest();
+    var response = await EntryApi.getNewest(pagedQuery: pagedQuery);
 
     if (response == null)
       return null;

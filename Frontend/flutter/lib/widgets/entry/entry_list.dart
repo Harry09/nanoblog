@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nanoblog/model/entry.dart';
@@ -11,9 +9,10 @@ typedef EntryListLoader = Future<List<Entry>> Function();
 
 class EntryList extends StatefulWidget
 {
-  const EntryList({Key key, this.loader}) : super(key: key);
+  const EntryList({Key key, this.loader, this.extraLoader}) : super(key: key);
 
   final EntryListLoader loader;
+  final EntryListLoader extraLoader;
 
   @override
   EntryListState createState() => EntryListState();
@@ -43,6 +42,7 @@ class EntryListState extends State<EntryList>
         child: FutureListView<Entry>(
           key: _listViewKey,
           loader: widget.loader,
+          extraLoader: widget.extraLoader,
           loadedBuilder: (ctx, entry) => Container(
             margin: EdgeInsets.symmetric(vertical: 3),
             child: EntryListItem(

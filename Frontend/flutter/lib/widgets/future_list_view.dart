@@ -13,11 +13,12 @@ enum _ListStatus
 
 class FutureListView<T> extends StatefulWidget
 {
-  const FutureListView({Key key, @required this.loader, this.emptyBuilder, this.waitingBuilder, @required this.loadedBuilder, this.padding}) : super(key: key);
+  const FutureListView({Key key, @required this.loader, this.emptyBuilder, this.waitingBuilder, @required this.loadedBuilder, this.padding, this.extraLoader}) : super(key: key);
 
   final EdgeInsetsGeometry padding;
 
   final FutureListViewLoader<T> loader;
+  final FutureListViewLoader<T> extraLoader;
 
   final FutureListViewBuilider emptyBuilder;
   final FutureListViewBuilider waitingBuilder;
@@ -32,6 +33,16 @@ class FutureListViewState<T> extends State<FutureListView<T>>
   List<T> _items;
 
   _ListStatus _status = _ListStatus.Empty;
+
+  var _scrollController = ScrollController();
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    _scrollController.addListener(_scrollUpdate);
+  }
 
   @override
   Widget build(BuildContext context)
@@ -86,6 +97,7 @@ class FutureListViewState<T> extends State<FutureListView<T>>
       case _ListStatus.Loaded:
         return Center(
         child: ListView.builder(
+          controller: _scrollController,
           padding: widget.padding,
           itemCount: _items.length,
           itemBuilder: (ctx, i) => widget.loadedBuilder(ctx, _items[i])
@@ -94,6 +106,25 @@ class FutureListViewState<T> extends State<FutureListView<T>>
     }
 
     return null;
+  }
+
+  void _scrollUpdate() async
+  {
+    var position = _scrollController.position;
+
+    var progress = position.pixels / position.maxScrollExtent;
+
+    if (progress > 0.8)
+    {
+      print("Loading more...");
+
+      var newItems = await widget.extraLoader();
+
+      if (newItems != null)
+      {
+        _items.addAll(newItems);
+      }
+    }
   }
 
   Future reloadItems() async
