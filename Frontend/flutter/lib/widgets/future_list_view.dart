@@ -30,9 +30,11 @@ class FutureListView<T> extends StatefulWidget
 
 class FutureListViewState<T> extends State<FutureListView<T>>
 {
-  List<T> _items;
+  List<T> _items = List<T>();
 
   _ListStatus _status = _ListStatus.Empty;
+
+  bool extraLoadingAvaiable = true;
 
   var _scrollController = ScrollController();
 
@@ -110,19 +112,32 @@ class FutureListViewState<T> extends State<FutureListView<T>>
 
   void _scrollUpdate() async
   {
+    if (extraLoadingAvaiable == false)
+      return;
+
     var position = _scrollController.position;
 
     var progress = position.pixels / position.maxScrollExtent;
 
-    if (progress > 0.8)
+    if (progress > 0.9)
     {
       print("Loading more...");
 
+      extraLoadingAvaiable = false;
       var newItems = await widget.extraLoader();
 
       if (newItems != null)
       {
-        _items.addAll(newItems);
+        extraLoadingAvaiable = true;
+
+        setState(() {
+          _items.addAll(newItems);
+        });
+      }
+      else
+      {
+        // if no more data will be added
+        extraLoadingAvaiable = false;
       }
     }
   }
@@ -136,7 +151,11 @@ class FutureListViewState<T> extends State<FutureListView<T>>
     final items = await widget.loader();
 
     setState(() {
-      _items = items;
+
+      _items.clear();
+      _items.addAll(items);
+
+      extraLoadingAvaiable = true;
 
       if (_items == null || _items.isEmpty)
       {
