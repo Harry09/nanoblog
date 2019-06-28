@@ -13,7 +13,7 @@ class EntryApi
 
     if (pagedQuery != null)
     {
-      url += "?${pagedQuery.getQuery()}}";
+      url += "?${pagedQuery.getQuery()}";
     }
 
     var result = await ApiBase.get(url);
