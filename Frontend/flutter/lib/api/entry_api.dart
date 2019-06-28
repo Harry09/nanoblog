@@ -16,8 +16,6 @@ class EntryApi
       url += "?${pagedQuery.getQuery()}";
     }
 
-    // print("Url: $url");
-
     var result = await ApiBase.get(url);
 
     if (result.statusCode == 200)

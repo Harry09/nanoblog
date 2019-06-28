@@ -121,8 +121,6 @@ class FutureListViewState<T> extends State<FutureListView<T>>
 
     if (progress > 0.9)
     {
-      print("Loading more...");
-
       extraLoadingAvaiable = false;
       var newItems = await widget.extraLoader();
 
