@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/screens/add_comment.dart';
@@ -27,6 +28,8 @@ class _EntryDetailPageState extends State<EntryDetailPage>
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Entry _entry;
+
+  int _loaderPage = 0;
 
   @override
   void initState()
@@ -55,7 +58,10 @@ class _EntryDetailPageState extends State<EntryDetailPage>
       ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
-        child: _buildBody()
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 45),
+          child: _buildBody()
+        )
       ),
       bottomSheet: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -86,6 +92,7 @@ class _EntryDetailPageState extends State<EntryDetailPage>
       key: _commentsListKey,
       loader: _loadData,
       loadedBuilder: (ctx, w) => w,
+      extraLoader: _extraLoader,
     );
   }
 
@@ -94,6 +101,8 @@ class _EntryDetailPageState extends State<EntryDetailPage>
     if (_entry == null)
       return null;
 
+    _loaderPage = 0;
+
     var widgets = <Widget>[
       EntryListItem(
         entry: _entry,
@@ -101,7 +110,13 @@ class _EntryDetailPageState extends State<EntryDetailPage>
       ),
     ];
 
-    var comments = await _model.commentRepository.getComments(_entry.id);
+    var comments = await _model.commentRepository.getComments(
+      _entry.id, 
+      pagedQuery: PagedQuery(
+        currentPage: 0,
+        limitPerPage: 10
+      )
+    );
 
     if (comments.isEmpty)
     {
@@ -134,6 +149,37 @@ class _EntryDetailPageState extends State<EntryDetailPage>
     {
       widgets.add(CommentListItem(
         comment: comment,
+        onCommentDeleted: _onCommentDeleted,
+      ));
+    }
+
+    return widgets;
+  }
+
+  Future<List<Widget>> _extraLoader() async
+  {
+    _loaderPage++;
+
+    print("Loading more....");
+
+    var items = await _model.commentRepository.getComments(
+      widget.entry.id, 
+      pagedQuery: PagedQuery(
+        currentPage: _loaderPage,
+        limitPerPage: 10
+      )
+    );
+
+    if (items == null || items.isEmpty)
+      return null;
+
+    var widgets = List<Widget>();
+    
+
+    for (var item in items)
+    {
+      widgets.add(CommentListItem(
+        comment: item,
         onCommentDeleted: _onCommentDeleted,
       ));
     }

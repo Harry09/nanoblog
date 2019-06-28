@@ -1,5 +1,6 @@
 import 'package:nanoblog/api/comment_api.dart';
 import 'package:nanoblog/api/repository/account_repository.dart';
+import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/api/response/comment_response.dart';
 import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/jwt.dart';
@@ -10,9 +11,9 @@ class CommentRepository
 
   CommentRepository(this._accountRepository);
 
-  Future<List<Comment>> getComments(String entryId) async
+  Future<List<Comment>> getComments(String entryId, {PagedQuery pagedQuery}) async
   {
-    var comments = await CommentApi.getComments(entryId);
+    var comments = await CommentApi.getComments(entryId, pagedQuery: pagedQuery);
 
     if (comments == null)
       return null;
