@@ -13,7 +13,16 @@ enum _ListStatus
 
 class FutureListView<T> extends StatefulWidget
 {
-  const FutureListView({Key key, @required this.loader, this.emptyBuilder, this.waitingBuilder, @required this.loadedBuilder, this.padding, this.extraLoader}) : super(key: key);
+  const FutureListView(
+    {Key key, 
+    @required this.loader, 
+    this.emptyBuilder, 
+    this.waitingBuilder, 
+    @required this.loadedBuilder, 
+    this.padding, 
+    this.extraLoader, 
+    this.extraLoadingMessageBuilder, 
+    this.extraLoaderMinimum = 0.8}) : super(key: key);
 
   final EdgeInsetsGeometry padding;
 
@@ -23,6 +32,9 @@ class FutureListView<T> extends StatefulWidget
   final FutureListViewBuilider emptyBuilder;
   final FutureListViewBuilider waitingBuilder;
   final LoadedListViewBuilider<T> loadedBuilder;
+  final FutureListViewBuilider extraLoadingMessageBuilder;
+
+  final double extraLoaderMinimum;
 
   @override
   FutureListViewState<T> createState() => FutureListViewState<T>();
@@ -34,7 +46,11 @@ class FutureListViewState<T> extends State<FutureListView<T>>
 
   _ListStatus _status = _ListStatus.Empty;
 
-  bool extraLoadingAvaiable = true;
+  // used to load more items
+  bool _extraLoadingAvailable = true;
+
+  // used to display loading message
+  bool _extraLoading = false;
 
   var _scrollController = ScrollController();
 
@@ -54,57 +70,87 @@ class FutureListViewState<T> extends State<FutureListView<T>>
 
   Widget _buildWidget(BuildContext context)
   {
-    Widget _emptyBulider;
-    Widget _waitingBuilder;
-
-    if (widget.emptyBuilder != null)
-    {
-      _emptyBulider = widget.emptyBuilder(context);
-    }
-    else
-    {
-      _emptyBulider = Center(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Text(
-            "Nothing here :(",
-            style: TextStyle(
-              fontSize: 32
-            ),
-            ),
-        ),
-      );
-    }
-
-    if (widget.waitingBuilder != null)
-    {
-      _waitingBuilder = widget.waitingBuilder(context);
-    }
-    else
-    {
-      _waitingBuilder = Center(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: CircularProgressIndicator()
-          ),
-      );
-    }
-
     switch (_status)
     {
       case _ListStatus.Empty:
+      {
+        Widget _emptyBulider;
+
+        if (widget.emptyBuilder != null)
+        {
+          _emptyBulider = widget.emptyBuilder(context);
+        }
+        else
+        {
+          _emptyBulider = Center(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Text(
+                "Nothing here :(",
+                style: TextStyle(
+                  fontSize: 32
+                ),
+              ),
+            ),
+          );
+        }
+
         return _emptyBulider;
+      }
       case _ListStatus.Waiting:
+      {
+        Widget _waitingBuilder;
+
+        if (widget.waitingBuilder != null)
+        {
+          _waitingBuilder = widget.waitingBuilder(context);
+        }
+        else
+        {
+          _waitingBuilder = Center(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: CircularProgressIndicator()
+              ),
+          );
+        }
+
         return _waitingBuilder;
+      }
       case _ListStatus.Loaded:
+      {
+        var renderItems = List<Widget>();
+
+        for (var item in _items)
+        {
+          renderItems.add(widget.loadedBuilder(context, item));
+        }
+
+        if (_extraLoading)
+        {
+          if (widget.extraLoadingMessageBuilder == null)
+          {
+            renderItems.add(Padding(
+              padding: EdgeInsets.all(16),
+              child: Center(
+                child: Text("Loading more...")
+              ),
+            ));
+          }
+          else
+          {
+            renderItems.add(widget.extraLoadingMessageBuilder(context));
+          }
+        }
+
         return Center(
-        child: ListView.builder(
-          controller: _scrollController,
-          padding: widget.padding,
-          itemCount: _items.length,
-          itemBuilder: (ctx, i) => widget.loadedBuilder(ctx, _items[i])
-        ), 
-      );
+          child: ListView(
+            controller: _scrollController,
+            padding: widget.padding,
+            children: renderItems
+          )
+        );
+      }
     }
 
     return null;
@@ -112,21 +158,30 @@ class FutureListViewState<T> extends State<FutureListView<T>>
 
   void _scrollUpdate() async
   {
-    if (extraLoadingAvaiable == false)
+    if (_extraLoadingAvailable == false)
       return;
 
     var position = _scrollController.position;
 
     var progress = position.pixels / position.maxScrollExtent;
 
-    if (progress > 0.9)
+    if (progress > widget.extraLoaderMinimum)
     {
-      extraLoadingAvaiable = false;
+      _extraLoadingAvailable = false;
+
+      setState(() {
+        _extraLoading = true; 
+      });
+
       var newItems = await widget.extraLoader();
+
+      setState(() {
+        _extraLoading = false; 
+      });
 
       if (newItems != null)
       {
-        extraLoadingAvaiable = true;
+        _extraLoadingAvailable = true;
 
         setState(() {
           _items.addAll(newItems);
@@ -135,7 +190,7 @@ class FutureListViewState<T> extends State<FutureListView<T>>
       else
       {
         // if no more data will be added
-        extraLoadingAvaiable = false;
+        _extraLoadingAvailable = false;
       }
     }
   }
@@ -153,7 +208,8 @@ class FutureListViewState<T> extends State<FutureListView<T>>
       _items.clear();
       _items.addAll(items);
 
-      extraLoadingAvaiable = true;
+      _extraLoadingAvailable = true;
+      _extraLoading = false;
 
       if (_items == null || _items.isEmpty)
       {
