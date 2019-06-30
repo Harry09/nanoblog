@@ -26,6 +26,9 @@ namespace Nanoblog.Api.Controllers
             this.commentKarmaService = commentKarmaService;
         }
 
+        // GET: api/karma/entry/3
+        // or 
+        // GET: api/karma/comment/3
         [Route("{service}/{itemId}")]
         public ActionResult<IEnumerable<KarmaDto>> GetEntryKarma(string service, string itemId)
         {
@@ -37,6 +40,9 @@ namespace Nanoblog.Api.Controllers
             return karmaService.GetKarma(itemId).ToList();
         }
 
+        // GET: api/karma/entry/upvote/3 
+        // or 
+        // GET: api/karma/comment/upvote/3
         [Route("{service}/upvote/{itemId}"), Authorize]
         public async Task<IActionResult> UpVoteEntry(string service, string itemId)
         {
@@ -52,6 +58,9 @@ namespace Nanoblog.Api.Controllers
             return Ok();
         }
 
+        // GET: api/karma/entry/downvote/3 
+        // or 
+        // GET: api/karma/comment/downvote/3
         [Route("{service}/downvote/{itemId}"), Authorize]
         public async Task<IActionResult> DownVoteEntry(string service, string itemId)
         {
@@ -67,6 +76,9 @@ namespace Nanoblog.Api.Controllers
             return Ok();
         }
 
+        // DELETE: api/karma/entry/remove/3 
+        // or 
+        // DELETE: api/karma/comment/remove/3
         [HttpDelete("{service}/remove/{itemId}"), Authorize]
         public async Task<IActionResult> RemoveVoteEntry(string service, string itemId)
         {
