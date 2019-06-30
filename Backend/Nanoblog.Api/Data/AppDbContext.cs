@@ -14,6 +14,10 @@ namespace Nanoblog.Api.Data
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        public DbSet<EntryKarma> EntryKarma { get; set; }
+
+        public DbSet<CommentKarma> CommentKarma { get; set; }
+
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }

@@ -13,6 +13,7 @@ using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
 using Nanoblog.Api.Middleware;
 using Nanoblog.Api.Services;
+using Nanoblog.Api.Services.Karma;
 using Nanoblog.Api.Settings;
 using Nanoblog.Core.Data.Dto;
 using System;
@@ -54,6 +55,8 @@ namespace Nanoblog
             services.AddTransient<IEntryService, EntryService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IEntryKarmaService, EntryKarmaService>();
+            services.AddTransient<ICommentKarmaService, CommentKarmaService>();
 
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddSingleton<IJwtHandler, JwtHandler>();
@@ -67,6 +70,10 @@ namespace Nanoblog
                 cfg.CreateMap<User, UserDto>();
                 cfg.CreateMap<Entry, EntryDto>();
                 cfg.CreateMap<Comment, CommentDto>();
+
+                cfg.CreateMap<KarmaBase, KarmaDto>();
+                cfg.CreateMap<EntryKarma, KarmaDto>();
+                cfg.CreateMap<CommentKarma, KarmaDto>();
             },
             AppDomain.CurrentDomain.GetAssemblies());
 

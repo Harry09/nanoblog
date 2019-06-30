@@ -10,7 +10,6 @@
 @commentId = xxx
 
 
-
 ### -------------------- Account --------------------
 
 ### Register
@@ -89,3 +88,37 @@ DELETE {{serverAddress}}/api/comments/{{commentId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
+
+### -------------------- Karma --------------------
+
+### -------- Entry --------
+### Get entry's karma
+GET {{serverAddress}}/api/karma/entry/{{entryId}}
+
+### Upvote entry
+GET {{serverAddress}}/api/karma/entry/upvote/{{entryId}}
+Authorization: Bearer {{token}}
+
+### Downvote entry
+GET {{serverAddress}}/api/karma/entry/downvote/{{entryId}}
+Authorization: Bearer {{token}}
+
+### Remove vote
+DELETE {{serverAddress}}/api/karma/entry/remove/{{entryId}}
+Authorization: Bearer {{token}}
+
+### -------- Comment --------
+### Get comment's karma
+GET {{serverAddress}}/api/karma/comment/{{commentId}}
+
+### Upvote comment
+GET {{serverAddress}}/api/karma/comment/upvote/{{commentId}}
+Authorization: Bearer {{token}}
+
+### Downvote comment
+GET {{serverAddress}}/api/karma/comment/downvote/{{commentId}}
+Authorization: Bearer {{token}}
+
+### Remove comment
+DELETE {{serverAddress}}/api/karma/comment/remove/{{commentId}}
+Authorization: Bearer {{token}}

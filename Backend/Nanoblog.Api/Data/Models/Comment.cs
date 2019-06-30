@@ -33,7 +33,7 @@ namespace Nanoblog.Api.Data.Models
             SetText(text);
         }
 
-        public void SetAuthor(User user)
+        private void SetAuthor(User user)
         {
             if (user is null)
             {
@@ -43,7 +43,7 @@ namespace Nanoblog.Api.Data.Models
             Author = user;
         }
 
-        public void SetParent(Entry entry)
+        private void SetParent(Entry entry)
         {
             if (entry is null)
             {
