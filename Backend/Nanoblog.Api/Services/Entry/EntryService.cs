@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
+using Nanoblog.Api.Services.Karma;
 using Nanoblog.Core.Data.Dto;
 using Nanoblog.Core.Data.Exception;
 using System.Collections.Generic;
@@ -14,13 +15,15 @@ namespace Nanoblog.Api.Services
     {
         readonly AppDbContext _dbContext;
         readonly ICommentService _commentService;
+        readonly IKarmaService _karmaService;
         readonly IMapper _mapper;
 
-        public EntryService(AppDbContext appDbContext, ICommentService commentService, IMapper mapper)
+        public EntryService(AppDbContext appDbContext, ICommentService commentService, IEntryKarmaService karmaService, IMapper mapper)
         {
             _dbContext = appDbContext;
             _commentService = commentService;
             _mapper = mapper;
+            _karmaService = karmaService;
         }
 
         public async Task<EntryDto> AddAsync(string text, string authorId)
@@ -45,6 +48,7 @@ namespace Nanoblog.Api.Services
 
             return await GetEntryDto(entry);
         }
+
         public async Task<IEnumerable<EntryDto>> GetNewestAsync()
         {
             var entries = _dbContext.Entries
@@ -87,6 +91,7 @@ namespace Nanoblog.Api.Services
             var comments = await _commentService.GetCommentsAsync(entry.Id);
 
             entryDto.CommentsCount = comments.Count();
+            entryDto.KarmaCount = await _karmaService.CountKarmaAsync(entry.Id);
 
             return entryDto;
         }

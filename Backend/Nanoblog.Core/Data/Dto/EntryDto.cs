@@ -17,5 +17,7 @@ namespace Nanoblog.Core.Data.Dto
 		public DateTime CreateTime { get; set; }
 
         public int CommentsCount { get; set; }
+
+        public int KarmaCount { get; set; }
     }
 }

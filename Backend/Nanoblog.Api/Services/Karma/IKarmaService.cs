@@ -16,5 +16,7 @@ namespace Nanoblog.Api.Services.Karma
         Task RemoveKarmaAsync(string authorId, string itemId);
 
         IEnumerable<KarmaDto> GetKarma(string itemId);
+
+        Task<int> CountKarmaAsync(string itemId);
     }
 }

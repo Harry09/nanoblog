@@ -34,6 +34,14 @@ namespace Nanoblog.Api.Services.Karma
             return mapper.Map<IEnumerable<KarmaDto>>(karma);
         }
 
+        public async Task<int> CountKarmaAsync(string itemId)
+        {
+            return await dbContext.EntryKarma
+                .Include(x => x.Entry)
+                .Where(x => x.Entry.Id == itemId)
+                .SumAsync(x => (int)x.Value);
+        }
+
         public async Task GiveKarmaAsync(string authorId, string itemId, KarmaValue value)
         {
             var karma = await FindEntryKarmaAsync(authorId, itemId);
