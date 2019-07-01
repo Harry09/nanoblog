@@ -1,17 +1,17 @@
+import 'package:nanoblog/api/response/user_response.dart';
+import 'package:nanoblog/model/karma.dart';
 import 'package:nanoblog/util/karma_value.dart';
 
 class KarmaResponse
 {
   String id;
-
-  String authorId;
-
+  UserResponse author;
   KarmaValue karmaValue;
 
   KarmaResponse.fromJson(Map<String, dynamic> json)
   {
     id = json['id'];
-    authorId = json['authorId'];
+    author = json['author'];
 
     var karma = json['value'] as int;
 
@@ -23,5 +23,14 @@ class KarmaResponse
     {
       karmaValue = KarmaValue.Minus;
     }
+  }
+
+  Karma toKarma()
+  {
+    return Karma(
+      id: id,
+      author: author.toUser(),
+      karmaValue: karmaValue
+    );
   }
 }

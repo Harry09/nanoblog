@@ -1,3 +1,6 @@
+import 'package:nanoblog/model/comment.dart';
+import 'package:nanoblog/model/user.dart';
+
 class CommentResponse
 {
   String id;
@@ -15,5 +18,15 @@ class CommentResponse
     parentId = json["parentId"];
     text = json["text"];
     createTime = json["createTime"];
+  }
+
+  Comment toComment(User author)
+  {
+    return Comment(
+      id: id,
+      author: author,
+      text: text,
+      createTime: createTime
+    );
   }
 }

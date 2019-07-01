@@ -59,11 +59,6 @@ class CommentRepository
   {
     var user = await _accountRepository.getUser(comment.authorId);
 
-    return Comment(
-      id: comment.id,
-      author: user,
-      text: comment.text,
-      createTime: comment.createTime
-    );
+    return comment.toComment(user);
   }
 }

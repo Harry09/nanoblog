@@ -1,3 +1,6 @@
+import 'package:nanoblog/model/entry.dart';
+import 'package:nanoblog/model/user.dart';
+
 class EntryResponse
 {
   String id;
@@ -16,5 +19,16 @@ class EntryResponse
     this.text = json['text'];
     this.createTime = json['createTime'];
     this.commentsCount = json['commentsCount'];
+  }
+
+  Entry toEntry(User author)
+  {
+    return Entry(
+      id: id,
+      author: author,
+      text: text,
+      commentsCount: commentsCount,
+      createTime: createTime,
+    );
   }
 }

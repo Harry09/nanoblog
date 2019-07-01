@@ -59,12 +59,6 @@ class EntryRepository
   {
     var user = await _accountRepository.getUser(entry.authorId);
 
-    return Entry(
-      id: entry.id,
-      author: user,
-      text: entry.text,
-      commentsCount: entry.commentsCount,
-      createTime: entry.createTime,
-    );
+    return entry.toEntry(user);
   }
 }
