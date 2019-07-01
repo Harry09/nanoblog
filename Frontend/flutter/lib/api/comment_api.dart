@@ -53,7 +53,7 @@ class CommentApi
     var result = await ApiBase.post(
       "/comments",
       jsonBody: messageBody,
-      token: jwtToken.token
+      jwtToken: jwtToken.token
     );
 
     if (result.statusCode == 200)
@@ -68,7 +68,7 @@ class CommentApi
 
   static Future<bool> deleteComment(String id, Jwt jwtToken) async
   {
-    var result = await ApiBase.delete("/comments/$id", token: jwtToken.token);
+    var result = await ApiBase.delete("/comments/$id", jwtToken: jwtToken.token);
     
     return result.statusCode == 200;
   }

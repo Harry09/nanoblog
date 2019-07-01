@@ -51,7 +51,7 @@ class EntryApi
     var result = await ApiBase.post(
       "/entries",
       jsonBody: jsonBody,
-      token: jwtToken.token
+      jwtToken: jwtToken.token
       );
 
     if (result.statusCode == 200)
@@ -66,7 +66,7 @@ class EntryApi
 
   static Future<bool> deleteEntry(String id, Jwt jwtToken) async
   {
-    var result = await ApiBase.delete("/entries/$id", token: jwtToken.token);
+    var result = await ApiBase.delete("/entries/$id", jwtToken: jwtToken.token);
 
     return result.statusCode == 200;
   }    
