@@ -26,18 +26,12 @@ namespace Nanoblog.Api.Services
             _karmaService = karmaService;
         }
 
-        public async Task<EntryDto> AddAsync(string text, string authorId)
+        public async Task<EntryDto> GetAsync(string id)
         {
-            var user = await _dbContext.Users.FindAsync(authorId);
-            var entry = new Entry(user, text);
-
-            await _dbContext.Entries.AddAsync(entry);
-            await _dbContext.SaveChangesAsync();
-
-            return _mapper.Map<Entry, EntryDto>(entry);
+            return await GetWithKarmaActionAsync(id, null);
         }
 
-        public async Task<EntryDto> GetAsync(string id)
+        public async Task<EntryDto> GetWithKarmaActionAsync(string id, string userId)
         {
             var entry = await FindEntryAsync(id);
 
@@ -46,10 +40,15 @@ namespace Nanoblog.Api.Services
                 return null;
             }
 
-            return await GetEntryDto(entry);
+            return await GetEntryDto(entry, userId);
         }
 
         public async Task<IEnumerable<EntryDto>> GetNewestAsync()
+        {
+            return await GetNewestithKarmaActionAsync(null);
+        }
+
+        public async Task<IEnumerable<EntryDto>> GetNewestithKarmaActionAsync(string userId)
         {
             var entries = _dbContext.Entries
                             .Include(x => x.Author)
@@ -60,10 +59,21 @@ namespace Nanoblog.Api.Services
 
             foreach (var entry in entries)
             {
-                entriesDto.Add(await GetEntryDto(entry));
+                entriesDto.Add(await GetEntryDto(entry, userId));
             }
 
             return entriesDto;
+        }
+
+        public async Task<EntryDto> AddAsync(string text, string authorId)
+        {
+            var user = await _dbContext.Users.FindAsync(authorId);
+            var entry = new Entry(user, text);
+
+            await _dbContext.Entries.AddAsync(entry);
+            await _dbContext.SaveChangesAsync();
+
+            return _mapper.Map<Entry, EntryDto>(entry);
         }
 
         public async Task RemoveAsync(string id)
@@ -84,7 +94,7 @@ namespace Nanoblog.Api.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        private async Task<EntryDto> GetEntryDto(Entry entry)
+        private async Task<EntryDto> GetEntryDto(Entry entry, string userId)
         {
             var entryDto = _mapper.Map<Entry, EntryDto>(entry);
 
@@ -92,6 +102,7 @@ namespace Nanoblog.Api.Services
 
             entryDto.CommentsCount = comments.Count();
             entryDto.KarmaCount = await _karmaService.CountKarmaAsync(entry.Id);
+            entryDto.UserVote = await _karmaService.GetUserVoteAsync(userId, entry.Id);
 
             return entryDto;
         }

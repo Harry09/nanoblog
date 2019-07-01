@@ -24,7 +24,6 @@ namespace Nanoblog.Api.Services.Karma
             this.mapper = mapper;
         }
 
-
         public IEnumerable<KarmaDto> GetKarma(string itemId)
         {
             var karma = dbContext.CommentKarma
@@ -74,6 +73,18 @@ namespace Nanoblog.Api.Services.Karma
 
             dbContext.CommentKarma.Remove(karma);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<KarmaValue> GetUserVoteAsync(string authorId, string commentId)
+        {
+            var karma = await FindCommentKarmaAsync(authorId, commentId);
+
+            if (karma is null)
+            {
+                return KarmaValue.None;
+            }
+
+            return karma.Value;
         }
 
         private async Task<CommentKarma> FindCommentKarmaAsync(string authorId, string commentId)

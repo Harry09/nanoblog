@@ -19,5 +19,8 @@ namespace Nanoblog.Core.Data.Dto
         public int CommentsCount { get; set; }
 
         public int KarmaCount { get; set; }
+
+        // reaction of user to this entry
+        public KarmaValue UserVote { get; set; }
     }
 }

@@ -18,5 +18,7 @@ namespace Nanoblog.Api.Services.Karma
         IEnumerable<KarmaDto> GetKarma(string itemId);
 
         Task<int> CountKarmaAsync(string itemId);
+
+        Task<KarmaValue> GetUserVoteAsync(string authorId, string itemId);
     }
 }

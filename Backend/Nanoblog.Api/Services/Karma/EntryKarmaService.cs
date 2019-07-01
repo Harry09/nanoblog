@@ -75,6 +75,18 @@ namespace Nanoblog.Api.Services.Karma
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<KarmaValue> GetUserVoteAsync(string authorId, string itemId)
+        {
+            var karma = await FindEntryKarmaAsync(authorId, itemId);
+
+            if (karma is null)
+            {
+                return KarmaValue.None;
+            }
+
+            return karma.Value;
+        }
+
         private async Task<EntryKarma> FindEntryKarmaAsync(string authorId, string entryId)
         {
             return await dbContext.EntryKarma

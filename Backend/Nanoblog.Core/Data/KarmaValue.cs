@@ -9,6 +9,7 @@ namespace Nanoblog.Core.Data
     public enum KarmaValue
     {
         Plus = 1,
+        None = 0,
         Minus = -1
     }
 }

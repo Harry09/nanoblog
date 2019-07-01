@@ -26,7 +26,6 @@ namespace Nanoblog.Api.Controllers
 
         private readonly IEntryService _entryService;
 
-
         public EntriesController(AppDbContext context, IMapper mapper, IEntryService entryService)
         {
             _context = context;
@@ -38,7 +37,9 @@ namespace Nanoblog.Api.Controllers
         [HttpGet("newest")]
         public async Task<ActionResult<IEnumerable<EntryDto>>> GetNewestEntries([FromQuery] PagedQuery pagedQuery)
         {
-            var entries = await _entryService.GetNewestAsync();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var entries = await _entryService.GetNewestithKarmaActionAsync(userId);
 
             if (pagedQuery.LimitPerPage > 0)
             {
@@ -59,7 +60,9 @@ namespace Nanoblog.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            return await _entryService.GetAsync(id);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            return await _entryService.GetWithKarmaActionAsync(id, userId);
         }
 
         // POST: api/entries
