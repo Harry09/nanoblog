@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:nanoblog/api/api_base.dart';
 import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/api/response/comment_response.dart';
@@ -8,7 +7,7 @@ import 'package:nanoblog/model/jwt.dart';
 
 class CommentApi
 {
-  static Future<List<CommentResponse>> getComments(String entryId, {PagedQuery pagedQuery}) async
+  static Future<List<CommentResponse>> getComments(String entryId, {PagedQuery pagedQuery, Jwt jwtToken}) async
   {
     var url = "/comments/entry/$entryId";
 
@@ -17,7 +16,7 @@ class CommentApi
       url += "?${pagedQuery.getQuery()}";
     }
 
-    var result = await ApiBase.get(url);
+    var result = await ApiBase.get(url, jwtToken: jwtToken?.token);
 
     if (result.statusCode == 200)
     {
@@ -29,9 +28,9 @@ class CommentApi
     return null;
   }
 
-  static Future<CommentResponse> getComment(String id) async
+  static Future<CommentResponse> getComment(String id, {Jwt jwtToken}) async
   {
-    var result = await ApiBase.get("/comments/$id");
+    var result = await ApiBase.get("/comments/$id", jwtToken: jwtToken?.token);
 
     if (result.statusCode == 200)
     {

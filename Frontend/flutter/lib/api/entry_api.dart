@@ -16,7 +16,7 @@ class EntryApi
       url += "?${pagedQuery.getQuery()}";
     }
 
-    var result = await ApiBase.get(url, jwtToken: jwtToken.token);
+    var result = await ApiBase.get(url, jwtToken: jwtToken?.token);
 
     if (result.statusCode == 200)
     {
@@ -30,7 +30,7 @@ class EntryApi
 
   static Future<EntryResponse> getEntry(String id, {Jwt jwtToken}) async
   {
-    var result = await ApiBase.get("/entries/$id", jwtToken: jwtToken.token);
+    var result = await ApiBase.get("/entries/$id", jwtToken: jwtToken?.token);
 
     if (result.statusCode == 200)
     {
