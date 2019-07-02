@@ -9,14 +9,6 @@ class KarmaRepository
   KarmaRepository();
 
   // select entryId or commentId
-  Future<List<Karma>> getKarma({String entryId, String commentId}) async
-  {
-    var karma = await KarmaApi.getKarma(entryId: entryId, commentId: commentId);
-
-    return karma.map((i) => i.toKarma());
-  }
-
-  // select entryId or commentId
   Future<bool> upVote({String entryId, String commentId, @required Jwt jwtToken}) async
   {
     return await KarmaApi.upVote(entryId: entryId, commentId: commentId, jwtToken: jwtToken);

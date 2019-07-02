@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -24,20 +24,6 @@ namespace Nanoblog.Api.Controllers
         {
             this.entryKarmaService = entryKarmaService;
             this.commentKarmaService = commentKarmaService;
-        }
-
-        // GET: api/karma/entry/3
-        // or 
-        // GET: api/karma/comment/3
-        [HttpGet("{service}/{itemId}")]
-        public ActionResult<IEnumerable<KarmaDto>> GetEntryKarma(string service, string itemId)
-        {
-            var karmaService = GetKarmaService(service);
-
-            if (karmaService is null)
-                return NotFound();
-
-            return karmaService.GetKarma(itemId).ToList();
         }
 
         // GET: api/karma/entry/upvote/3 

@@ -18,25 +18,6 @@ enum _VoteAction
 class KarmaApi
 {
   // select entryId or commentId
-  static Future<List<KarmaResponse>> getKarma({String entryId, String commentId}) async
-  {
-    var tuple = _getServiceAndItemId(entryId: entryId, commentId: commentId);
-    var service = tuple.item1;
-    var itemId = tuple.item2;
-
-    var result = await ApiBase.get("/karma/$service/$itemId");
-
-    if (result.statusCode == 200)
-    {
-      var json = jsonDecode(result.body);
-
-      return (json as List).map((i) => KarmaResponse.fromJson(i)).toList();
-    }
-
-    return null;
-  }
-
-  // select entryId or commentId
   static Future<bool> upVote({String entryId, String commentId, @required Jwt jwtToken}) async
   {
     return await _vote(_VoteAction.UpVote, entryId: entryId, commentId: commentId, jwtToken: jwtToken);

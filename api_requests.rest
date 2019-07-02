@@ -96,9 +96,6 @@ Authorization: Bearer {{token}}
 ### -------------------- Karma --------------------
 
 ### -------- Entry --------
-### Get entry's karma
-GET {{serverAddress}}/api/karma/entry/{{entryId}}
-
 ### Upvote entry
 GET {{serverAddress}}/api/karma/entry/upvote/{{entryId}}
 Authorization: Bearer {{token}}
@@ -118,9 +115,6 @@ GET {{serverAddress}}/api/karma/entry/count/{{entryId}}
 GET {{serverAddress}}/api/karma/entry/?userId={{userId}}&itemId={{entryId}}
 
 ### -------- Comment --------
-### Get comment's karma
-GET {{serverAddress}}/api/karma/comment/{{commentId}}
-
 ### Upvote comment
 GET {{serverAddress}}/api/karma/comment/upvote/{{commentId}}
 Authorization: Bearer {{token}}
