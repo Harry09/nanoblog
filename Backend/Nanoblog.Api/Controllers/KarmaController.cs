@@ -29,7 +29,7 @@ namespace Nanoblog.Api.Controllers
         // GET: api/karma/entry/3
         // or 
         // GET: api/karma/comment/3
-        [Route("{service}/{itemId}")]
+        [HttpGet("{service}/{itemId}")]
         public ActionResult<IEnumerable<KarmaDto>> GetEntryKarma(string service, string itemId)
         {
             var karmaService = GetKarmaService(service);
@@ -43,7 +43,7 @@ namespace Nanoblog.Api.Controllers
         // GET: api/karma/entry/upvote/3 
         // or 
         // GET: api/karma/comment/upvote/3
-        [Route("{service}/upvote/{itemId}"), Authorize]
+        [HttpGet("{service}/upvote/{itemId}"), Authorize]
         public async Task<IActionResult> UpVoteEntry(string service, string itemId)
         {
             var karmaService = GetKarmaService(service);
@@ -61,7 +61,7 @@ namespace Nanoblog.Api.Controllers
         // GET: api/karma/entry/downvote/3 
         // or 
         // GET: api/karma/comment/downvote/3
-        [Route("{service}/downvote/{itemId}"), Authorize]
+        [HttpGet("{service}/downvote/{itemId}"), Authorize]
         public async Task<IActionResult> DownVoteEntry(string service, string itemId)
         {
             var karmaService = GetKarmaService(service);
@@ -92,6 +92,34 @@ namespace Nanoblog.Api.Controllers
             await karmaService.RemoveKarmaAsync(userId, itemId);
 
             return Ok();
+        }
+
+        // GET: api/karma/entry/count/3
+        // or
+        // GET: api/karma/comment/count/3
+        [HttpGet("{service}/count/{itemId}")]
+        public async Task<ActionResult<int>> CountKarma(string service, string itemId)
+        {
+            var karmaService = GetKarmaService(service);
+
+            if (karmaService is null)
+                return NotFound();
+
+            return await karmaService.CountKarmaAsync(itemId);
+        }
+
+        // GET: api/karma/entry/?userId=3&itemId=4
+        // or
+        // GET: api/karma/comment/?userId=3&itemId=4
+        [HttpGet("{service}")]
+        public async Task<ActionResult<KarmaValue>> GetUserVote(string service, [FromQuery] string userId, [FromQuery] string itemId)
+        {
+            var karmaService = GetKarmaService(service);
+
+            if (karmaService is null)
+                return NotFound();
+
+            return await karmaService.GetUserVoteAsync(userId, itemId);
         }
 
         private IKarmaService GetKarmaService(string service)

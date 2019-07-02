@@ -12,17 +12,7 @@ class KarmaResponse
   {
     id = json['id'];
     author = json['author'];
-
-    var karma = json['value'] as int;
-
-    if (karma >= 1)
-    {
-      karmaValue = KarmaValue.Plus;
-    }
-    else if (karma <= -1)
-    {
-      karmaValue = KarmaValue.Minus;
-    }
+    karmaValue = getKarmaValueFromInt(json['value'] as int);
   }
 
   Karma toKarma()

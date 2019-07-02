@@ -48,9 +48,11 @@ GET {{serverAddress}}/api/accounts/tokens/revoke/{{refreshToken}}
 ### -------------------- Entries --------------------
 ### Get entries
 GET {{serverAddress}}/api/entries/newest?currentPage=1&limitPerPage=3
+Authorization: Bearer {{token}}
 
 ### Get entry
 GET {{serverAddress}}/api/entries/{{entryId}}
+Authorization: Bearer {{token}}
 
 ### Add entry
 POST {{serverAddress}}/api/entries
@@ -69,9 +71,11 @@ Authorization: Bearer {{token}}
 ### -------------------- Comments --------------------
 ### Get comment
 GET {{serverAddress}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
 
 ### Get comments for entry
 GET {{serverAddress}}/api/comments/entry/{{entryId}}
+Authorization: Bearer {{token}}
 
 ### Add comment
 POST {{serverAddress}}/api/comments
@@ -107,6 +111,12 @@ Authorization: Bearer {{token}}
 DELETE {{serverAddress}}/api/karma/entry/remove/{{entryId}}
 Authorization: Bearer {{token}}
 
+### Count karma
+GET {{serverAddress}}/api/karma/entry/count/{{entryId}}
+
+### Get user vote
+GET {{serverAddress}}/api/karma/entry/?userId={{userId}}&itemId={{entryId}}
+
 ### -------- Comment --------
 ### Get comment's karma
 GET {{serverAddress}}/api/karma/comment/{{commentId}}
@@ -122,3 +132,9 @@ Authorization: Bearer {{token}}
 ### Remove comment
 DELETE {{serverAddress}}/api/karma/comment/remove/{{commentId}}
 Authorization: Bearer {{token}}
+
+### Count karma
+GET {{serverAddress}}/api/karma/comment/count/{{commentId}}
+
+### Get user vote
+GET {{serverAddress}}/api/karma/comment/?userId={{userId}}&itemId={{commentId}}

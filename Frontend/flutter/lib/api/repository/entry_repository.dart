@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/api/repository/account_repository.dart';
 import 'package:nanoblog/api/requests/paged_query.dart';
@@ -11,9 +12,9 @@ class EntryRepository
 
   EntryRepository(this._accountRepository);
 
-  Future<List<Entry>> getNewest({PagedQuery pagedQuery}) async
+  Future<List<Entry>> getNewest({PagedQuery pagedQuery, Jwt jwtToken}) async
   {
-    var response = await EntryApi.getNewest(pagedQuery: pagedQuery);
+    var response = await EntryApi.getNewest(pagedQuery: pagedQuery, jwtToken: jwtToken);
 
     if (response == null)
       return null;
@@ -30,9 +31,9 @@ class EntryRepository
     return result;
   }
 
-  Future<Entry> getEntry(String id) async
+  Future<Entry> getEntry(String id, {Jwt jwtToken}) async
   {
-    var result = await EntryApi.getEntry(id);
+    var result = await EntryApi.getEntry(id, jwtToken: jwtToken);
 
     if (result == null)
       return null;

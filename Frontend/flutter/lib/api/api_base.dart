@@ -42,7 +42,7 @@ class ApiBase
       _headers.addAll(headers);
     }
 
-    var result = await http.get(baseUrl + apiUrl, headers: headers);
+    var result = await http.get(baseUrl + apiUrl, headers: _headers);
 
     if (result.statusCode == 400)
     {
