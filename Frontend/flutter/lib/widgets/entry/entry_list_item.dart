@@ -128,10 +128,10 @@ class _EntryListItemState extends State<EntryListItem> {
                 child: FlatButton(
                   padding: EdgeInsets.all(0),
                   child: Icon(
-                    Icons.add, 
-                    color: _userVote == KarmaValue.Plus ? Colors.green[300] : Colors.black
+                    Icons.remove,
+                    color: _userVote == KarmaValue.Minus ? Colors.red : Colors.black
                   ),
-                  onPressed: () => _changeVote(KarmaValue.Plus),
+                  onPressed: () => _changeVote(KarmaValue.Minus),
                 ),
               ),
               Text(
@@ -146,12 +146,12 @@ class _EntryListItemState extends State<EntryListItem> {
                 child: FlatButton(
                   padding: EdgeInsets.all(0),
                   child: Icon(
-                    Icons.remove,
-                    color: _userVote == KarmaValue.Minus ? Colors.red : Colors.black
+                    Icons.add, 
+                    color: _userVote == KarmaValue.Plus ? Colors.green[300] : Colors.black
                   ),
-                  onPressed: () => _changeVote(KarmaValue.Minus),
+                  onPressed: () => _changeVote(KarmaValue.Plus),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -180,7 +180,7 @@ class _EntryListItemState extends State<EntryListItem> {
           title: Text("Delete entry"),
           onTap: () {
             Navigator.pop(context);
-            _deletePost(context);
+            _deleteEntry(context);
           }
         )
       ];
@@ -215,7 +215,7 @@ class _EntryListItemState extends State<EntryListItem> {
     );
   }
 
-  Future _deletePost(BuildContext context) async
+  Future _deleteEntry(BuildContext context) async
   {
     if (_model.jwtService.jwtToken == null)
       return;
