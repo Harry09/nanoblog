@@ -21,11 +21,28 @@ class ApiBase
     return apiUrl;
   }
 
-  static Future<http.Response> get(String apiUrl, {Map<String, String> headers}) async
+  static Future<http.Response> get(String apiUrl, {String jwtToken, Map<String, String> headers}) async
   {
     apiUrl = _fixApiUrl(apiUrl);
 
-    var result = await http.get(baseUrl + apiUrl, headers: headers);
+    var _headers = {
+      HttpHeaders.contentTypeHeader: "application/json",
+      HttpHeaders.acceptHeader: "application/json",
+    };
+
+    if (jwtToken != null)
+    {
+      _headers.addAll({
+        HttpHeaders.authorizationHeader: "Bearer $jwtToken"
+      });
+    }
+
+    if (headers != null)
+    {
+      _headers.addAll(headers);
+    }
+
+    var result = await http.get(baseUrl + apiUrl, headers: _headers);
 
     if (result.statusCode == 400)
     {
@@ -35,7 +52,7 @@ class ApiBase
     return result;
   }
 
-  static Future<http.Response> post(String apiUrl, {@required String jsonBody, String token, Map<String, String> headers}) async
+  static Future<http.Response> post(String apiUrl, {@required String jsonBody, String jwtToken, Map<String, String> headers}) async
   {
     apiUrl = _fixApiUrl(apiUrl);
 
@@ -44,10 +61,10 @@ class ApiBase
       HttpHeaders.acceptHeader: "application/json",
     };
 
-    if (token != null)
+    if (jwtToken != null)
     {
       _headers.addAll({
-        HttpHeaders.authorizationHeader: "Bearer $token"
+        HttpHeaders.authorizationHeader: "Bearer $jwtToken"
       });
     }
 
@@ -70,16 +87,16 @@ class ApiBase
     return result;
   }
 
-  static Future<http.Response> delete(String apiUrl, {String token, Map<String, String> headers}) async
+  static Future<http.Response> delete(String apiUrl, {String jwtToken, Map<String, String> headers}) async
   {
     apiUrl = _fixApiUrl(apiUrl);
 
     var _headers = Map<String, String>();
 
-    if (token != null)
+    if (jwtToken != null)
     {
       _headers.addAll({
-        HttpHeaders.authorizationHeader: "Bearer $token"
+        HttpHeaders.authorizationHeader: "Bearer $jwtToken"
       });
     }
 

@@ -34,14 +34,18 @@ namespace Nanoblog.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CommentDto>> GetComment(string id)
         {
-            return await _commentService.GetAsync(id);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            return await _commentService.GetWithKarmaActionAsync(id, userId);
         }
 
         // GET: api/comments/entry/5
         [HttpGet("entry/{entryId}")]
         public async Task<ActionResult<IEnumerable<CommentDto>>> GetComments(string entryId, [FromQuery] PagedQuery pagedQuery)
         {
-            var comments = await _commentService.GetCommentsAsync(entryId);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var comments = await _commentService.GetCommentsWithKarmaActionAsync(entryId, userId);
 
             if (pagedQuery.LimitPerPage > 0)
             {

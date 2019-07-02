@@ -16,6 +16,10 @@ namespace Nanoblog.Core.Data.Dto
 
         public string Text { get; set; }
 
-        public DateTime CreateTime { get; protected set; }
+        public DateTime CreateTime { get; set; }
+
+        public int KarmaCount { get; set; }
+
+        public KarmaValue UserVote { get; set; }
     }
 }

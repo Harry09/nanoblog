@@ -110,12 +110,15 @@ class _EntryDetailPageState extends State<EntryDetailPage>
       ),
     ];
 
+    await _model.jwtService.tryRefreshToken();
+
     var comments = await _model.commentRepository.getComments(
       _entry.id, 
       pagedQuery: PagedQuery(
         currentPage: 0,
         limitPerPage: 10
-      )
+      ),
+      jwtToken: _model.jwtService.jwtToken
     );
 
     if (comments.isEmpty)
@@ -162,12 +165,15 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 
     print("Loading more....");
 
+    await _model.jwtService.tryRefreshToken();
+
     var items = await _model.commentRepository.getComments(
       widget.entry.id, 
       pagedQuery: PagedQuery(
         currentPage: _loaderPage,
         limitPerPage: 10
-      )
+      ),
+      jwtToken: _model.jwtService.jwtToken
     );
 
     if (items == null || items.isEmpty)
@@ -189,7 +195,9 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 
   Future<void> _onRefresh() async
   {
-    var entry = await _model.entryRepository.getEntry(_entry.id);
+    _model.jwtService.tryRefreshToken();
+
+    var entry = await _model.entryRepository.getEntry(_entry.id, jwtToken: _model.jwtService.jwtToken);
 
     setState(() {
      _entry = entry; 

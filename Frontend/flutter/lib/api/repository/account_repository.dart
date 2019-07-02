@@ -1,4 +1,3 @@
-
 import 'package:nanoblog/api/account_api.dart';
 import 'package:nanoblog/api/response/jwt_response.dart';
 import 'package:nanoblog/model/jwt.dart';
@@ -34,13 +33,7 @@ class AccountRepository
     if (result == null)
       return null;
 
-    return User(
-      email: result.email, 
-      id: result.id,
-      joinTime: result.joinTime,
-      role: result.role,
-      userName: result.userName
-      );
+    return result.toUser();
   }
 
   Future<Jwt> refreshAccessToken(String refreshToken) async

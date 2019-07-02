@@ -10,7 +10,6 @@
 @commentId = xxx
 
 
-
 ### -------------------- Account --------------------
 
 ### Register
@@ -49,9 +48,11 @@ GET {{serverAddress}}/api/accounts/tokens/revoke/{{refreshToken}}
 ### -------------------- Entries --------------------
 ### Get entries
 GET {{serverAddress}}/api/entries/newest?currentPage=1&limitPerPage=3
+Authorization: Bearer {{token}}
 
 ### Get entry
 GET {{serverAddress}}/api/entries/{{entryId}}
+Authorization: Bearer {{token}}
 
 ### Add entry
 POST {{serverAddress}}/api/entries
@@ -70,9 +71,11 @@ Authorization: Bearer {{token}}
 ### -------------------- Comments --------------------
 ### Get comment
 GET {{serverAddress}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
 
 ### Get comments for entry
 GET {{serverAddress}}/api/comments/entry/{{entryId}}
+Authorization: Bearer {{token}}
 
 ### Add comment
 POST {{serverAddress}}/api/comments
@@ -89,3 +92,43 @@ DELETE {{serverAddress}}/api/comments/{{commentId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
+
+### -------------------- Karma --------------------
+
+### -------- Entry --------
+### Upvote entry
+GET {{serverAddress}}/api/karma/entry/upvote/{{entryId}}
+Authorization: Bearer {{token}}
+
+### Downvote entry
+GET {{serverAddress}}/api/karma/entry/downvote/{{entryId}}
+Authorization: Bearer {{token}}
+
+### Remove vote
+DELETE {{serverAddress}}/api/karma/entry/remove/{{entryId}}
+Authorization: Bearer {{token}}
+
+### Count karma
+GET {{serverAddress}}/api/karma/entry/count/{{entryId}}
+
+### Get user vote
+GET {{serverAddress}}/api/karma/entry/?userId={{userId}}&itemId={{entryId}}
+
+### -------- Comment --------
+### Upvote comment
+GET {{serverAddress}}/api/karma/comment/upvote/{{commentId}}
+Authorization: Bearer {{token}}
+
+### Downvote comment
+GET {{serverAddress}}/api/karma/comment/downvote/{{commentId}}
+Authorization: Bearer {{token}}
+
+### Remove comment
+DELETE {{serverAddress}}/api/karma/comment/remove/{{commentId}}
+Authorization: Bearer {{token}}
+
+### Count karma
+GET {{serverAddress}}/api/karma/comment/count/{{commentId}}
+
+### Get user vote
+GET {{serverAddress}}/api/karma/comment/?userId={{userId}}&itemId={{commentId}}

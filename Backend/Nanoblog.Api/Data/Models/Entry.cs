@@ -30,7 +30,7 @@ namespace Nanoblog.Api.Data.Models
             SetText(text);
         }
 
-        public void SetAuthor(User user)
+        private void SetAuthor(User user)
         {
             if (user is null)
             {

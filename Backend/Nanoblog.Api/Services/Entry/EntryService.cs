@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
+using Nanoblog.Api.Services.Karma;
 using Nanoblog.Core.Data.Dto;
 using Nanoblog.Core.Data.Exception;
 using System.Collections.Generic;
@@ -14,13 +15,54 @@ namespace Nanoblog.Api.Services
     {
         readonly AppDbContext _dbContext;
         readonly ICommentService _commentService;
+        readonly IKarmaService _karmaService;
         readonly IMapper _mapper;
 
-        public EntryService(AppDbContext appDbContext, ICommentService commentService, IMapper mapper)
+        public EntryService(AppDbContext appDbContext, ICommentService commentService, IEntryKarmaService karmaService, IMapper mapper)
         {
             _dbContext = appDbContext;
             _commentService = commentService;
             _mapper = mapper;
+            _karmaService = karmaService;
+        }
+
+        public async Task<EntryDto> GetAsync(string id)
+        {
+            return await GetWithKarmaActionAsync(id, null);
+        }
+
+        public async Task<EntryDto> GetWithKarmaActionAsync(string id, string userId)
+        {
+            var entry = await FindEntryAsync(id);
+
+            if (entry != null && entry.Deleted)
+            {
+                return null;
+            }
+
+            return await GetEntryDto(entry, userId);
+        }
+
+        public async Task<IEnumerable<EntryDto>> GetNewestAsync()
+        {
+            return await GetNewestithKarmaActionAsync(null);
+        }
+
+        public async Task<IEnumerable<EntryDto>> GetNewestithKarmaActionAsync(string userId)
+        {
+            var entries = _dbContext.Entries
+                            .Include(x => x.Author)
+                            .Where(x => x.Deleted == false)
+                            .OrderByDescending(x => x.CreateTime);
+
+            var entriesDto = new List<EntryDto>(entries.Count());
+
+            foreach (var entry in entries)
+            {
+                entriesDto.Add(await GetEntryDto(entry, userId));
+            }
+
+            return entriesDto;
         }
 
         public async Task<EntryDto> AddAsync(string text, string authorId)
@@ -32,34 +74,6 @@ namespace Nanoblog.Api.Services
             await _dbContext.SaveChangesAsync();
 
             return _mapper.Map<Entry, EntryDto>(entry);
-        }
-
-        public async Task<EntryDto> GetAsync(string id)
-        {
-            var entry = await FindEntryAsync(id);
-
-            if (entry != null && entry.Deleted)
-            {
-                return null;
-            }
-
-            return await GetEntryDto(entry);
-        }
-        public async Task<IEnumerable<EntryDto>> GetNewestAsync()
-        {
-            var entries = _dbContext.Entries
-                            .Include(x => x.Author)
-                            .Where(x => x.Deleted == false)
-                            .OrderByDescending(x => x.CreateTime);
-
-            var entriesDto = new List<EntryDto>(entries.Count());
-
-            foreach (var entry in entries)
-            {
-                entriesDto.Add(await GetEntryDto(entry));
-            }
-
-            return entriesDto;
         }
 
         public async Task RemoveAsync(string id)
@@ -80,13 +94,15 @@ namespace Nanoblog.Api.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        private async Task<EntryDto> GetEntryDto(Entry entry)
+        private async Task<EntryDto> GetEntryDto(Entry entry, string userId)
         {
             var entryDto = _mapper.Map<Entry, EntryDto>(entry);
 
             var comments = await _commentService.GetCommentsAsync(entry.Id);
 
             entryDto.CommentsCount = comments.Count();
+            entryDto.KarmaCount = await _karmaService.CountKarmaAsync(entry.Id);
+            entryDto.UserVote = await _karmaService.GetUserVoteAsync(userId, entry.Id);
 
             return entryDto;
         }

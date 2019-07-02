@@ -11,9 +11,9 @@ class CommentRepository
 
   CommentRepository(this._accountRepository);
 
-  Future<List<Comment>> getComments(String entryId, {PagedQuery pagedQuery}) async
+  Future<List<Comment>> getComments(String entryId, {PagedQuery pagedQuery, Jwt jwtToken}) async
   {
-    var comments = await CommentApi.getComments(entryId, pagedQuery: pagedQuery);
+    var comments = await CommentApi.getComments(entryId, pagedQuery: pagedQuery, jwtToken: jwtToken);
 
     if (comments == null)
       return null;
@@ -30,9 +30,9 @@ class CommentRepository
     return result;
   }
 
-  Future<Comment> getComment(String id) async
+  Future<Comment> getComment(String id, {Jwt jwtToken}) async
   {
-    var result = await CommentApi.getComment(id);
+    var result = await CommentApi.getComment(id, jwtToken: jwtToken);
 
     if (result == null)
       return null;
@@ -59,11 +59,6 @@ class CommentRepository
   {
     var user = await _accountRepository.getUser(comment.authorId);
 
-    return Comment(
-      id: comment.id,
-      author: user,
-      text: comment.text,
-      createTime: comment.createTime
-    );
+    return comment.toComment(user);
   }
 }

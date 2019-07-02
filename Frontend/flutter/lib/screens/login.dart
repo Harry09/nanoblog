@@ -10,6 +10,21 @@ class LoginPage extends StatefulWidget
   _LoginPageState createState() => _LoginPageState();
 }
 
+class Base
+{
+
+}
+
+class A extends Base
+{
+
+}
+
+class B extends Base
+{
+
+}
+
 class _LoginPageState extends State<LoginPage>
 {
   var email = TextEditingController();
@@ -26,6 +41,98 @@ class _LoginPageState extends State<LoginPage>
     email.dispose();
     password.dispose();
     super.dispose();
+  }
+
+    @override
+  Widget build(BuildContext context)
+  {
+    _model = ScopedModel.of(context, rebuildOnChange: true);
+
+    return Scaffold(
+      key: _scaffoldKey,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(20),
+            child: Text(
+              "Nanoblog",
+              style: TextStyle(
+                fontSize: 42
+              ),
+            )
+          ),
+          Form(
+            key: _formKey,
+            child:Theme(
+              data: ThemeData(
+                primarySwatch: Colors.teal,
+                inputDecorationTheme: InputDecorationTheme(
+                  labelStyle: TextStyle(
+                    color: Colors.teal,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                      color: Colors.teal,
+                      width: 2
+                    )
+                  ),
+                )
+              ), 
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      validator: _validEmail,
+                      controller: email,
+                      decoration: InputDecoration(
+                        labelText: "Enter Email",
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: TextFormField(
+                        validator: _validPassword,
+                        controller: password,
+                        decoration: InputDecoration(
+                          labelText: "Enter Password",
+                        ),
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          FlatButton(
+                            child: Text("Register"),
+                            onPressed: () => login(context),
+                            textColor: Colors.teal,
+                          ),
+                          MaterialButton(
+                            color: Colors.teal,
+                            textColor: Colors.white,
+                            onPressed: () => login(context),
+                            child: Text("Login"),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          )
+        ],
+      )
+    );
   }
 
   Future<bool> _toProcess() async
@@ -116,97 +223,5 @@ class _LoginPageState extends State<LoginPage>
       return "Enter password";
     else
       return null;
-  }
-
-  @override
-  Widget build(BuildContext context)
-  {
-    _model = ScopedModel.of(context, rebuildOnChange: true);
-
-    return Scaffold(
-      key: _scaffoldKey,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(20),
-            child: Text(
-              "Nanoblog",
-              style: TextStyle(
-                fontSize: 42
-              ),
-            )
-          ),
-          Form(
-            key: _formKey,
-            child:Theme(
-              data: ThemeData(
-                primarySwatch: Colors.teal,
-                inputDecorationTheme: InputDecorationTheme(
-                  labelStyle: TextStyle(
-                    color: Colors.teal,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      color: Colors.teal,
-                      width: 2
-                    )
-                  ),
-                )
-              ), 
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 40),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    TextFormField(
-                      validator: _validEmail,
-                      controller: email,
-                      decoration: InputDecoration(
-                        labelText: "Enter Email",
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: TextFormField(
-                        validator: _validPassword,
-                        controller: password,
-                        decoration: InputDecoration(
-                          labelText: "Enter Password",
-                        ),
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          FlatButton(
-                            child: Text("Register"),
-                            onPressed: () => login(context),
-                            textColor: Colors.teal,
-                          ),
-                          MaterialButton(
-                            color: Colors.teal,
-                            textColor: Colors.white,
-                            onPressed: () => login(context),
-                            child: Text("Login"),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          )
-        ],
-      )
-    );
   }
 }

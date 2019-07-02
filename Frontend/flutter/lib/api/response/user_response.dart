@@ -1,3 +1,5 @@
+import 'package:nanoblog/model/user.dart';
+
 class UserResponse
 {
   String id;
@@ -15,5 +17,16 @@ class UserResponse
     this.email = json["email"];
     this.role = json["role"];
     this.joinTime = json["joinTime"];
+  }
+
+  User toUser()
+  {
+    return User(
+      email: email, 
+      id: id,
+      joinTime: joinTime,
+      role: role,
+      userName: userName
+    );
   }
 }

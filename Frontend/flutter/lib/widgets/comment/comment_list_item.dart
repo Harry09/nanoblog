@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/comment.dart';
+import 'package:nanoblog/util/karma_value.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
 
@@ -19,6 +20,18 @@ class CommentListItem extends StatefulWidget
 class _CommentListItemState extends State<CommentListItem>
 {
   AppStateModel _model;
+
+  int _karmaCount;
+  KarmaValue _userVote;
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    _karmaCount = widget.comment.karmaCount;
+    _userVote = widget.comment.userVote;
+  }
 
   @override
   Widget build(BuildContext context)
@@ -86,17 +99,58 @@ class _CommentListItemState extends State<CommentListItem>
 
   Widget _buildFooter(BuildContext context)
   {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: SizedBox(
-        width: 28,
-        height: 28,
-        child: IconButton(
-          icon: Icon(Icons.more_vert, size: 24,),
-          padding: EdgeInsets.all(2),
-          onPressed: () => _showMoreOptions(context)
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        SizedBox(
+          width: 80,
+          height: 28,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: FlatButton(
+                  padding: EdgeInsets.all(0),
+                  child: Icon(
+                    Icons.remove,
+                    color: _userVote == KarmaValue.Minus ? Colors.red : Colors.black
+                  ),
+                  onPressed: () => _changeVote(KarmaValue.Minus),
+                ),
+              ),
+              Text(
+                _karmaCount.toString(),
+                style: TextStyle(
+                  fontSize: 16
+                ),
+              ),
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: FlatButton(
+                  padding: EdgeInsets.all(0),
+                  child: Icon(
+                    Icons.add, 
+                    color: _userVote == KarmaValue.Plus ? Colors.green[300] : Colors.black
+                  ),
+                  onPressed: () => _changeVote(KarmaValue.Plus),
+                ),
+              ),
+            ]
+          ),
         ),
-      ),
+        SizedBox(
+          width: 28,
+          height: 28,
+          child: FlatButton(
+            child: Icon(Icons.more_vert, size: 24,),
+            padding: EdgeInsets.all(2),
+            onPressed: () => _showMoreOptions(context)
+          ),
+        )
+      ]
     );
   }
 
@@ -112,7 +166,7 @@ class _CommentListItemState extends State<CommentListItem>
           title: Text("Delete comment"),
           onTap: () {
             Navigator.pop(context);
-            _deletePost(context);
+            _deleteComment(context);
           }
         )
       ];
@@ -147,7 +201,7 @@ class _CommentListItemState extends State<CommentListItem>
     );
   }
 
-  Future _deletePost(BuildContext context) async
+  Future _deleteComment(BuildContext context) async
   {
     if (_model.jwtService.jwtToken == null)
       return;
@@ -173,5 +227,42 @@ class _CommentListItemState extends State<CommentListItem>
           content: Text(ex.toString()),
         ));
     }
+  }
+
+  Future _changeVote(KarmaValue value) async
+  {
+    if (_userVote == value)
+    {
+      await _model.karmaRepository.removeVote(commentId: widget.comment.id, jwtToken: _model.jwtService.jwtToken);
+    }
+    else
+    {
+      switch (value)
+      {
+        case KarmaValue.Plus:
+          await _model.karmaRepository.upVote(commentId: widget.comment.id, jwtToken: _model.jwtService.jwtToken);
+          break;
+        case KarmaValue.Minus:
+          await _model.karmaRepository.downVote(commentId: widget.comment.id, jwtToken: _model.jwtService.jwtToken);
+          break;
+        case KarmaValue.None:
+          break;
+      }
+    }
+
+    await _refreshKarma();
+  }
+
+  Future _refreshKarma() async
+  {
+    await _model.jwtService.tryRefreshToken();
+
+    var karmaCount = await _model.karmaRepository.countVotes(commentId: widget.comment.id);
+    var userVote = await _model.karmaRepository.getUserVote(userId: _model.currentUser.id, commentId: widget.comment.id);
+
+    setState(() {
+      _karmaCount = karmaCount;
+      _userVote = userVote; 
+    });
   }
 } 

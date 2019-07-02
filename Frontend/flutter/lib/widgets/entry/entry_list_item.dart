@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
+import 'package:nanoblog/util/karma_value.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class EntryListItem extends StatefulWidget
@@ -20,6 +21,18 @@ class EntryListItem extends StatefulWidget
 class _EntryListItemState extends State<EntryListItem> {
 
   AppStateModel _model;
+
+  int _karmaCount;
+  KarmaValue _userVote;
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    _karmaCount = widget.entry.karmaCount;
+    _userVote = widget.entry.userVote;
+  }
 
   @override
   Widget build(BuildContext context)
@@ -104,6 +117,45 @@ class _EntryListItemState extends State<EntryListItem> {
           )
         ),
         SizedBox(
+          width: 80,
+          height: 28,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: FlatButton(
+                  padding: EdgeInsets.all(0),
+                  child: Icon(
+                    Icons.remove,
+                    color: _userVote == KarmaValue.Minus ? Colors.red : Colors.black
+                  ),
+                  onPressed: () => _changeVote(KarmaValue.Minus),
+                ),
+              ),
+              Text(
+                _karmaCount.toString(),
+                style: TextStyle(
+                  fontSize: 16
+                ),
+              ),
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: FlatButton(
+                  padding: EdgeInsets.all(0),
+                  child: Icon(
+                    Icons.add, 
+                    color: _userVote == KarmaValue.Plus ? Colors.green[300] : Colors.black
+                  ),
+                  onPressed: () => _changeVote(KarmaValue.Plus),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
           width: 28,
           height: 28,
           child: FlatButton(
@@ -128,7 +180,7 @@ class _EntryListItemState extends State<EntryListItem> {
           title: Text("Delete entry"),
           onTap: () {
             Navigator.pop(context);
-            _deletePost(context);
+            _deleteEntry(context);
           }
         )
       ];
@@ -163,7 +215,7 @@ class _EntryListItemState extends State<EntryListItem> {
     );
   }
 
-  Future _deletePost(BuildContext context) async
+  Future _deleteEntry(BuildContext context) async
   {
     if (_model.jwtService.jwtToken == null)
       return;
@@ -189,5 +241,42 @@ class _EntryListItemState extends State<EntryListItem> {
           content: Text(ex.toString()),
         ));
     }
+  }
+
+  Future _changeVote(KarmaValue value) async
+  {
+    if (_userVote == value)
+    {
+      await _model.karmaRepository.removeVote(entryId: widget.entry.id, jwtToken: _model.jwtService.jwtToken);
+    }
+    else
+    {
+      switch (value)
+      {
+        case KarmaValue.Plus:
+          await _model.karmaRepository.upVote(entryId: widget.entry.id, jwtToken: _model.jwtService.jwtToken);
+          break;
+        case KarmaValue.Minus:
+          await _model.karmaRepository.downVote(entryId: widget.entry.id, jwtToken: _model.jwtService.jwtToken);
+          break;
+        case KarmaValue.None:
+          break;
+      }
+    }
+
+    await _refreshKarma();
+  }
+
+  Future _refreshKarma() async
+  {
+    await _model.jwtService.tryRefreshToken();
+
+    var karmaCount = await _model.karmaRepository.countVotes(entryId: widget.entry.id);
+    var userVote = await _model.karmaRepository.getUserVote(userId: _model.currentUser.id, entryId: widget.entry.id);
+
+    setState(() {
+      _karmaCount = karmaCount;
+      _userVote = userVote; 
+    });
   }
 }

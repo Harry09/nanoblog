@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
+using Nanoblog.Api.Services.Karma;
 using Nanoblog.Core.Data.Dto;
 using Nanoblog.Core.Data.Exception;
 using System.Collections.Generic;
@@ -14,27 +15,21 @@ namespace Nanoblog.Api.Services
     {
         readonly AppDbContext _dbContext;
         readonly IMapper _mapper;
+        readonly IKarmaService _karmaService;
 
-        public CommentService(AppDbContext appDbContext, IMapper mapper)
+        public CommentService(AppDbContext appDbContext, ICommentKarmaService karmaService, IMapper mapper)
         {
             _dbContext = appDbContext;
             _mapper = mapper;
-        }
-
-        public async Task<CommentDto> AddAsync(string text, string authorId, string entryId)
-        {
-            var user = await _dbContext.Users.FindAsync(authorId);
-            var entry = await _dbContext.Entries.FindAsync(entryId);
-
-            var comment = new Comment(user, entry, text);
-
-            await _dbContext.Comments.AddAsync(comment);
-            await _dbContext.SaveChangesAsync();
-
-            return _mapper.Map<CommentDto>(comment);
+            _karmaService = karmaService;
         }
 
         public async Task<CommentDto> GetAsync(string id)
+        {
+            return await GetWithKarmaActionAsync(id, null);
+        }
+
+        public async Task<CommentDto> GetWithKarmaActionAsync(string id, string userId)
         {
             var comment = await FindCommentAsync(id);
 
@@ -43,10 +38,15 @@ namespace Nanoblog.Api.Services
                 return null;
             }
 
-            return _mapper.Map<Comment, CommentDto>(comment);
+            return await GetCommentDto(comment, userId);
         }
 
         public async Task<IEnumerable<CommentDto>> GetCommentsAsync(string entryId)
+        {
+            return await GetCommentsWithKarmaActionAsync(entryId, null);
+        }
+
+        public async Task<IEnumerable<CommentDto>> GetCommentsWithKarmaActionAsync(string entryId, string userId)
         {
             var entry = await _dbContext.Entries.FindAsync(entryId);
 
@@ -62,7 +62,27 @@ namespace Nanoblog.Api.Services
                 .Where(x => x.Deleted == false)
                 .OrderBy(x => x.CreateTime);
 
-            return _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
+            var commentsDto = new List<CommentDto>(comments.Count());
+
+            foreach (var comment in comments)
+            {
+                commentsDto.Add(await GetCommentDto(comment, userId));
+            }
+
+            return commentsDto;
+        }
+
+        public async Task<CommentDto> AddAsync(string text, string authorId, string entryId)
+        {
+            var user = await _dbContext.Users.FindAsync(authorId);
+            var entry = await _dbContext.Entries.FindAsync(entryId);
+
+            var comment = new Comment(user, entry, text);
+
+            await _dbContext.Comments.AddAsync(comment);
+            await _dbContext.SaveChangesAsync();
+
+            return _mapper.Map<CommentDto>(comment);
         }
 
         public async Task RemoveAsync(string id)
@@ -81,6 +101,16 @@ namespace Nanoblog.Api.Services
             comment.SetText(text);
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task<CommentDto> GetCommentDto(Comment comment, string userId)
+        {
+            var commentDto = _mapper.Map<Comment, CommentDto>(comment);
+
+            commentDto.KarmaCount = await _karmaService.CountKarmaAsync(commentDto.Id);
+            commentDto.UserVote = await _karmaService.GetUserVoteAsync(userId, commentDto.Id);
+
+            return commentDto;
         }
 
         private async Task<Comment> FindCommentAsync(string id)

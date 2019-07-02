@@ -7,7 +7,7 @@ import 'package:nanoblog/model/jwt.dart';
 
 class EntryApi 
 {
-  static Future<List<EntryResponse>> getNewest({PagedQuery pagedQuery}) async
+  static Future<List<EntryResponse>> getNewest({Jwt jwtToken, PagedQuery pagedQuery}) async
   {
     var url = "/entries/newest";
 
@@ -16,7 +16,7 @@ class EntryApi
       url += "?${pagedQuery.getQuery()}";
     }
 
-    var result = await ApiBase.get(url);
+    var result = await ApiBase.get(url, jwtToken: jwtToken?.token);
 
     if (result.statusCode == 200)
     {
@@ -28,9 +28,9 @@ class EntryApi
     return null;
   }
 
-  static Future<EntryResponse> getEntry(String id) async
+  static Future<EntryResponse> getEntry(String id, {Jwt jwtToken}) async
   {
-    var result = await ApiBase.get("/entries/$id");
+    var result = await ApiBase.get("/entries/$id", jwtToken: jwtToken?.token);
 
     if (result.statusCode == 200)
     {
@@ -51,7 +51,7 @@ class EntryApi
     var result = await ApiBase.post(
       "/entries",
       jsonBody: jsonBody,
-      token: jwtToken.token
+      jwtToken: jwtToken.token
       );
 
     if (result.statusCode == 200)
@@ -66,7 +66,7 @@ class EntryApi
 
   static Future<bool> deleteEntry(String id, Jwt jwtToken) async
   {
-    var result = await ApiBase.delete("/entries/$id", token: jwtToken.token);
+    var result = await ApiBase.delete("/entries/$id", jwtToken: jwtToken.token);
 
     return result.statusCode == 200;
   }    
