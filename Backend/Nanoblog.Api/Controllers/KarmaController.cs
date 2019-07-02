@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -44,7 +44,7 @@ namespace Nanoblog.Api.Controllers
         // or 
         // GET: api/karma/comment/upvote/3
         [HttpGet("{service}/upvote/{itemId}"), Authorize]
-        public async Task<IActionResult> UpVoteEntry(string service, string itemId)
+        public async Task<IActionResult> UpVote(string service, string itemId)
         {
             var karmaService = GetKarmaService(service);
 
@@ -62,7 +62,7 @@ namespace Nanoblog.Api.Controllers
         // or 
         // GET: api/karma/comment/downvote/3
         [HttpGet("{service}/downvote/{itemId}"), Authorize]
-        public async Task<IActionResult> DownVoteEntry(string service, string itemId)
+        public async Task<IActionResult> DownVote(string service, string itemId)
         {
             var karmaService = GetKarmaService(service);
 
@@ -80,7 +80,7 @@ namespace Nanoblog.Api.Controllers
         // or 
         // DELETE: api/karma/comment/remove/3
         [HttpDelete("{service}/remove/{itemId}"), Authorize]
-        public async Task<IActionResult> RemoveVoteEntry(string service, string itemId)
+        public async Task<IActionResult> RemoveVote(string service, string itemId)
         {
             var karmaService = GetKarmaService(service);
 
