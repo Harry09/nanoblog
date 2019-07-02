@@ -189,7 +189,9 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 
   Future<void> _onRefresh() async
   {
-    var entry = await _model.entryRepository.getEntry(_entry.id);
+    _model.jwtService.tryRefreshToken();
+
+    var entry = await _model.entryRepository.getEntry(_entry.id, jwtToken: _model.jwtService.jwtToken);
 
     setState(() {
      _entry = entry; 

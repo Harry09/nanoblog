@@ -71,10 +71,15 @@ class HomePageState extends State<HomePage>
   {
     _loaderPage = 0;
 
-    return await _model.entryRepository.getNewest(pagedQuery: PagedQuery(
-      currentPage: 0,
-      limitPerPage: 10
-    ));
+    await _model.jwtService.tryRefreshToken();
+
+    return await _model.entryRepository.getNewest(
+      pagedQuery: PagedQuery(
+        currentPage: 0,
+        limitPerPage: 10
+      ),
+      jwtToken: _model.jwtService.jwtToken
+      );
   }
 
   Future<List<Entry>> _entryListExtraLoader() async
@@ -86,7 +91,9 @@ class HomePageState extends State<HomePage>
       limitPerPage: 10 
     );
 
-    var items = await _model.entryRepository.getNewest(pagedQuery: pagedQuery);
+    await _model.jwtService.tryRefreshToken();
+
+    var items = await _model.entryRepository.getNewest(pagedQuery: pagedQuery, jwtToken: _model.jwtService.jwtToken);
 
     if (items == null || items.isEmpty)
       return null;
