@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Nanoblog.Core;
+using Nanoblog.Wpf.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +20,19 @@ namespace Nanoblog.Wpf
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IMainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Content = new LoginPage();
+        }
+
+        public void SetPageData(object content, object dataContext)
+        {
+            Content = content;
+            DataContext = dataContext;
         }
     }
 }
