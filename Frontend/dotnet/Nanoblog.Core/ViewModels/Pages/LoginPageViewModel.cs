@@ -11,17 +11,15 @@ namespace Nanoblog.Core.ViewModels.Pages
     {
         public ICommand LoginCommand { get; set; }
 
-        IViewNavigator _viewNavigator;
 
-        public LoginPageViewModel(IViewNavigator viewNavigator)
+        public LoginPageViewModel()
         {
             LoginCommand = new Command(Login);
-            _viewNavigator = viewNavigator;
         }
 
         void Login(object obj)
         {
-            _viewNavigator.NavigateToEntryListPage();
+            PageNavigator.Navigate<EntryListPageViewModel>();
         }
     }
 }

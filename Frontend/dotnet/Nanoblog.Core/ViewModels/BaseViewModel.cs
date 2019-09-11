@@ -10,7 +10,16 @@ namespace Nanoblog.Core.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        private IPageNavigator _pageNavigator;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        protected IPageNavigator PageNavigator { get => _pageNavigator; }
+
+        public void SetPageNavigator(IPageNavigator pageNavigator)
+        {
+            _pageNavigator = pageNavigator;
+        }
 
         public void Notify([CallerMemberName] string propertyName = default)
         {

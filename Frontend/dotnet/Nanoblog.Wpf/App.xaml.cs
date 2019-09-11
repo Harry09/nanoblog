@@ -1,4 +1,7 @@
 ﻿using Autofac;
+using Nanoblog.Core;
+using Nanoblog.Core.ViewModels.Pages;
+using Nanoblog.Wpf.Pages;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,7 +19,7 @@ namespace Nanoblog.Wpf
     {
         Core.App _app;
         MainWindow _mainWindow;
-        ViewNavigator _viewNavigator;
+        IPageNavigator _pageNavigator;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -24,10 +27,12 @@ namespace Nanoblog.Wpf
 
             // TODO: Replace with Autofac's Container
             _mainWindow = new MainWindow();
-            _viewNavigator = new ViewNavigator();
-            _viewNavigator.Initialize(_mainWindow);
+            _pageNavigator = new PageNavigator(_mainWindow);
 
-            _app = new Core.App(_mainWindow, _viewNavigator);
+            _pageNavigator.Register<LoginPage, LoginPageViewModel>();
+            _pageNavigator.Register<EntryListPage, EntryListPageViewModel>();
+
+            _app = new Core.App(_mainWindow, _pageNavigator);
 
             _mainWindow.ShowDialog();
         }
