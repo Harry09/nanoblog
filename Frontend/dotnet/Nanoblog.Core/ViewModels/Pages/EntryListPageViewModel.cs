@@ -23,7 +23,7 @@ namespace Nanoblog.Core.ViewModels.Pages
         {
             Name = name.ToString();
 
-            BackCommand = new Command((_) => PageNavigator.Pop());
+            BackCommand = new RelayCommand((_) => PageNavigator.Pop());
         }
     }
 }

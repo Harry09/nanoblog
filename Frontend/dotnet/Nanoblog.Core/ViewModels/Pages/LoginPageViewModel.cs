@@ -14,7 +14,7 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         public LoginPageViewModel()
         {
-            LoginCommand = new Command(Login);
+            LoginCommand = new RelayCommand(Login);
         }
 
         void Login(object obj)

@@ -33,7 +33,7 @@ namespace Nanoblog.Core.Navigation
 
         public void Navigate<TPageViewModel, TParameter>(TParameter parameter)
         {
-            var pageData = CreatePageData(typeof(TPageViewModel, parameter));
+            var pageData = CreatePageData(typeof(TPageViewModel), parameter);
 
             SetPageData(pageData, false);
         }
