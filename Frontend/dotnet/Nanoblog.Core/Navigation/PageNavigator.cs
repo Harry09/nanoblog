@@ -1,9 +1,6 @@
-﻿using Nanoblog.Core.Navigation;
-using Nanoblog.Core.ViewModels;
+﻿using Nanoblog.Core.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nanoblog.Core.Navigation
 {
@@ -29,40 +26,30 @@ namespace Nanoblog.Core.Navigation
 
         public void Navigate<TPageViewModel>()
         {
-            if (TryCreatePage(typeof(TPageViewModel), out PageData output))
-            {
-                CurrentPage = output;
-                _mainWindow.SetPageData(output.Page, output.ViewModel);
-            }
+            var pageData = CreatePageData(typeof(TPageViewModel));
+
+            SetPageData(pageData, false);
         }
 
         public void Navigate<TPageViewModel, TParameter>(TParameter parameter)
         {
-            if (TryCreatePage(typeof(TPageViewModel), parameter, out PageData output))
-            {
-                CurrentPage = output;
-                _mainWindow.SetPageData(output.Page, output.ViewModel);
-            }
+            var pageData = CreatePageData(typeof(TPageViewModel, parameter));
+
+            SetPageData(pageData, false);
         }
 
         public void Push<TPageViewModel>()
         {
-            if (TryCreatePage(typeof(TPageViewModel), out PageData output))
-            {
-                _pageStack.Push(CurrentPage);
-                CurrentPage = output;
-                _mainWindow.SetPageData(output.Page, output.ViewModel);
-            }
+            var pageData = CreatePageData(typeof(TPageViewModel));
+
+            SetPageData(pageData, true);
         }
 
         public void Push<TPageViewModel, TParameter>(TParameter parameter)
         {
-            if (TryCreatePage(typeof(TPageViewModel), parameter, out PageData output))
-            {
-                _pageStack.Push(CurrentPage);
-                CurrentPage = output;
-                _mainWindow.SetPageData(output.Page, output.ViewModel);
-            }
+            var pageData = CreatePageData(typeof(TPageViewModel), parameter);
+
+            SetPageData(pageData, true);
         }
 
         public void Pop()
@@ -76,36 +63,35 @@ namespace Nanoblog.Core.Navigation
             }
         }
 
-        bool TryCreatePage(Type viewModelType, out PageData output)
+        void SetPageData(PageData pageData, bool pushStack)
         {
-            if (_types.TryGetValue(viewModelType, out Type pageType))
-            {
-                var page = Activator.CreateInstance(pageType);
-                var pageViewModel = (BaseViewModel)Activator.CreateInstance(viewModelType);
-                pageViewModel.SetPageNavigator(this);
+            if (pushStack)
+                _pageStack.Push(CurrentPage);
 
-                output = new PageData { Page = page, ViewModel = pageViewModel };
-                return true;
-            }
-
-            output = null;
-            return false;
+            CurrentPage = pageData;
+            _mainWindow.SetPageData(pageData.Page, pageData.ViewModel);
         }
 
-        bool TryCreatePage<TParameter>(Type viewModelType, TParameter parameter, out PageData output)
+        PageData CreatePageData(Type viewModelType)
         {
-            if (_types.TryGetValue(viewModelType, out Type pageType))
-            {
-                var page = Activator.CreateInstance(pageType);
-                var pageViewModel = (BaseViewModel)Activator.CreateInstance(viewModelType, parameter);
-                pageViewModel.SetPageNavigator(this);
+            Type pageType = _types[viewModelType];
 
-                output = new PageData { Page = page, ViewModel = pageViewModel };
-                return true;
-            }
+            var page = Activator.CreateInstance(pageType);
+            var pageViewModel = (BaseViewModel)Activator.CreateInstance(viewModelType);
+            pageViewModel.SetPageNavigator(this);
 
-            output = null;
-            return false;
+            return new PageData { Page = page, ViewModel = pageViewModel };
+        }
+
+        PageData CreatePageData<TParameter>(Type viewModelType, TParameter parameter)
+        {
+            Type pageType = _types[viewModelType];
+
+            var page = Activator.CreateInstance(pageType);
+            var pageViewModel = (BaseViewModel)Activator.CreateInstance(viewModelType, parameter);
+            pageViewModel.SetPageNavigator(this);
+
+            return new PageData { Page = page, ViewModel = pageViewModel };
         }
     }
 }
