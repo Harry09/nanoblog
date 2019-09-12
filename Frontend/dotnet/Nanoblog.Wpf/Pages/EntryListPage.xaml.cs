@@ -16,7 +16,7 @@ namespace Nanoblog.Wpf.Pages
     /// <summary>
     /// Interaction logic for EntryListPage.xaml
     /// </summary>
-    public partial class EntryListPage : Page
+    public partial class EntryListPage : UserControl
     {
         public EntryListPage()
         {
