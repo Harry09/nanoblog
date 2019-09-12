@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core
+namespace Nanoblog.Core.Navigation
 {
     public interface IPageNavigator
     {
@@ -19,5 +19,7 @@ namespace Nanoblog.Core
         void Push<TPageViewModel>();
 
         void Push<TPageViewModel, TParameter>(TParameter parameter);
+
+        void Pop();
     }
 }

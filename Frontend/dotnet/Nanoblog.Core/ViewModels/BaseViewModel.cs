@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nanoblog.Core.Navigation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,15 +11,13 @@ namespace Nanoblog.Core.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        private IPageNavigator _pageNavigator;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected IPageNavigator PageNavigator { get => _pageNavigator; }
+        protected IPageNavigator PageNavigator { get; private set; }
 
         public void SetPageNavigator(IPageNavigator pageNavigator)
         {
-            _pageNavigator = pageNavigator;
+            PageNavigator = pageNavigator;
         }
 
         public void Notify([CallerMemberName] string propertyName = default)

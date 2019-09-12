@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Nanoblog.Core;
+using Nanoblog.Core.Navigation;
 using Nanoblog.Core.ViewModels.Pages;
 using Nanoblog.Wpf.Pages;
 using System;

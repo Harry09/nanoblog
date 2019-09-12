@@ -9,7 +9,7 @@ namespace Nanoblog.Core.ViewModels.Pages
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        public ICommand LoginCommand { get; set; }
+        public ICommand LoginCommand { get; }
 
 
         public LoginPageViewModel()
@@ -19,7 +19,7 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         void Login(object obj)
         {
-            PageNavigator.Navigate<EntryListPageViewModel>();
+            PageNavigator.Push<EntryListPageViewModel, int>(1234);
         }
     }
 }

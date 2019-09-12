@@ -1,4 +1,5 @@
-﻿using Nanoblog.Core.ViewModels.Pages;
+﻿using Nanoblog.Core.Navigation;
+using Nanoblog.Core.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,15 @@ namespace Nanoblog.Core
     {
         IMainWindow _mainWindow;
 
-        public IPageNavigator ViewNavigator { get; set; }
+        public IPageNavigator PageNavigator { get; set; }
 
-        public App(IMainWindow mainWindow, IPageNavigator viewNavigator)
+        public App(IMainWindow mainWindow, IPageNavigator pageNavigator)
         {
             _mainWindow = mainWindow;
 
-            ViewNavigator = viewNavigator;
+            PageNavigator = pageNavigator;
 
-
-            ViewNavigator.Navigate<LoginPageViewModel>();
-            //ViewNavigator = new ViewNavigator()
+            PageNavigator.Navigate<LoginPageViewModel>();
         }
     }
 }
