@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <Label Content="Nanoblog" FontSize="40" Margin="0 0 0 16" />
+            <TextBlock Text="Nanoblog" FontSize="40" Margin="0 0 0 16" />
             
             <StackPanel>
                 <Grid Margin="0 0 0 0">
@@ -37,11 +37,11 @@
                     </Grid.RowDefinitions>
 
                     <!--email input-->
-                    <Label Grid.Column="0" Grid.Row="0" Content="Email:" />
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Email:" />
                     <TextBox Grid.Column="1" Grid.Row="0" />
 
                     <!--password input-->
-                    <Label Grid.Column="0" Grid.Row="2" Content="Password:" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Password:" />
                     <PasswordBox Grid.Column="1" Grid.Row="2" />
                 </Grid>
                 
