@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -12,6 +12,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nanoblog.Core\Nanoblog.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controls\CommentList\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\comment.png" />
   </ItemGroup>
 
 </Project>

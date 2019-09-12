@@ -25,14 +25,12 @@ namespace Nanoblog.Wpf
         public MainWindow()
         {
             InitializeComponent();
-
-            this.Content = new LoginPage();
         }
 
         public void SetPageData(object content, object dataContext)
         {
-            Content = content;
-            DataContext = dataContext;
+           PageHost.Content = content;
+           PageHost.DataContext = dataContext;
         }
     }
 }
