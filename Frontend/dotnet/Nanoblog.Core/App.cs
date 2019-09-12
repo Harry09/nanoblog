@@ -20,7 +20,8 @@ namespace Nanoblog.Core
 
             PageNavigator = pageNavigator;
 
-            PageNavigator.Navigate<LoginPageViewModel>();
+            //PageNavigator.Navigate<LoginPageViewModel>();
+            PageNavigator.Navigate<EntryListPageViewModel>();
         }
     }
 }

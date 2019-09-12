@@ -9,21 +9,9 @@ namespace Nanoblog.Core.ViewModels.Pages
 {
     public class EntryListPageViewModel : BaseViewModel
     {
-        private string _name;
 
-        public string Name
+        public EntryListPageViewModel()
         {
-            get => _name;
-            set => Update(ref _name, value);
-        }
-
-        public ICommand BackCommand { get; }
-
-        public EntryListPageViewModel(int name)
-        {
-            Name = name.ToString();
-
-            BackCommand = new RelayCommand((_) => PageNavigator.Pop());
         }
     }
 }

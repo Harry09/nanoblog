@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="Nanoblog.Wpf.Controls.EntryList.EntryListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Nanoblog.Wpf.Controls.EntryList"
+             xmlns:design="clr-namespace:Nanoblog.Core.ViewModels.Controls.EntryList.Design;assembly=Nanoblog.Core"
+             mc:Ignorable="d">
+    <Grid Background="#EEEEEE" d:DataContext="{x:Static design:EntryListDesignModel.Instance}" Height="217.84" Width="353.46">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding List}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:EntryListItemControl Margin="0 0 0 5" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
