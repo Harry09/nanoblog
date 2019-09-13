@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nanoblog.Wpf.Controls.EntryList"
              xmlns:design="clr-namespace:Nanoblog.Core.ViewModels.Controls.EntryList.Design;assembly=Nanoblog.Core"
-             mc:Ignorable="d">
+             mc:Ignorable="d" d:DataContext="{x:Static design:EntryListItemDesignModel.Instance}">
 
-    <StackPanel Background="White" d:DataContext="{x:Static design:EntryListItemDesignModel.Instance}">
+    <StackPanel Background="White" >
         <!--header-->
         <Grid Margin="5 10 5 10">
             <Grid.ColumnDefinitions>
@@ -33,10 +33,13 @@
 
             <Button 
                 Grid.Column="2"
-                Width="28" Height="28"
+                Height="28"
                 Background="Transparent"
                 BorderThickness="0">
-                <Image Source="/Images/comment.png" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding CommentsCount}" Margin="0 0 6 0" FontSize="18" />
+                    <Image Source="/Images/comment.png" />
+                </StackPanel>
             </Button>
         </Grid>
     </StackPanel>

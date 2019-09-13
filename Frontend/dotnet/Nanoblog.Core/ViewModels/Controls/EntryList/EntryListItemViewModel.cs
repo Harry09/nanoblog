@@ -11,6 +11,7 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
         private string _userName;
         private string _date;
         private string _text;
+        private int _commentsCount;
 
         public string UserName
         {
@@ -28,6 +29,12 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
         {
             get => _text;
             set => Update(ref _text, value);
+        }
+
+        public int CommentsCount
+        {
+            get => _commentsCount;
+            set => Update(ref _commentsCount, value);
         }
     }
 }

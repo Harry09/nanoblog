@@ -15,6 +15,7 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList.Design
             UserName = "User";
             Date = "12-07-2019 16:53:10";
             Text = "What a nice application you have here";
+            CommentsCount = 32;
         }
     }
 }

@@ -18,13 +18,15 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList.Design
                 {
                     UserName = "Obi",
                     Date = "Today",
-                    Text = "Hello there"
+                    Text = "Hello there",
+                    CommentsCount = 32
                 },
                 new EntryListItemDesignModel()
                 {
                     UserName = "User",
                     Date = "12 hours ago",
-                    Text = "What a nice application"
+                    Text = "What a nice application",
+                    CommentsCount = 12
                 }
             };
         }

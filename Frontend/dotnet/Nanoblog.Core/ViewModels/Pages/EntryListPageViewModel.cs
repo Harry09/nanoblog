@@ -1,4 +1,5 @@
 ﻿using Nanoblog.Core.ViewModels.Controls.EntryList;
+using System.Collections.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,38 +24,42 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         public EntryListPageViewModel()
         {
-            LoadList();
+            LoadData();
         }
 
-        public void LoadList()
+        public void LoadData()
         {
-            EntryListVM.List = new ObservableCollection<EntryListItemViewModel>
+            EntryListVM.LoadData(new EntryListItemViewModel[]
             {
                 new EntryListItemViewModel
                 {
                     UserName = "Obi",
                     Date = "Today",
-                    Text = "Hello there"
+                    Text = "Hello there",
+                    CommentsCount = 12
                 },
                 new EntryListItemViewModel
                 {
                     UserName = "User",
                     Date = "12 hours ago",
-                    Text = "What a nice application"
+                    Text = "What a nice application",
+                    CommentsCount = 54
                 },
                 new EntryListItemViewModel
                 {
                     UserName = "Obi",
                     Date = "Today",
-                    Text = "Hello there"
+                    Text = "Hello there",
+                    CommentsCount = 321
                 },
                 new EntryListItemViewModel
                 {
                     UserName = "User",
                     Date = "12 hours ago",
-                    Text = "What a nice application"
+                    Text = "What a nice application",
+                    CommentsCount = 2
                 }
-            };
+            });
         }
     }
 }

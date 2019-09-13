@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nanoblog.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -18,5 +19,14 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
             set => Update(ref _list, value);
         }
 
+        public EntryListViewModel()
+        {
+
+        }
+
+        public void LoadData(IEnumerable<EntryListItemViewModel> data)
+        {
+            List = data.ToObservable();
+        }
     }
 }
