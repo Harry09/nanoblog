@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Nanoblog.Wpf.Controls.EntryList"
              xmlns:design="clr-namespace:Nanoblog.Core.ViewModels.Controls.EntryList.Design;assembly=Nanoblog.Core"
              mc:Ignorable="d">
-    <Grid Background="#EEEEEE" d:DataContext="{x:Static design:EntryListDesignModel.Instance}" Height="217.84" Width="353.46">
+    <Grid Background="#EEEEEE" d:DataContext="{x:Static design:EntryListDesignModel.Instance}">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding List}">
                 <ItemsControl.ItemTemplate>
