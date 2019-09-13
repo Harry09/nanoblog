@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Nanoblog.Common\Nanoblog.Common.csproj" />
-    <ProjectReference Include="..\Nanoblog.Core\Nanoblog.Core.csproj" />
   </ItemGroup>
 
 </Project>
