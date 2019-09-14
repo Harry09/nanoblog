@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Nanoblog.Core.Navigation;
+using Nanoblog.Core.ViewModels.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Nanoblog.Core.ViewModels.Controls.EntryList
 {
@@ -35,6 +38,18 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
         {
             get => _commentsCount;
             set => Update(ref _commentsCount, value);
+        }
+
+        public ICommand LoadDetailCommand { get; set; }
+
+        public EntryListItemViewModel()
+        {
+            LoadDetailCommand = new RelayCommand(LoadDetail);
+        }
+
+        void LoadDetail(object _)
+        {
+            PageNavigator.Instance.Push<EntryDetailPageViewModel, EntryListItemViewModel>(this);
         }
     }
 }

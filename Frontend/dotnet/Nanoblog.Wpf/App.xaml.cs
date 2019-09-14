@@ -19,7 +19,6 @@ namespace Nanoblog.Wpf
     {
         Core.App _app;
         MainWindow _mainWindow;
-        IPageNavigator _pageNavigator;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -27,12 +26,15 @@ namespace Nanoblog.Wpf
 
             // TODO: Replace with Autofac's Container
             _mainWindow = new MainWindow();
-            _pageNavigator = new PageNavigator(_mainWindow);
 
-            _pageNavigator.Register<LoginPage, LoginPageViewModel>();
-            _pageNavigator.Register<EntryListPage, EntryListPageViewModel>();
+            var pageNavigator = PageNavigator.Instance;
+            pageNavigator.SetMainWindow(_mainWindow);
 
-            _app = new Core.App(_mainWindow, _pageNavigator);
+            pageNavigator.Register<LoginPage, LoginPageViewModel>();
+            pageNavigator.Register<EntryListPage, EntryListPageViewModel>();
+            pageNavigator.Register<EntryDetailPage, EntryDetailPageViewModel>();
+
+            _app = new Core.App(_mainWindow, pageNavigator);
 
             _mainWindow.ShowDialog();
         }
