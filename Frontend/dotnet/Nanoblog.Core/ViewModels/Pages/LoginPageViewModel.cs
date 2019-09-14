@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nanoblog.Core.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         void Login(object obj)
         {
-            PageNavigator.Push<EntryListPageViewModel, int>(1234);
+            PageNavigator.Instance.Push<EntryListPageViewModel, int>(1234);
         }
     }
 }

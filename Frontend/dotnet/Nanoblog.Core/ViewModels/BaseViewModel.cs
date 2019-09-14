@@ -13,13 +13,6 @@ namespace Nanoblog.Core.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected IPageNavigator PageNavigator { get; private set; }
-
-        public void SetPageNavigator(IPageNavigator pageNavigator)
-        {
-            PageNavigator = pageNavigator;
-        }
-
         public void Notify([CallerMemberName] string propertyName = default)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

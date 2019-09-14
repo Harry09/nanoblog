@@ -6,6 +6,8 @@ namespace Nanoblog.Core.Navigation
 {
     public class PageNavigator : IPageNavigator
     {
+        static PageNavigator _instance;
+
         Dictionary<Type, Type> _types = new Dictionary<Type, Type>();
 
         IMainWindow _mainWindow;
@@ -14,7 +16,20 @@ namespace Nanoblog.Core.Navigation
 
         public PageData CurrentPage { get; set; }
 
-        public PageNavigator(IMainWindow mainWindow)
+        static public PageNavigator Instance
+        {
+            get
+            {
+                if (_instance is null)
+                {
+                    _instance = new PageNavigator();
+                }
+
+                return _instance;
+            }
+        }
+
+        public void SetMainWindow(IMainWindow mainWindow)
         {
             _mainWindow = mainWindow;
         }
@@ -78,7 +93,6 @@ namespace Nanoblog.Core.Navigation
 
             var page = Activator.CreateInstance(pageType);
             var pageViewModel = (BaseViewModel)Activator.CreateInstance(viewModelType);
-            pageViewModel.SetPageNavigator(this);
 
             return new PageData { Page = page, ViewModel = pageViewModel };
         }
@@ -89,7 +103,6 @@ namespace Nanoblog.Core.Navigation
 
             var page = Activator.CreateInstance(pageType);
             var pageViewModel = (BaseViewModel)Activator.CreateInstance(viewModelType, parameter);
-            pageViewModel.SetPageNavigator(this);
 
             return new PageData { Page = page, ViewModel = pageViewModel };
         }
