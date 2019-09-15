@@ -20,7 +20,7 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         void Login(object obj)
         {
-            PageNavigator.Instance.Push<EntryListPageViewModel, int>(1234);
+            PageNavigator.Instance.Navigate<EntryListPageViewModel>();
         }
     }
 }
