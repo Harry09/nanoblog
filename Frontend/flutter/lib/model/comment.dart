@@ -1,10 +1,10 @@
-import 'package:nanoblog/model/user.dart';
+import 'package:nanoblog/model/author.dart';
 import 'package:nanoblog/util/karma_value.dart';
 
 class Comment
 {
   String id;
-  User author;
+  Author author;
   String text;
   String createTime;
   int karmaCount;

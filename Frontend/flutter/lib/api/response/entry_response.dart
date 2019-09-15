@@ -1,23 +1,23 @@
+import 'package:nanoblog/api/response/author_response.dart';
 import 'package:nanoblog/model/entry.dart';
-import 'package:nanoblog/model/user.dart';
 import 'package:nanoblog/util/karma_value.dart';
 
 class EntryResponse
 {
   String id;
-  String authorId;
+  AuthorResponse author;
   String text;
   String createTime;
   int commentsCount;
   int karmaCount;
   KarmaValue userVote;
 
-  EntryResponse({this.id, this.authorId, this.text, this.createTime, this.commentsCount});
+  EntryResponse({this.id, this.author, this.text, this.createTime, this.commentsCount});
 
   EntryResponse.fromJson(Map<String, dynamic> json)
   {
     id = json['id'];
-    authorId = json['authorId'];
+    author = AuthorResponse.fromJson(json['author']);
     text = json['text'];
     createTime = json['createTime'];
     commentsCount = json['commentsCount'];
@@ -25,11 +25,11 @@ class EntryResponse
     userVote = getKarmaValueFromInt(json['userVote'] as int);
   }
 
-  Entry toEntry(User author)
+  Entry toEntry()
   {
     return Entry(
       id: id,
-      author: author,
+      author: author.toAuthor(),
       text: text,
       createTime: createTime,
       commentsCount: commentsCount,

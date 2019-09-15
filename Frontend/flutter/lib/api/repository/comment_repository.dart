@@ -57,8 +57,6 @@ class CommentRepository
 
   Future<Comment> _getComment(CommentResponse comment) async
   {
-    var user = await _accountRepository.getUser(comment.authorId);
-
-    return comment.toComment(user);
+    return comment.toComment();
   }
 }

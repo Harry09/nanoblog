@@ -8,10 +8,6 @@ import 'package:nanoblog/model/jwt.dart';
 
 class EntryRepository
 {
-  AccountRepository _accountRepository;
-
-  EntryRepository(this._accountRepository);
-
   Future<List<Entry>> getNewest({PagedQuery pagedQuery, Jwt jwtToken}) async
   {
     var response = await EntryApi.getNewest(pagedQuery: pagedQuery, jwtToken: jwtToken);
@@ -58,8 +54,6 @@ class EntryRepository
 
   Future<Entry> _getEntry(EntryResponse entry) async
   {
-    var user = await _accountRepository.getUser(entry.authorId);
-
-    return entry.toEntry(user);
+    return entry.toEntry();
   }
 }
