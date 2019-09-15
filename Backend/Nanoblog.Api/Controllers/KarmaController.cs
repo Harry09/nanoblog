@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nanoblog.Api.Data.Models;
+using Nanoblog.Api.Services;
 using Nanoblog.Api.Services.Karma;
 using Nanoblog.Common.Data;
 using Nanoblog.Common.Data.Dto;
@@ -19,11 +20,20 @@ namespace Nanoblog.Api.Controllers
     {
         IKarmaService entryKarmaService;
         IKarmaService commentKarmaService;
+        IEntryService entryService;
+        ICommentService commentService;
 
-        public KarmaController(IEntryKarmaService entryKarmaService, ICommentKarmaService commentKarmaService)
+        public KarmaController(
+            IEntryKarmaService entryKarmaService,
+            ICommentKarmaService commentKarmaService,
+            IEntryService entryService,
+            ICommentService commentService
+            )
         {
             this.entryKarmaService = entryKarmaService;
             this.commentKarmaService = commentKarmaService;
+            this.entryService = entryService;
+            this.commentService = commentService;
         }
 
         // GET: api/karma/entry/upvote/3 
@@ -38,6 +48,9 @@ namespace Nanoblog.Api.Controllers
                 return NotFound();
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (await IsUserAuthorOfItem(service, userId, itemId))
+                return Forbid();
 
             await karmaService.GiveKarmaAsync(userId, itemId, KarmaValue.Plus);
 
@@ -57,6 +70,9 @@ namespace Nanoblog.Api.Controllers
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+            if (await IsUserAuthorOfItem(service, userId, itemId))
+                return Forbid();
+
             await karmaService.GiveKarmaAsync(userId, itemId, KarmaValue.Minus);
 
             return Ok();
@@ -74,6 +90,9 @@ namespace Nanoblog.Api.Controllers
                 return NotFound();
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (await IsUserAuthorOfItem(service, userId, itemId))
+                return Forbid();
 
             await karmaService.RemoveKarmaAsync(userId, itemId);
 
@@ -106,6 +125,25 @@ namespace Nanoblog.Api.Controllers
                 return NotFound();
 
             return await karmaService.GetUserVoteAsync(userId, itemId);
+        }
+
+        private async Task<bool> IsUserAuthorOfItem(string service, string userId, string itemId)
+        {
+            switch (service)
+            {
+                case "entry":
+                {
+                    var entry = await entryService.GetAsync(itemId);
+
+                    return entry?.Author?.Id == userId;
+                }
+                case "comment":
+                    var comment = await commentService.GetAsync(itemId);
+
+                    return comment?.Author?.Id == userId;
+                default:
+                    return false;
+            }
         }
 
         private IKarmaService GetKarmaService(string service)

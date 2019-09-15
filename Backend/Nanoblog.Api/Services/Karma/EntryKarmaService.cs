@@ -56,6 +56,11 @@ namespace Nanoblog.Api.Services.Karma
             }
             else
             {
+                if (karma.Author.Id != authorId)
+                {
+                    throw new ApiException("Wrong author!");
+                }
+
                 karma.SetValue(value);
             }
 
@@ -69,6 +74,11 @@ namespace Nanoblog.Api.Services.Karma
             if (karma is null)
             {
                 throw new ApiException("Cannot find karma!");
+            }
+
+            if (karma.Author.Id != authorId)
+            {
+                throw new ApiException("Wrong author!");
             }
 
             dbContext.EntryKarma.Remove(karma);
