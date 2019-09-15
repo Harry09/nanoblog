@@ -10,7 +10,7 @@ namespace Nanoblog.Common.Data.Dto
     {
 		public string Id { get; set; }
 
-		public string AuthorId { get; set; }
+		public AuthorDto Author { get; set; }
 
 		public string Text { get; set; }
 

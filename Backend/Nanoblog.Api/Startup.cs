@@ -68,6 +68,7 @@ namespace Nanoblog
             services.AddAutoMapper(cfg =>
             {
                 cfg.CreateMap<User, UserDto>();
+                cfg.CreateMap<User, AuthorDto>();
                 cfg.CreateMap<Entry, EntryDto>();
                 cfg.CreateMap<Comment, CommentDto>();
 

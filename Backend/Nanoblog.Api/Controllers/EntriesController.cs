@@ -102,7 +102,7 @@ namespace Nanoblog.Api.Controllers
 
             var entry = await _entryService.GetAsync(id);
 
-            if (entry.AuthorId != userId)
+            if (entry.Author.Id != userId)
             {
                 return BadRequest(new ApiException("You are not author of this post!"));
             }
