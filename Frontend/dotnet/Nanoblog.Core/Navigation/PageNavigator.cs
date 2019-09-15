@@ -73,7 +73,7 @@ namespace Nanoblog.Core.Navigation
 
         public void Pop()
         {
-            if (_pageStack.Count > 2)
+            if (_pageStack.Count > 1)
             {
                 _pageStack.Pop();
                 var pageData = _pageStack.Peek();
@@ -85,7 +85,7 @@ namespace Nanoblog.Core.Navigation
 
         void SetPageData(PageData pageData)
         {
-            _pageStack.Push(CurrentPage);
+            _pageStack.Push(pageData);
 
             CurrentPage = pageData;
             _mainWindow.SetPageData(pageData.Page, pageData.ViewModel);
