@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Data.Commands.Account
+namespace Nanoblog.Common.Data.Commands.Account
 {
     public class LoginUser
     {

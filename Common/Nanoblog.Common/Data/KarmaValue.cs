@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Data
+namespace Nanoblog.Common.Data
 {
     public enum KarmaValue
     {

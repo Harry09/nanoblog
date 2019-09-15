@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Data.Commands.Entry
+namespace Nanoblog.Common.Data.Commands.Entry
 {
     public class AddEntry
     {

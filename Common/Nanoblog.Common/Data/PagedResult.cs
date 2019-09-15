@@ -1,11 +1,11 @@
-﻿using Nanoblog.Core.Data.Commands;
+﻿using Nanoblog.Common.Data.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Data
+namespace Nanoblog.Common.Data
 {
     public class PagedResult<T>
     {

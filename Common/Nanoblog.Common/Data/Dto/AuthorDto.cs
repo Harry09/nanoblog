@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Nanoblog.Common.Data.Dto
 {
-    public class KarmaDto
+    public class AuthorDto
     {
         public string Id { get; set; }
 
-        public UserDto Author { get; set; }
+        public string UserName { get; set; }
 
-        public KarmaValue Value { get; set; }
+        public string Role { get; set; }
+
+        public DateTime JoinTime { get; set; }
     }
 }

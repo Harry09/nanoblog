@@ -1,5 +1,5 @@
-﻿using Nanoblog.Core.Data;
-using Nanoblog.Core.Data.Exception;
+﻿using Nanoblog.Common.Data;
+using Nanoblog.Common.Data.Exception;
 
 namespace Nanoblog.Api.Data.Models
 {

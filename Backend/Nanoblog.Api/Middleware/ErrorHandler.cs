@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
-using Nanoblog.Core.Data.Dto;
-using Nanoblog.Core.Data.Exception;
+using Nanoblog.Common.Data.Dto;
+using Nanoblog.Common.Data.Exception;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;

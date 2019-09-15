@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Nanoblog.Api.Settings;
-using Nanoblog.Core.Data.Dto;
+using Nanoblog.Common.Data.Dto;
 using Nanoblog.Core.Extensions;
 using System;
 using System.IdentityModel.Tokens.Jwt;

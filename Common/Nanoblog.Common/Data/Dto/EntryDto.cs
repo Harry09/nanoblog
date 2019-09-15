@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Data.Dto
+namespace Nanoblog.Common.Data.Dto
 {
     public class EntryDto
     {

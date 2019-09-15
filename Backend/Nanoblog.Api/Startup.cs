@@ -15,7 +15,7 @@ using Nanoblog.Api.Middleware;
 using Nanoblog.Api.Services;
 using Nanoblog.Api.Services.Karma;
 using Nanoblog.Api.Settings;
-using Nanoblog.Core.Data.Dto;
+using Nanoblog.Common.Data.Dto;
 using System;
 using System.Text;
 
