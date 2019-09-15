@@ -7,6 +7,7 @@ using Nanoblog.Common.Data;
 using Nanoblog.Common.Data.Commands;
 using Nanoblog.Common.Data.Commands.Comment;
 using Nanoblog.Common.Data.Dto;
+using Nanoblog.Common.Data.Exception;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -63,6 +64,11 @@ namespace Nanoblog.Api.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+            if (userId is null)
+            {
+                return BadRequest(new ErrorDto("No user data!"));
+            }
+
             return await _commentService.AddAsync(comment.Text, userId, comment.EntryId);
         }
 
@@ -70,6 +76,25 @@ namespace Nanoblog.Api.Controllers
         [HttpDelete("{id}"), Authorize]
         public async Task<IActionResult> DeleteComment(string id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId is null)
+            {
+                return BadRequest(new ErrorDto("No user data!"));
+            }
+
+            var comment = await _commentService.GetAsync(id);
+
+            if (comment.Author.Id != userId)
+            {
+                return BadRequest(new ApiException("You are not author of this post!"));
+            }
+
             await _commentService.RemoveAsync(id);
 
             return Ok();
