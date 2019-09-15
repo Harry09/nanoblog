@@ -41,47 +41,51 @@ namespace Nanoblog.Core.Navigation
 
         public void Navigate<TPageViewModel>()
         {
+            _pageStack.Clear();
+
             var pageData = CreatePageData(typeof(TPageViewModel));
 
-            SetPageData(pageData, false);
+            SetPageData(pageData);
         }
 
         public void Navigate<TPageViewModel, TParameter>(TParameter parameter)
         {
+            _pageStack.Clear();
+
             var pageData = CreatePageData(typeof(TPageViewModel), parameter);
 
-            SetPageData(pageData, false);
+            SetPageData(pageData);
         }
 
         public void Push<TPageViewModel>()
         {
             var pageData = CreatePageData(typeof(TPageViewModel));
 
-            SetPageData(pageData, true);
+            SetPageData(pageData);
         }
 
         public void Push<TPageViewModel, TParameter>(TParameter parameter)
         {
             var pageData = CreatePageData(typeof(TPageViewModel), parameter);
 
-            SetPageData(pageData, true);
+            SetPageData(pageData);
         }
 
         public void Pop()
         {
-            if (_pageStack.Count > 0)
+            if (_pageStack.Count > 2)
             {
-                var pageData = _pageStack.Pop();
+                _pageStack.Pop();
+                var pageData = _pageStack.Peek();
 
                 CurrentPage = pageData;
                 _mainWindow.SetPageData(pageData.Page, pageData.ViewModel);
             }
         }
 
-        void SetPageData(PageData pageData, bool pushStack)
+        void SetPageData(PageData pageData)
         {
-            if (pushStack)
-                _pageStack.Push(CurrentPage);
+            _pageStack.Push(CurrentPage);
 
             CurrentPage = pageData;
             _mainWindow.SetPageData(pageData.Page, pageData.ViewModel);
