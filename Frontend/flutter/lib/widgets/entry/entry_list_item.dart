@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/entry_api.dart';
+import 'package:nanoblog/api/karma_api.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
@@ -224,7 +226,7 @@ class _EntryListItemState extends State<EntryListItem> {
 
     try
     {
-      if (await _model.entryRepository.deleteEntry(widget.entry.id, _model.jwtService.jwtToken))
+      if (await EntryApi.deleteEntry(widget.entry.id, _model.jwtService.jwtToken))
       {
         widget.onEntryDeleted();
       }
@@ -247,17 +249,17 @@ class _EntryListItemState extends State<EntryListItem> {
   {
     if (_userVote == value)
     {
-      await _model.karmaRepository.removeVote(entryId: widget.entry.id, jwtToken: _model.jwtService.jwtToken);
+      await KarmaApi.removeVote(entryId: widget.entry.id, jwtToken: _model.jwtService.jwtToken);
     }
     else
     {
       switch (value)
       {
         case KarmaValue.Plus:
-          await _model.karmaRepository.upVote(entryId: widget.entry.id, jwtToken: _model.jwtService.jwtToken);
+          await KarmaApi.upVote(entryId: widget.entry.id, jwtToken: _model.jwtService.jwtToken);
           break;
         case KarmaValue.Minus:
-          await _model.karmaRepository.downVote(entryId: widget.entry.id, jwtToken: _model.jwtService.jwtToken);
+          await KarmaApi.downVote(entryId: widget.entry.id, jwtToken: _model.jwtService.jwtToken);
           break;
         case KarmaValue.None:
           break;
@@ -271,8 +273,8 @@ class _EntryListItemState extends State<EntryListItem> {
   {
     await _model.jwtService.tryRefreshToken();
 
-    var karmaCount = await _model.karmaRepository.countVotes(entryId: widget.entry.id);
-    var userVote = await _model.karmaRepository.getUserVote(userId: _model.currentUser.id, entryId: widget.entry.id);
+    var karmaCount = await KarmaApi.countVotes(entryId: widget.entry.id);
+    var userVote = await KarmaApi.getUserVote(userId: _model.currentUser.id, entryId: widget.entry.id);
 
     setState(() {
       _karmaCount = karmaCount;

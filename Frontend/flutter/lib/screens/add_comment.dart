@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/comment_api.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/entry.dart';
@@ -87,7 +88,7 @@ class _AddCommentPageState extends State<AddCommentPage>
       {
         await _model.jwtService.tryRefreshToken();
 
-        Comment result = await _model.commentRepository.addComment(
+        Comment result = await CommentApi.addComment(
           widget.entry.id,
           messageController.text, 
           _model.jwtService.jwtToken

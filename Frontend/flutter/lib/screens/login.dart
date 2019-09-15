@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/account_api.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/screens/loading.dart';
@@ -140,13 +141,13 @@ class _LoginPageState extends State<LoginPage>
     try
     {
       // only for debug
-      var result = await _model.accountRepository.login("harry@harry.com", "password");
+      var result = await AccountApi.login("harry@harry.com", "password");
 
       if (result != null)
       {
         _model.jwtService.setJwt(result);
 
-        var user = await _model.accountRepository.getUser(result.getUserId(), forceCacheUpdate: true);
+        var user = await AccountApi.getUser(result.getUserId());
 
         if (user != null)
         {

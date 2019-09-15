@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:nanoblog/api/api_base.dart';
 import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/api/response/entry_response.dart';
+import 'package:nanoblog/model/entry.dart';
 import 'package:nanoblog/model/jwt.dart';
 
 class EntryApi 
 {
-  static Future<List<EntryResponse>> getNewest({Jwt jwtToken, PagedQuery pagedQuery}) async
+  static Future<List<Entry>> getNewest({Jwt jwtToken, PagedQuery pagedQuery}) async
   {
     var url = "/entries/newest";
 
@@ -22,13 +23,13 @@ class EntryApi
     {
       var json = jsonDecode(result.body);
 
-      return (json as List).map((i) => EntryResponse.fromJson(i)).toList();
+      return (json as List).map((i) => EntryResponse.fromJson(i).toEntry()).toList();
     }
 
     return null;
   }
 
-  static Future<EntryResponse> getEntry(String id, {Jwt jwtToken}) async
+  static Future<Entry> getEntry(String id, {Jwt jwtToken}) async
   {
     var result = await ApiBase.get("/entries/$id", jwtToken: jwtToken?.token);
 
@@ -36,13 +37,13 @@ class EntryApi
     {
       var json = jsonDecode(result.body); 
 
-      return EntryResponse.fromJson(json);
+      return EntryResponse.fromJson(json).toEntry();
     }
     
     return null;
   }
 
-  static Future<EntryResponse> addEntry(String text, Jwt jwtToken) async
+  static Future<Entry> addEntry(String text, Jwt jwtToken) async
   {
     var jsonBody = json.encode({
       "text": text
@@ -58,7 +59,7 @@ class EntryApi
     {
       var json = jsonDecode(result.body);
 
-      return EntryResponse.fromJson(json);
+      return EntryResponse.fromJson(json).toEntry();
     }
 
     return null;

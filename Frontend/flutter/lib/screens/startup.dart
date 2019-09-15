@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/account_api.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/screens/loading.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -27,7 +28,7 @@ class _StartupPageState extends State<StartupPage>
         if (_model.jwtService.isExpired())
           return false;
 
-        var user = await _model.accountRepository.getUser(_model.jwtService.jwtToken.getUserId(), forceCacheUpdate: true);
+        var user = await AccountApi.getUser(_model.jwtService.jwtToken.getUserId());
 
         _model.currentUser = user;
 

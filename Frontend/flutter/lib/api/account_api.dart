@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:nanoblog/api/api_base.dart';
 import 'package:nanoblog/api/response/jwt_response.dart';
 import 'package:nanoblog/api/response/user_response.dart';
+import 'package:nanoblog/model/jwt.dart';
+import 'package:nanoblog/model/user.dart';
 
 class AccountApi
 {
@@ -24,7 +26,7 @@ class AccountApi
     return false;
   }
 
-  static Future<JwtResponse> login(String email, String password) async
+  static Future<Jwt> login(String email, String password) async
   {
     var body = json.encode({
       "email": email,
@@ -37,13 +39,13 @@ class AccountApi
     {
       var jsonData = json.decode(result.body);
       
-      return JwtResponse.fromJson(jsonData);
+      return JwtResponse.fromJson(jsonData).toJwt();
     }
 
     return null;
   }
 
-  static Future<UserResponse> getUser(String userId) async
+  static Future<User> getUser(String userId) async
   {
     var result = await ApiBase.get("/accounts/user/byId/$userId");
 
@@ -51,13 +53,13 @@ class AccountApi
     {
       var jsonData = json.decode(result.body);
 
-      return UserResponse.fromJson(jsonData);
+      return UserResponse.fromJson(jsonData).toUser();
     }
     
     return null;
   }
 
-  static Future<JwtResponse> refreshAccessToken(String refreshToken) async
+  static Future<Jwt> refreshAccessToken(String refreshToken) async
   {
     var result = await ApiBase.get("/accounts/tokens/refresh/$refreshToken");
 
@@ -65,7 +67,7 @@ class AccountApi
     {
       var jsonData = json.decode(result.body);
 
-      return JwtResponse.fromJson(jsonData);
+      return JwtResponse.fromJson(jsonData).toJwt();
     }
 
     return null;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
@@ -73,7 +74,7 @@ class HomePageState extends State<HomePage>
 
     await _model.jwtService.tryRefreshToken();
 
-    return await _model.entryRepository.getNewest(
+    return await EntryApi.getNewest(
       pagedQuery: PagedQuery(
         currentPage: 0,
         limitPerPage: 10
@@ -93,7 +94,7 @@ class HomePageState extends State<HomePage>
 
     await _model.jwtService.tryRefreshToken();
 
-    var items = await _model.entryRepository.getNewest(pagedQuery: pagedQuery, jwtToken: _model.jwtService.jwtToken);
+    var items = await EntryApi.getNewest(pagedQuery: pagedQuery, jwtToken: _model.jwtService.jwtToken);
 
     if (items == null || items.isEmpty)
       return null;

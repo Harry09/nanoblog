@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:nanoblog/api/comment_api.dart';
+import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
@@ -112,7 +114,7 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 
     await _model.jwtService.tryRefreshToken();
 
-    var comments = await _model.commentRepository.getComments(
+    var comments = await CommentApi.getComments(
       _entry.id, 
       pagedQuery: PagedQuery(
         currentPage: 0,
@@ -167,7 +169,7 @@ class _EntryDetailPageState extends State<EntryDetailPage>
 
     await _model.jwtService.tryRefreshToken();
 
-    var items = await _model.commentRepository.getComments(
+    var items = await CommentApi.getComments(
       widget.entry.id, 
       pagedQuery: PagedQuery(
         currentPage: _loaderPage,
@@ -197,7 +199,7 @@ class _EntryDetailPageState extends State<EntryDetailPage>
   {
     _model.jwtService.tryRefreshToken();
 
-    var entry = await _model.entryRepository.getEntry(_entry.id, jwtToken: _model.jwtService.jwtToken);
+    var entry = await EntryApi.getEntry(_entry.id, jwtToken: _model.jwtService.jwtToken);
 
     setState(() {
      _entry = entry; 

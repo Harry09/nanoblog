@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/entry_api.dart';
 import 'package:nanoblog/exceptions/api_exception.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/entry.dart';
@@ -83,7 +84,7 @@ class _AddPostPageState extends State<AddPostPage>
       {
         await _model.jwtService.tryRefreshToken();
 
-        Entry result = await _model.entryRepository.addEntry(messageController.text, _model.jwtService.jwtToken);
+        Entry result = await EntryApi.addEntry(messageController.text, _model.jwtService.jwtToken);
 
         Navigator.pop(context, result);
       }

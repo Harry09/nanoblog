@@ -1,4 +1,5 @@
 import 'package:corsac_jwt/corsac_jwt.dart';
+import 'package:nanoblog/model/jwt.dart';
 
 class JwtResponse
 {
@@ -15,23 +16,12 @@ class JwtResponse
     this.expires = json["expires"];
   }
 
-  String getUserId()
+  Jwt toJwt()
   {
-    var jwt = JWT.parse(token);
-
-    if (jwt != null)
-    {
-      return jwt.subject;
-    }
-    
-    return null;
-  }
-
-  bool isExpired()
-  {
-    if (expires == null)
-      return true;
-
-    return expires < DateTime.now().millisecondsSinceEpoch;
+    return Jwt(
+      token: token,
+      refreshToken: refreshToken,
+      expires: expires
+    );
   }
 }

@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:nanoblog/api/api_base.dart';
 import 'package:nanoblog/api/requests/paged_query.dart';
 import 'package:nanoblog/api/response/comment_response.dart';
+import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/model/jwt.dart';
 
 class CommentApi
 {
-  static Future<List<CommentResponse>> getComments(String entryId, {PagedQuery pagedQuery, Jwt jwtToken}) async
+  static Future<List<Comment>> getComments(String entryId, {PagedQuery pagedQuery, Jwt jwtToken}) async
   {
     var url = "/comments/entry/$entryId";
 
@@ -22,13 +23,13 @@ class CommentApi
     {
       var json = jsonDecode(result.body);
 
-      return (json as List).map((i) => CommentResponse.fromJson(i)).toList();
+      return (json as List).map((i) => CommentResponse.fromJson(i).toComment()).toList();
     }
 
     return null;
   }
 
-  static Future<CommentResponse> getComment(String id, {Jwt jwtToken}) async
+  static Future<Comment> getComment(String id, {Jwt jwtToken}) async
   {
     var result = await ApiBase.get("/comments/$id", jwtToken: jwtToken?.token);
 
@@ -36,13 +37,13 @@ class CommentApi
     {
       var json = jsonDecode(result.body);
 
-      return CommentResponse.fromJson(json);
+      return CommentResponse.fromJson(json).toComment();
     }
 
     return null;
   }
 
-  static Future<CommentResponse> addComment(String entryId, String text, Jwt jwtToken) async
+  static Future<Comment> addComment(String entryId, String text, Jwt jwtToken) async
   {
     var messageBody = json.encode({
       "entryId": entryId,
@@ -59,7 +60,7 @@ class CommentApi
     {
       var json = jsonDecode(result.body);
 
-      return CommentResponse.fromJson(json);
+      return CommentResponse.fromJson(json).toComment();
     }
 
     return null;

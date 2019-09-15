@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:nanoblog/api/comment_api.dart';
+import 'package:nanoblog/api/karma_api.dart';
 import 'package:nanoblog/model/app_state_model.dart';
 import 'package:nanoblog/model/comment.dart';
 import 'package:nanoblog/util/karma_value.dart';
@@ -210,7 +212,7 @@ class _CommentListItemState extends State<CommentListItem>
 
     try
     {
-      if (await _model.commentRepository.deleteComment(widget.comment.id, _model.jwtService.jwtToken))
+      if (await CommentApi.deleteComment(widget.comment.id, _model.jwtService.jwtToken))
       {
         widget.onCommentDeleted();
       }
@@ -233,17 +235,17 @@ class _CommentListItemState extends State<CommentListItem>
   {
     if (_userVote == value)
     {
-      await _model.karmaRepository.removeVote(commentId: widget.comment.id, jwtToken: _model.jwtService.jwtToken);
+      await KarmaApi.removeVote(commentId: widget.comment.id, jwtToken: _model.jwtService.jwtToken);
     }
     else
     {
       switch (value)
       {
         case KarmaValue.Plus:
-          await _model.karmaRepository.upVote(commentId: widget.comment.id, jwtToken: _model.jwtService.jwtToken);
+          await KarmaApi.upVote(commentId: widget.comment.id, jwtToken: _model.jwtService.jwtToken);
           break;
         case KarmaValue.Minus:
-          await _model.karmaRepository.downVote(commentId: widget.comment.id, jwtToken: _model.jwtService.jwtToken);
+          await KarmaApi.downVote(commentId: widget.comment.id, jwtToken: _model.jwtService.jwtToken);
           break;
         case KarmaValue.None:
           break;
@@ -257,8 +259,8 @@ class _CommentListItemState extends State<CommentListItem>
   {
     await _model.jwtService.tryRefreshToken();
 
-    var karmaCount = await _model.karmaRepository.countVotes(commentId: widget.comment.id);
-    var userVote = await _model.karmaRepository.getUserVote(userId: _model.currentUser.id, commentId: widget.comment.id);
+    var karmaCount = await KarmaApi.countVotes(commentId: widget.comment.id);
+    var userVote = await KarmaApi.getUserVote(userId: _model.currentUser.id, commentId: widget.comment.id);
 
     setState(() {
       _karmaCount = karmaCount;
