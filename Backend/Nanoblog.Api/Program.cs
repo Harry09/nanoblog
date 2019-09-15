@@ -18,12 +18,6 @@ namespace Nanoblog
                 {
                     options.ListenAnyIP(53188);
                 })
-                .UseStartup<Startup>()
-                .ConfigureLogging((hostingContext, logging) =>
-                {
-                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    logging.AddConsole();
-                    logging.AddDebug();
-                });
+                .UseStartup<Startup>();
     }
 }
