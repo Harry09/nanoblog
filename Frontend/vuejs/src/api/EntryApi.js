@@ -3,7 +3,7 @@ import TokenStore from "@/store/TokenStore";
 
 export default {
   async getAllEntries() {
-    return await Api().get("/api/entries");
+    return await Api().get("/api/entries/newest");
   },
   async addEntry(text) {
     TokenStore.methods.tryRefreshToken();

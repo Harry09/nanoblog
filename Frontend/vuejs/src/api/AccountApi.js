@@ -28,7 +28,7 @@ export default {
   },
 
   async getUser(userId) {
-    return await Api().get(`/api/accounts/user/${userId}`);
+    return await Api().get(`/api/accounts/user/byId/${userId}`);
   },
 
   async refreshToken(token) {
