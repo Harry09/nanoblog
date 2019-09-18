@@ -4,9 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Nanoblog.Wpf.Pages"
+      xmlns:converters="clr-namespace:Nanoblog.Wpf.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -21,11 +27,12 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="Nanoblog" FontSize="40" Margin="0 0 0 16" />
-            
+
             <StackPanel>
                 <Grid Margin="0 0 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="4" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
@@ -37,15 +44,19 @@
 
                     <!--email input-->
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Email:" />
-                    <TextBox Grid.Column="1" Grid.Row="0" />
+                    <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding FormEmail}" IsEnabled="{Binding Busy, Converter={StaticResource BooleanInvertConverter}}" />
 
                     <!--password input-->
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Password:" />
-                    <PasswordBox Grid.Column="1" Grid.Row="2" />
+                    <!--TODO: Change to PasswordBox-->
+                    <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding FormPassword}" IsEnabled="{Binding Busy, Converter={StaticResource BooleanInvertConverter}}" />
                 </Grid>
-                
 
-                <Button Margin="0 16 0 0" Content="Login" Command="{Binding LoginCommand}" />
+                <Button Margin="0 16 0 0" Content="Login" Command="{Binding LoginCommand}" IsEnabled="{Binding Busy, Converter={StaticResource BooleanInvertConverter}}" />
+
+                <ProgressBar IsIndeterminate="True" Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBlock Margin="0 4 0 0" TextWrapping="Wrap" Text="{Binding ErrorMessage}" Foreground="Red" MaxWidth="177" />
             </StackPanel>
         </StackPanel>
     </Grid>
