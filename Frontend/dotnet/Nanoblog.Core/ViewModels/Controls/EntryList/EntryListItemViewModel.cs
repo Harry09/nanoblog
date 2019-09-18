@@ -44,10 +44,10 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
 
         public EntryListItemViewModel()
         {
-            ShowCommentsCommand = new RelayCommand(ShowComments);
+            ShowCommentsCommand = new RelayCommand(OnShowComments);
         }
 
-        void ShowComments(object _)
+        void OnShowComments(object _)
         {
             PageNavigator.Instance.Push<EntryDetailPageViewModel, EntryListItemViewModel>(this);
         }

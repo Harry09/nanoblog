@@ -33,12 +33,12 @@ namespace Nanoblog.Core.ViewModels.Pages
         {
             Entry = entry;
 
-            BackCommand = new RelayCommand(Back);
+            BackCommand = new RelayCommand(OnBack);
 
             // TODO: Load comments using Entry.Id
         }
 
-        void Back(object _)
+        void OnBack(object _)
         {
             PageNavigator.Instance.Pop();
         }

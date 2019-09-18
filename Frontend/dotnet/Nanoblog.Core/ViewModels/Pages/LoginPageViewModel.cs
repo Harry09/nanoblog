@@ -15,10 +15,10 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         public LoginPageViewModel()
         {
-            LoginCommand = new RelayCommand(Login);
+            LoginCommand = new RelayCommand(OnLogin);
         }
 
-        void Login(object obj)
+        void OnLogin(object obj)
         {
             PageNavigator.Instance.Navigate<EntryListPageViewModel>();
         }
