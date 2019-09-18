@@ -1,4 +1,5 @@
-﻿using Nanoblog.Core.Navigation;
+﻿using Nanoblog.Common.Data.Dto;
+using Nanoblog.Core.Navigation;
 using Nanoblog.Core.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
@@ -8,20 +9,13 @@ using System.Threading.Tasks;
 
 namespace Nanoblog.Core
 {
-    public class App
+    public static class App
     {
-        IMainWindow _mainWindow;
+        static public UserDto CurrentUser { get; set; }
 
-        public IPageNavigator PageNavigator { get; set; }
-
-        public App(IMainWindow mainWindow, IPageNavigator pageNavigator)
+        static public void Init(IPageNavigator pageNavigator)
         {
-            _mainWindow = mainWindow;
-
-            PageNavigator = pageNavigator;
-
-            //PageNavigator.Navigate<LoginPageViewModel>();
-            PageNavigator.Navigate<EntryListPageViewModel>();
+            pageNavigator.Navigate<LoginPageViewModel>();
         }
     }
 }

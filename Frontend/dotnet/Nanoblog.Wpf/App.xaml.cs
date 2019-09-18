@@ -17,7 +17,6 @@ namespace Nanoblog.Wpf
     /// </summary>
     public partial class App : Application
     {
-        Core.App _app;
         MainWindow _mainWindow;
 
         protected override void OnStartup(StartupEventArgs e)
@@ -35,7 +34,7 @@ namespace Nanoblog.Wpf
             pageNavigator.Register<EntryDetailPage, EntryDetailPageViewModel>();
             pageNavigator.Register<AddPage, AddPageViewModel>();
 
-            _app = new Core.App(_mainWindow, pageNavigator);
+            Core.App.Init(pageNavigator);
 
             _mainWindow.ShowDialog();
         }
