@@ -97,7 +97,7 @@ namespace Nanoblog
             services.AddMvc()
                 .AddJsonOptions(options =>
                 {
-                    options.SerializerSettings.DateFormatString = "dd-MM-yyyy HH:mm:ss";
+                    //options.SerializerSettings.DateFormatString = "dd-MM-yyyy HH:mm:ss";
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
