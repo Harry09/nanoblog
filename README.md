@@ -15,7 +15,8 @@ Backend is written in ASP.NET Core 2.2 Api
 - ReactJS (abandoned, i just hate this technology)
 - VueJS (outdated, maybe someday I will update it)
 - Flutter
-- WPF (TODO)
+- WPF (In progress)
+- Avalonia (TODO)
 
 ## Plans
 
