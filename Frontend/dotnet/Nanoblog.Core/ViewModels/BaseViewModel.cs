@@ -1,17 +1,19 @@
-﻿using Nanoblog.Core.Navigation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nanoblog.Core.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private bool _busy = false;
+
+        public bool Busy
+        {
+            get => _busy;
+            set => Update(ref _busy, value);
+        }
 
         public void Notify([CallerMemberName] string propertyName = default)
         {
