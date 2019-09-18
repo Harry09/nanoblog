@@ -80,6 +80,13 @@ namespace Nanoblog.Core.Navigation
             Push<TPageViewModel>();
         }
 
+        public void Push<TPageViewModel, TParameter>(TParameter parameter, Action<TPageViewModel> popAction)
+        {
+            _popAction.Add(_pageStack.Count, (object m) => popAction((TPageViewModel)m));
+
+            Push<TPageViewModel, TParameter>(parameter);
+        }
+
         public void Pop()
         {
             if (_pageStack.Count > 1)
