@@ -2,7 +2,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Nanoblog.Api.Settings;
 using Nanoblog.Common.Data.Dto;
-using Nanoblog.Core.Extensions;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -23,14 +22,14 @@ namespace Nanoblog.Api.Services
 
         public JwtDto CreateToken(string id, string role)
         {
-            var now = DateTime.UtcNow;
+            var now = DateTimeOffset.UtcNow;
 
             var claims = new Claim[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, id),
                 new Claim(ClaimTypes.Role, role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString(), ClaimValueTypes.Integer64)
+                new Claim(JwtRegisteredClaimNames.Iat, now.ToUnixTimeMilliseconds().ToString(), ClaimValueTypes.Integer64)
             };
 
 
@@ -39,8 +38,8 @@ namespace Nanoblog.Api.Services
             var jwt = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 claims: claims,
-                notBefore: now,
-                expires: expires,
+                notBefore: now.UtcDateTime,
+                expires: expires.UtcDateTime,
                 signingCredentials: _signingCredentials
             );
 
@@ -48,7 +47,7 @@ namespace Nanoblog.Api.Services
 
             return new JwtDto
             {
-                Expires = expires.ToTimestamp(),
+                Expires = expires.ToUnixTimeMilliseconds(),
                 Token = token
             };
         }
