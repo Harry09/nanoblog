@@ -7,23 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Nanoblog.Core.Navigation;
 
 namespace Nanoblog.Core.ViewModels.Pages
 {
     public class EntryListPageViewModel : BaseViewModel
     {
-        //private EntryListViewModel entryListVM;
-
-        //public EntryListViewModel EntryListViewModel
-        //{
-        //    get => entryListVM;
-        //    set => Update(ref entryListVM, value);
-        //}
-
         public EntryListViewModel EntryListVM { get; set; } = new EntryListViewModel();
+
+        public ICommand AddPostCommand { get; set; }
 
         public EntryListPageViewModel()
         {
+            AddPostCommand = new RelayCommand(OnAddPost);
+
             LoadData();
         }
 
@@ -58,6 +55,21 @@ namespace Nanoblog.Core.ViewModels.Pages
                     Date = "12 hours ago",
                     Text = "What a nice application",
                     CommentsCount = 2
+                }
+            });
+        }
+    
+        void OnAddPost(object _)
+        {
+            PageNavigator.Instance.Push<AddPageViewModel>(m => {
+                if (!m.Cancelled)
+                {
+                    EntryListVM.List.Add(new EntryListItemViewModel {
+                        UserName = "Harry2",
+                        Date = DateTime.Now.ToString(),
+                        Text = m.Text,
+                        CommentsCount = 32
+                    });
                 }
             });
         }

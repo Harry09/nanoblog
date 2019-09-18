@@ -33,6 +33,7 @@ namespace Nanoblog.Wpf
             pageNavigator.Register<LoginPage, LoginPageViewModel>();
             pageNavigator.Register<EntryListPage, EntryListPageViewModel>();
             pageNavigator.Register<EntryDetailPage, EntryDetailPageViewModel>();
+            pageNavigator.Register<AddPage, AddPageViewModel>();
 
             _app = new Core.App(_mainWindow, pageNavigator);
 

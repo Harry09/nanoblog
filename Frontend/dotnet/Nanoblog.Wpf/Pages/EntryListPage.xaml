@@ -5,9 +5,23 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Nanoblog.Wpf.Pages"
       xmlns:entryList="clr-namespace:Nanoblog.Wpf.Controls.EntryList"
-      mc:Ignorable="d" >
+      mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <entryList:EntryListControl DataContext="{Binding EntryListVM}" />
+    <Grid Background="#EEEEEE">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button
+            Grid.Row="0"
+            Content="Add new post"
+            Background="Transparent"
+            BorderThickness="0"
+            Command="{Binding AddPostCommand}"
+            />
+
+        <entryList:EntryListControl Grid.Row="2" DataContext="{Binding EntryListVM}" />
     </Grid>
 </UserControl>

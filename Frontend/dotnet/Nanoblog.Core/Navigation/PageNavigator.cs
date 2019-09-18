@@ -14,6 +14,8 @@ namespace Nanoblog.Core.Navigation
 
         Stack<PageData> _pageStack = new Stack<PageData>();
 
+        Dictionary<int, Action<object>> _popAction = new Dictionary<int, Action<object>>();
+
         public PageData CurrentPage { get; set; }
 
         static public PageNavigator Instance
@@ -71,13 +73,27 @@ namespace Nanoblog.Core.Navigation
             SetPageData(pageData);
         }
 
+        public void Push<TPageViewModel>(Action<TPageViewModel> popAction)
+        {
+            _popAction.Add(_pageStack.Count, (object m) => popAction((TPageViewModel)m));
+
+            Push<TPageViewModel>();
+        }
+
         public void Pop()
         {
             if (_pageStack.Count > 1)
             {
-                _pageStack.Pop();
-                var pageData = _pageStack.Peek();
+                var popPageData = _pageStack.Pop();
 
+                if (_popAction.TryGetValue(_pageStack.Count, out var action))
+                {
+                    action?.Invoke(popPageData.ViewModel);
+                    _popAction.Remove(_pageStack.Count);
+                }
+
+                var pageData = _pageStack.Peek();
+                
                 CurrentPage = pageData;
                 _mainWindow.SetPageData(pageData.Page, pageData.ViewModel);
             }
