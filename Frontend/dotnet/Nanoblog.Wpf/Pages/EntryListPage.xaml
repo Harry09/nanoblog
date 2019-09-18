@@ -5,8 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Nanoblog.Wpf.Pages"
       xmlns:entryList="clr-namespace:Nanoblog.Wpf.Controls.EntryList"
+      xmlns:converters="clr-namespace:Nanoblog.Wpf.Converters"
       mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Grid Background="#EEEEEE">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -14,14 +19,41 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Button
-            Grid.Row="0"
-            Content="Add new post"
-            Background="Transparent"
-            BorderThickness="0"
-            Command="{Binding AddPostCommand}"
-            />
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Button
+                Grid.Column="0"
+                Content="Add new post"
+                Margin="4"
+                Command="{Binding AddPostCommand}"
+                Padding="4 0 4 0"
+                />
+
+            <TextBlock Grid.Column="2" Margin="0 6 0 0" Text="{Binding NavBarMessage}" />
+            <Button Grid.Column="3" Margin="4" Content="Log Out" Padding="4 0 4 0" Command="{Binding LogOutCommand}" />
+        </Grid>
 
         <entryList:EntryListControl Grid.Row="2" DataContext="{Binding EntryListVM}" />
+
+        <Grid Grid.Row="2" Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="Loading data..." />
+        </Grid>
     </Grid>
 </UserControl>

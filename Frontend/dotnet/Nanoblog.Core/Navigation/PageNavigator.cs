@@ -6,7 +6,7 @@ namespace Nanoblog.Core.Navigation
 {
     public class PageNavigator : IPageNavigator
     {
-        static PageNavigator _instance;
+        static public PageNavigator Instance { get; set; } = new PageNavigator();
 
         Dictionary<Type, Type> _types = new Dictionary<Type, Type>();
 
@@ -17,19 +17,6 @@ namespace Nanoblog.Core.Navigation
         Dictionary<int, Action<object>> _popAction = new Dictionary<int, Action<object>>();
 
         public PageData CurrentPage { get; set; }
-
-        static public PageNavigator Instance
-        {
-            get
-            {
-                if (_instance is null)
-                {
-                    _instance = new PageNavigator();
-                }
-
-                return _instance;
-            }
-        }
 
         public void SetMainWindow(IMainWindow mainWindow)
         {

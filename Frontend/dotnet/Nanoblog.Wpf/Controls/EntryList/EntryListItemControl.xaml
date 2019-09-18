@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Nanoblog.Wpf.Controls.EntryList.EntryListItemControl"
+<UserControl x:Class="Nanoblog.Wpf.Controls.EntryList.EntryListItemControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -38,8 +38,8 @@
                 BorderThickness="0"
                 Command="{Binding ShowCommentsCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding CommentsCount}" Margin="0 0 6 0" FontSize="18" />
                     <Image Source="/Images/comment.png" />
+                    <TextBlock Text="{Binding CommentsCount}" Margin="6 0 0 0" FontSize="18" />
                 </StackPanel>
             </Button>
         </Grid>
