@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using Nanoblog.Core.Navigation;
 using Nanoblog.Core.ViewModels.Pages;
 using Nanoblog.Wpf.Pages;

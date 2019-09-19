@@ -89,7 +89,7 @@ namespace Nanoblog.Core.Navigation
                 var pageData = _pageStack.Peek();
                 
                 CurrentPage = pageData;
-                _mainWindow.SetPageData(pageData.Page, pageData.ViewModel);
+                _mainWindow.SetPageData(pageData);
             }
         }
 
@@ -98,7 +98,7 @@ namespace Nanoblog.Core.Navigation
             _pageStack.Push(pageData);
 
             CurrentPage = pageData;
-            _mainWindow.SetPageData(pageData.Page, pageData.ViewModel);
+            _mainWindow.SetPageData(pageData);
         }
 
         PageData CreatePageData(Type viewModelType)

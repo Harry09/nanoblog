@@ -1,4 +1,5 @@
 ﻿using Nanoblog.Core;
+using Nanoblog.Core.Navigation;
 using Nanoblog.Wpf.Pages;
 using System;
 using System.Collections.Generic;
@@ -27,10 +28,10 @@ namespace Nanoblog.Wpf
             InitializeComponent();
         }
 
-        public void SetPageData(object content, object dataContext)
+        public void SetPageData(PageData pageData)
         {
-           PageHost.Content = content;
-           PageHost.DataContext = dataContext;
+            PageHost.Content = pageData.Page;
+            PageHost.DataContext = pageData.ViewModel;
         }
     }
 }

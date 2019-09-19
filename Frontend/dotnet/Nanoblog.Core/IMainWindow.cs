@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nanoblog.Core.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Nanoblog.Core
 {
     public interface IMainWindow
     {
-        void SetPageData(object content, object dataContext);
+        void SetPageData(PageData pageData);
     }
 }
