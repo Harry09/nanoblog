@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Nanoblog.Core.Navigation;
 using Nanoblog.Core.Services;
 using Nanoblog.Core.Extensions;
+using Nanoblog.Common.Data.Commands.Entry;
 
 namespace Nanoblog.Core.ViewModels.Pages
 {
@@ -35,10 +36,10 @@ namespace Nanoblog.Core.ViewModels.Pages
 
             NavBarMessage = $"Logged as {App.CurrentUser.UserName}";
 
-            LoadData();
+            LoadEntryList();
         }
 
-        public async void LoadData()
+        public async Task LoadEntryList()
         {
             Busy = true;
 
@@ -59,15 +60,15 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         void OnAddPost(object _)
         {
-            PageNavigator.Instance.Push<AddPageViewModel>(m => {
+            PageNavigator.Instance.Push<AddPageViewModel>(async m => {
                 if (!m.Cancelled)
                 {
-                    EntryListVM.List.Add(new EntryListItemViewModel {
-                        UserName = "Harry2",
-                        Date = DateTime.Now.ToString(),
-                        Text = m.Text,
-                        CommentsCount = 32
+                    await EntryService.Instance.Add(new AddEntry
+                    {
+                        Text = m.Text
                     });
+
+                    await LoadEntryList();
                 }
             });
         }

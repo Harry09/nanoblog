@@ -67,6 +67,10 @@ namespace Nanoblog.Core.ViewModels.Pages
 
                 ErrorMessage = data.Message;
             }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
 
             Busy = false;
         }
