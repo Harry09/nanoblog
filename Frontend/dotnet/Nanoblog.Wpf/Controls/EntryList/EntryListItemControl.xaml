@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nanoblog.Wpf.Controls.EntryList"
-             xmlns:design="clr-namespace:Nanoblog.Core.ViewModels.Controls.EntryList.Design;assembly=Nanoblog.Core"
-             mc:Ignorable="d" d:DataContext="{x:Static design:EntryListItemDesignModel.Instance}">
+             xmlns:converters="clr-namespace:Nanoblog.Wpf.Converters"
+             mc:Ignorable="d">
 
     <StackPanel Background="White" >
         <!--header-->
