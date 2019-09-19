@@ -1,4 +1,4 @@
-﻿using Nanoblog.Core.ViewModels.Controls.EntryList;
+using Nanoblog.Core.ViewModels.Controls.EntryList;
 using System.Collections.ObjectModel;
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,8 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         public ICommand AddPostCommand { get; set; }
 
+        public ICommand RefreshCommand { get; set; }
+
         public ICommand LogOutCommand { get; set; }
 
         public string NavBarMessage
@@ -32,6 +34,7 @@ namespace Nanoblog.Core.ViewModels.Pages
         public EntryListPageViewModel()
         {
             AddPostCommand = new RelayCommand(OnAddPost);
+            RefreshCommand = new RelayCommand(OnRefresh);
             LogOutCommand = new RelayCommand(OnLogOut);
 
             NavBarMessage = $"Logged as {App.CurrentUser.UserName}";
@@ -71,6 +74,11 @@ namespace Nanoblog.Core.ViewModels.Pages
                     await LoadEntryList();
                 }
             });
+        }
+
+        async void OnRefresh(object _)
+        {
+            await LoadEntryList();
         }
 
         void OnLogOut(object _)

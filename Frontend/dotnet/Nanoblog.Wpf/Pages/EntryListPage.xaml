@@ -22,6 +22,7 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
@@ -35,8 +36,16 @@
                 Padding="4 0 4 0"
                 />
 
-            <TextBlock Grid.Column="2" Margin="0 6 0 0" Text="{Binding NavBarMessage}" />
-            <Button Grid.Column="3" Margin="4" Content="Log Out" Padding="4 0 4 0" Command="{Binding LogOutCommand}" />
+            <Button
+                Grid.Column="1"
+                Content="Refresh"
+                Margin="4"
+                Command="{Binding RefreshCommand}"
+                Padding="4 0 4 0"
+                />
+
+            <TextBlock Grid.Column="3" Margin="0 6 0 0" Text="{Binding NavBarMessage}" />
+            <Button Grid.Column="4" Margin="4" Content="Log Out" Padding="4 0 4 0" Command="{Binding LogOutCommand}" />
         </Grid>
 
         <entryList:EntryListControl Grid.Row="2" DataContext="{Binding EntryListVM}" />
