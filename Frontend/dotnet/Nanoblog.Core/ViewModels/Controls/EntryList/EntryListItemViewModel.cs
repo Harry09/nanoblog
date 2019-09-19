@@ -1,4 +1,6 @@
-﻿using Nanoblog.Core.Navigation;
+﻿using Nanoblog.Common.Data.Dto;
+using Nanoblog.Core.Navigation;
+using Nanoblog.Core.Services;
 using Nanoblog.Core.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
@@ -11,10 +13,14 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
 {
     public class EntryListItemViewModel : BaseViewModel
     {
+        private EntryDto _entryData;
+
         private string _userName;
         private string _date;
         private string _text;
         private int _commentsCount;
+        private bool _isDeletable;
+        private bool _deleted;
 
         public string UserName
         {
@@ -40,16 +46,59 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
             set => Update(ref _commentsCount, value);
         }
 
+        public bool IsDeletable
+        {
+            get => _isDeletable;
+            set => Update(ref _isDeletable, value);
+        }
+
+        public bool Deleted
+        {
+            get => _deleted;
+            set => Update(ref _deleted, value);
+        }
+
+        public bool InsideDetail { get; set; }
+
         public ICommand ShowCommentsCommand { get; set; }
 
-        public EntryListItemViewModel()
+        public ICommand DeleteCommand { get; set; }
+
+        public EntryListItemViewModel(EntryDto entry)
         {
             ShowCommentsCommand = new RelayCommand(OnShowComments);
+            DeleteCommand = new RelayCommand(OnDelete);
+
+            _entryData = entry;
+            UserName = entry.Author.UserName;
+            Date = entry.CreateTime.ToString();
+            Text = entry.Text;
+            CommentsCount = entry.CommentsCount;
+
+            IsDeletable = entry.Author.Id == App.CurrentUser.Id;
         }
 
         void OnShowComments(object _)
         {
-            PageNavigator.Instance.Push<EntryDetailPageViewModel, EntryListItemViewModel>(this);
+            if (!InsideDetail)
+            {
+                PageNavigator.Instance.Push<EntryDetailPageViewModel, EntryListItemViewModel>(this);
+            }
+        }
+
+        async void OnDelete(object _)
+        {
+            if (IsDeletable)
+            {
+                await EntryService.Instance.Delete(_entryData.Id);
+
+                Deleted = true;
+
+                if (InsideDetail)
+                {
+                    PageNavigator.Instance.Pop();
+                }
+            }
         }
     }
 }

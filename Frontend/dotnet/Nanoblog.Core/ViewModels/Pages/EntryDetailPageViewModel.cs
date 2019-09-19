@@ -32,6 +32,7 @@ namespace Nanoblog.Core.ViewModels.Pages
         public EntryDetailPageViewModel(EntryListItemViewModel entry)
         {
             Entry = entry;
+            entry.InsideDetail = true;
 
             BackCommand = new RelayCommand(OnBack);
 
@@ -40,6 +41,7 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         void OnBack(object _)
         {
+            _entry.InsideDetail = false;
             PageNavigator.Instance.Pop();
         }
     }

@@ -1,4 +1,4 @@
-using Nanoblog.Core.ViewModels.Controls.EntryList;
+﻿using Nanoblog.Core.ViewModels.Controls.EntryList;
 using System.Collections.ObjectModel;
 using System;
 using System.Collections.Generic;
@@ -39,24 +39,18 @@ namespace Nanoblog.Core.ViewModels.Pages
 
             NavBarMessage = $"Logged as {App.CurrentUser.UserName}";
 
-            LoadEntryList();
+            _ = LoadEntryList();
         }
 
         public async Task LoadEntryList()
         {
+            EntryListVM.List?.Clear();
+
             Busy = true;
 
             var entryList = await EntryService.Instance.Newest();
-            EntryListVM.List = entryList.Select(m =>
-            {
-                return new EntryListItemViewModel
-                {
-                    UserName = m.Author.UserName,
-                    Date = m.CreateTime.ToString(),
-                    CommentsCount = m.CommentsCount,
-                    Text = m.Text
-                };
-            }).ToObservable();
+
+            EntryListVM.LoadData(entryList);
 
             Busy = false;
         }

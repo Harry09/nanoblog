@@ -1,4 +1,5 @@
-﻿using Nanoblog.Core.Extensions;
+﻿using Nanoblog.Common.Data.Dto;
+using Nanoblog.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +17,7 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
         public ObservableCollection<EntryListItemViewModel> List
         {
             get => _list;
-            set => Update(ref _list, value);
+            private set => Update(ref _list, value);
         }
 
         public EntryListViewModel()
@@ -24,9 +25,9 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
 
         }
 
-        public void LoadData(IEnumerable<EntryListItemViewModel> data)
+        public void LoadData(IEnumerable<EntryDto> data)
         {
-            List = data.ToObservable();
+            List = data.Select(m => new EntryListItemViewModel(m)).ToObservable();
         }
     }
 }
