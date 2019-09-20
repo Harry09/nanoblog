@@ -1,5 +1,5 @@
-﻿using Nanoblog.Common.Data.Commands.Account;
-using Nanoblog.Common.Data.Dto;
+﻿using Nanoblog.Common.Commands.Account;
+using Nanoblog.Common.Dto;
 using Nanoblog.Core.Navigation;
 using Nanoblog.Core.Services;
 using Refit;
@@ -14,8 +14,8 @@ namespace Nanoblog.Core.ViewModels.Pages
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        private string _formEmail;
-        private string _formPassword;
+        private string _formEmail = "harry@harry.com";
+        private string _formPassword = "password";
         private string _errorMessage;
 
         public ICommand LoginCommand { get; }

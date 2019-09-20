@@ -1,4 +1,4 @@
-﻿using Nanoblog.Common.Data.Exception;
+﻿using Nanoblog.Common.Exception;
 using Nanoblog.Core.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;

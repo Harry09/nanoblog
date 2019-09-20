@@ -1,6 +1,6 @@
 ﻿using Nanoblog.Api.Data.Models;
-using Nanoblog.Common.Data;
-using Nanoblog.Common.Data.Dto;
+using Nanoblog.Common;
+using Nanoblog.Common.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-using Nanoblog.Common.Data.Dto;
+using Nanoblog.Common.Dto;
 using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Services

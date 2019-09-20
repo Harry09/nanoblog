@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Nanoblog.Api.Services;
-using Nanoblog.Common.Data.Commands.Account;
-using Nanoblog.Common.Data.Dto;
+using Nanoblog.Common.Commands.Account;
+using Nanoblog.Common.Dto;
 using System.Threading.Tasks;
 
 namespace Nanoblog.Api.Controllers

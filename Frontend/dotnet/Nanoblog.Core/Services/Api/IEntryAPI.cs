@@ -1,5 +1,5 @@
-﻿using Nanoblog.Common.Data.Commands.Entry;
-using Nanoblog.Common.Data.Dto;
+﻿using Nanoblog.Common.Commands.Entry;
+using Nanoblog.Common.Dto;
 using Refit;
 using System.Collections.Generic;
 using System.Threading.Tasks;

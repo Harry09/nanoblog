@@ -7,9 +7,9 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
-using Nanoblog.Common.Data;
-using Nanoblog.Common.Data.Dto;
-using Nanoblog.Common.Data.Exception;
+using Nanoblog.Common;
+using Nanoblog.Common.Dto;
+using Nanoblog.Common.Exception;
 
 namespace Nanoblog.Api.Services.Karma
 {

@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Nanoblog.Api.Data.Models;
 using Nanoblog.Api.Services;
 using Nanoblog.Api.Services.Karma;
-using Nanoblog.Common.Data;
-using Nanoblog.Common.Data.Dto;
+using Nanoblog.Common;
+using Nanoblog.Common.Dto;
 
 namespace Nanoblog.Api.Controllers
 {

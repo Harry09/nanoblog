@@ -1,4 +1,4 @@
-﻿using Nanoblog.Common.Data.Dto;
+﻿using Nanoblog.Common.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

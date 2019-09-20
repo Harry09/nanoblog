@@ -1,5 +1,5 @@
-﻿using Nanoblog.Common.Data.Commands.Account;
-using Nanoblog.Common.Data.Dto;
+﻿using Nanoblog.Common.Commands.Account;
+using Nanoblog.Common.Dto;
 using Refit;
 using System.Threading.Tasks;
 

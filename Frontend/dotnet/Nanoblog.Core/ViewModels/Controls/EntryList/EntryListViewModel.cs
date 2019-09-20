@@ -1,4 +1,4 @@
-﻿using Nanoblog.Common.Data.Dto;
+﻿using Nanoblog.Common.Dto;
 using Nanoblog.Core.Extensions;
 using System;
 using System.Collections.Generic;

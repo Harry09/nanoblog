@@ -9,7 +9,7 @@ using System.Windows.Input;
 using Nanoblog.Core.Navigation;
 using Nanoblog.Core.Services;
 using Nanoblog.Core.Extensions;
-using Nanoblog.Common.Data.Commands.Entry;
+using Nanoblog.Common.Commands.Entry;
 
 namespace Nanoblog.Core.ViewModels.Pages
 {
