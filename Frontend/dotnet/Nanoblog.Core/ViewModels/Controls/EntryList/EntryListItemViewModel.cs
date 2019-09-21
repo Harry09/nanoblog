@@ -17,6 +17,8 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
         private bool _isDeletable;
         private bool _deleted;
 
+        public string Id { get => _entryData.Id; }
+
         public string UserName
         {
             get => _userName;
