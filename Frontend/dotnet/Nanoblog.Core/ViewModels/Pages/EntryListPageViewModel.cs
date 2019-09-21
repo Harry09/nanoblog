@@ -1,10 +1,10 @@
-﻿using Nanoblog.Core.ViewModels.Controls.EntryList;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using Nanoblog.Common.Commands.Entry;
 using Nanoblog.Core.Navigation;
 using Nanoblog.Core.Services;
-using Nanoblog.Common.Commands.Entry;
 using Nanoblog.Core.ViewModels.Controls.AppBar;
+using Nanoblog.Core.ViewModels.Controls.EntryList;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Nanoblog.Core.ViewModels.Pages
 {
@@ -41,7 +41,8 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         void OnAddPost()
         {
-            PageNavigator.Instance.Push<AddPageViewModel>(async m => {
+            PageNavigator.Instance.Push<AddPageViewModel>(async m =>
+            {
                 if (!m.Cancelled)
                 {
                     await EntryService.Instance.Add(new AddEntry

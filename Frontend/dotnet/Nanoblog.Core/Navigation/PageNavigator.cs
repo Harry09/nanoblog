@@ -92,7 +92,7 @@ namespace Nanoblog.Core.Navigation
                 }
 
                 var pageData = _pageStack.Peek();
-                
+
                 CurrentPage = pageData;
                 _mainWindow.SetPageData(pageData);
             }

@@ -2,11 +2,6 @@
 using Nanoblog.Core.ViewModels.Controls.AppBar;
 using Nanoblog.Core.ViewModels.Controls.CommentList;
 using Nanoblog.Core.ViewModels.Controls.EntryList;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Nanoblog.Core.ViewModels.Pages

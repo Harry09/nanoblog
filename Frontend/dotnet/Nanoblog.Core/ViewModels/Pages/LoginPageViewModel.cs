@@ -4,10 +4,6 @@ using Nanoblog.Core.Navigation;
 using Nanoblog.Core.Services;
 using Refit;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Nanoblog.Core.ViewModels.Pages

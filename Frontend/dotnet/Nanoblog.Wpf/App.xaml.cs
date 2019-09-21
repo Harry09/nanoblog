@@ -1,10 +1,10 @@
 using Autofac;
 using Nanoblog.Core.Navigation;
+using Nanoblog.Wpf.Controls.AppBar;
 using System.Data;
 using System.Linq;
-using System.Windows;
 using System.Reflection;
-using Nanoblog.Wpf.Controls.AppBar;
+using System.Windows;
 
 namespace Nanoblog.Wpf
 {
@@ -27,7 +27,7 @@ namespace Nanoblog.Wpf
 
             var types = Assembly.GetAssembly(typeof(AppBarPage))
                 .GetTypes()
-                .Where(x =>!x.IsAbstract && !x.IsInterface)
+                .Where(x => !x.IsAbstract && !x.IsInterface)
                 .Select(
                     x => (
                             x,

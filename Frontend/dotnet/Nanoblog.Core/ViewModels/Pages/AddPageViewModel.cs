@@ -1,6 +1,6 @@
 
-using System.Windows.Input;
 using Nanoblog.Core.Navigation;
+using System.Windows.Input;
 
 namespace Nanoblog.Core.ViewModels.Pages
 {

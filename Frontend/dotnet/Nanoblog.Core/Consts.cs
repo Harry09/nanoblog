@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nanoblog.Core
+﻿namespace Nanoblog.Core
 {
     public class Consts
     {
