@@ -28,6 +28,11 @@ namespace Nanoblog.Core.Navigation
             _types.Add(typeof(TPageViewModel), typeof(TPage));
         }
 
+        public void Register(Type pageType, Type pageViewModelType)
+        {
+            _types.Add(pageViewModelType, pageType);
+        }
+
         public void Navigate<TPageViewModel>()
         {
             _pageStack.Clear();

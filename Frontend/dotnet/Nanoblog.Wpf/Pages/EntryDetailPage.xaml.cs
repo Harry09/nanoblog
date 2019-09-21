@@ -1,4 +1,6 @@
-﻿using Nanoblog.Wpf.Controls.AppBar;
+﻿using Nanoblog.Core.Navigation;
+using Nanoblog.Core.ViewModels.Pages;
+using Nanoblog.Wpf.Controls.AppBar;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +19,7 @@ namespace Nanoblog.Wpf.Pages
     /// <summary>
     /// Interaction logic for EntryDetailPage.xaml
     /// </summary>
-    public partial class EntryDetailPage : AppBarPage
+    public partial class EntryDetailPage : AppBarPage, INavigable<EntryDetailPageViewModel>
     {
         public EntryDetailPage()
         {
