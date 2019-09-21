@@ -1,5 +1,4 @@
-﻿using Nanoblog.Wpf.Controls.AppBar;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -12,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Nanoblog.Wpf.Pages
+namespace Nanoblog.Wpf.Controls.AppBar
 {
     /// <summary>
-    /// Interaction logic for EntryListPage.xaml
+    /// Interaction logic for UserAppBarControl.xaml
     /// </summary>
-    public partial class EntryListPage : AppBarPage
+    public partial class UserAppBarControl : AppBar
     {
-        public EntryListPage()
+        public UserAppBarControl()
         {
             InitializeComponent();
         }

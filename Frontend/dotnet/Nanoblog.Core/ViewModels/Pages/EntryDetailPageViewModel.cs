@@ -1,4 +1,5 @@
 ﻿using Nanoblog.Core.Navigation;
+using Nanoblog.Core.ViewModels.Controls.AppBar;
 using Nanoblog.Core.ViewModels.Controls.CommentList;
 using Nanoblog.Core.ViewModels.Controls.EntryList;
 using System;
@@ -26,6 +27,8 @@ namespace Nanoblog.Core.ViewModels.Pages
             get => _comments;
             set => Update(ref _comments, value);
         }
+
+        public UserAppBarViewModel UserAppBarVM { get; set; } = new UserAppBarViewModel();
 
         public ICommand BackCommand { get; set; }
 

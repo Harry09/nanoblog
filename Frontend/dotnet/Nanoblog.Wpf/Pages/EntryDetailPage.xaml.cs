@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nanoblog.Wpf.Controls.AppBar;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -16,7 +17,7 @@ namespace Nanoblog.Wpf.Pages
     /// <summary>
     /// Interaction logic for EntryDetailPage.xaml
     /// </summary>
-    public partial class EntryDetailPage : UserControl
+    public partial class EntryDetailPage : AppBarPage
     {
         public EntryDetailPage()
         {

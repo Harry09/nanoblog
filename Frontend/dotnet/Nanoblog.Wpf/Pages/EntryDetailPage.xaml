@@ -1,25 +1,35 @@
-﻿<UserControl x:Class="Nanoblog.Wpf.Pages.EntryDetailPage"
+﻿<appbar:AppBarPage x:Class="Nanoblog.Wpf.Pages.EntryDetailPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nanoblog.Wpf.Pages"
+             xmlns:appbar="clr-namespace:Nanoblog.Wpf.Controls.AppBar"
              xmlns:entryList="clr-namespace:Nanoblog.Wpf.Controls.EntryList"
              xmlns:commentList="clr-namespace:Nanoblog.Wpf.Controls.CommentList"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             AppBarVisibility="Visible">
+    <appbar:AppBarPage.AppBarLeft>
+        <appbar:AppBar>
+            <StackPanel>
+                <Button Content="Back" Command="{Binding BackCommand}" Margin="4" Padding="4 0 4 0" />
+            </StackPanel>
+        </appbar:AppBar>
+    </appbar:AppBarPage.AppBarLeft>
+    
+    <appbar:AppBarPage.AppBarRight>
+        <appbar:UserAppBarControl DataContext="{Binding UserAppBarVM}" />
+    </appbar:AppBarPage.AppBarRight>
+    
     <Grid Background="#EEEEEE">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="32" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         
         <entryList:EntryListItemControl Grid.Row="0" DataContext="{Binding Entry}" />
         <commentList:CommentListControl Grid.Row="2" DataContext="{Binding Comments}" />
-
-        <Button Grid.Row="4" Content="Back" Background="Transparent" BorderThickness="0" Height="28" Command="{Binding BackCommand}" />
     </Grid>
-</UserControl>
+</appbar:AppBarPage>

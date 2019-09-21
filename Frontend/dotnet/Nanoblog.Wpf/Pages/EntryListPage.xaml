@@ -1,4 +1,4 @@
-<UserControl x:Class="Nanoblog.Wpf.Pages.EntryListPage"
+<appbar:AppBarPage x:Class="Nanoblog.Wpf.Pages.EntryListPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,51 +6,40 @@
       xmlns:local="clr-namespace:Nanoblog.Wpf.Pages"
       xmlns:entryList="clr-namespace:Nanoblog.Wpf.Controls.EntryList"
       xmlns:converters="clr-namespace:Nanoblog.Wpf.Converters"
-      mc:Ignorable="d">
+      xmlns:appbar="clr-namespace:Nanoblog.Wpf.Controls.AppBar"
+      mc:Ignorable="d"
+      AppBarVisibility="Visible">
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
-    
+
+    <appbar:AppBarPage.AppBarLeft>
+        <appbar:AppBar>
+            <Button
+            Content="Add new post"
+            Margin="4"
+            Command="{Binding AddPostCommand}"
+            Padding="4 0 4 0"
+            />
+
+            <Button
+            Content="Refresh"
+            Margin="4"
+            Command="{Binding RefreshCommand}"
+            Padding="4 0 4 0"
+            />
+        </appbar:AppBar>
+    </appbar:AppBarPage.AppBarLeft>
+
+    <appbar:AppBarPage.AppBarRight>
+        <appbar:UserAppBarControl DataContext="{Binding UserAppBarVM}" />
+    </appbar:AppBarPage.AppBarRight>
+
     <Grid Background="#EEEEEE">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="4" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <entryList:EntryListControl DataContext="{Binding EntryListVM}" />
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            
-            <Button
-                Grid.Column="0"
-                Content="Add new post"
-                Margin="4"
-                Command="{Binding AddPostCommand}"
-                Padding="4 0 4 0"
-                />
-
-            <Button
-                Grid.Column="1"
-                Content="Refresh"
-                Margin="4"
-                Command="{Binding RefreshCommand}"
-                Padding="4 0 4 0"
-                />
-
-            <TextBlock Grid.Column="3" Margin="0 6 0 0" Text="{Binding NavBarMessage}" />
-            <Button Grid.Column="4" Margin="4" Content="Log Out" Padding="4 0 4 0" Command="{Binding LogOutCommand}" />
-        </Grid>
-
-        <entryList:EntryListControl Grid.Row="2" DataContext="{Binding EntryListVM}" />
-
-        <Grid Grid.Row="2" Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -65,4 +54,4 @@
             <TextBlock Grid.Column="1" Grid.Row="1" Text="Loading data..." />
         </Grid>
     </Grid>
-</UserControl>
+</appbar:AppBarPage>

@@ -1,17 +1,18 @@
-﻿<UserControl x:Class="Nanoblog.Wpf.Pages.LoginPage"
+﻿<appbar:AppBarPage x:Class="Nanoblog.Wpf.Pages.LoginPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Nanoblog.Wpf.Pages"
+      xmlns:appbar="clr-namespace:Nanoblog.Wpf.Controls.AppBar"
       xmlns:converters="clr-namespace:Nanoblog.Wpf.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
-    <UserControl.Resources>
+    <appbar:AppBarPage.Resources>
         <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </UserControl.Resources>
+    </appbar:AppBarPage.Resources>
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -60,4 +61,4 @@
             </StackPanel>
         </StackPanel>
     </Grid>
-</UserControl>
+</appbar:AppBarPage>
