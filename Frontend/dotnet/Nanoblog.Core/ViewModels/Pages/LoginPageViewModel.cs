@@ -43,7 +43,7 @@ namespace Nanoblog.Core.ViewModels.Pages
             LoginCommand = new RelayCommand(OnLogin);
         }
 
-        async void OnLogin(object obj)
+        async void OnLogin()
         {
             Busy = true;
 

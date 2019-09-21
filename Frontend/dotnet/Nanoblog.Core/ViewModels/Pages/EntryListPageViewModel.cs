@@ -39,7 +39,7 @@ namespace Nanoblog.Core.ViewModels.Pages
             Busy = false;
         }
 
-        void OnAddPost(object _)
+        void OnAddPost()
         {
             PageNavigator.Instance.Push<AddPageViewModel>(async m => {
                 if (!m.Cancelled)
@@ -54,7 +54,7 @@ namespace Nanoblog.Core.ViewModels.Pages
             });
         }
 
-        async void OnRefresh(object _)
+        async void OnRefresh()
         {
             await LoadEntryList();
         }

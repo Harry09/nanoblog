@@ -78,7 +78,7 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
             IsDeletable = entry.Author.Id == App.CurrentUser.Id;
         }
 
-        void OnShowComments(object _)
+        void OnShowComments()
         {
             if (!InsideDetail)
             {
@@ -86,7 +86,7 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
             }
         }
 
-        async void OnDelete(object _)
+        async void OnDelete()
         {
             if (IsDeletable)
             {

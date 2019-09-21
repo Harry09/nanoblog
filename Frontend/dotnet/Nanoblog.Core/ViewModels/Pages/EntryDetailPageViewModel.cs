@@ -42,7 +42,7 @@ namespace Nanoblog.Core.ViewModels.Pages
             // TODO: Load comments using Entry.Id
         }
 
-        void OnBack(object _)
+        void OnBack()
         {
             _entry.InsideDetail = false;
             PageNavigator.Instance.Pop();

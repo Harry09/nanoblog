@@ -7,20 +7,22 @@ using System.Windows.Input;
 
 namespace Nanoblog.Core.ViewModels
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand<T> : ICommand
     {
-        private readonly Func<object, bool> _canExecute;
-        private readonly Action<object> _execute;
+        private readonly Func<T, bool> _canExecute;
+        private readonly Action<T> _execute;
 
+#pragma warning disable CS0067
         public event EventHandler CanExecuteChanged;
+#pragma warning disable CS0067
 
-        public RelayCommand(Func<object, bool> canExecute, Action<object> execute)
+        public RelayCommand(Func<T, bool> canExecute, Action<T> execute)
         {
             _canExecute = canExecute;
             _execute = execute;
         }
 
-        public RelayCommand(Action<object> execute)
+        public RelayCommand(Action<T> execute)
         {
             _canExecute = (_) => true;
             _execute = execute;
@@ -28,12 +30,38 @@ namespace Nanoblog.Core.ViewModels
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute?.Invoke(parameter) == true;
+            return _canExecute?.Invoke((T)parameter) == true;
         }
 
         public void Execute(object parameter)
         {
-            _execute?.Invoke(parameter);
+            _execute?.Invoke((T)parameter);
+        }
+    }
+
+    public class RelayCommand : ICommand
+    {
+        private readonly Func<object, bool> _canExecute;
+        private readonly Action _execute;
+
+#pragma warning disable CS0067
+        public event EventHandler CanExecuteChanged;
+#pragma warning disable CS0067
+
+        public RelayCommand(Action execute)
+        {
+            _canExecute = (_) => true;
+            _execute = execute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _execute?.Invoke();
         }
     }
 }

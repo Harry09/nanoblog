@@ -29,7 +29,7 @@ namespace Nanoblog.Core.ViewModels.Controls.AppBar
             LogOutCommand = new RelayCommand(OnLogOut);
         }
 
-        void OnLogOut(object _)
+        void OnLogOut()
         {
             JwtService.Instance.Reset();
             App.CurrentUser = null;

@@ -26,12 +26,12 @@ namespace Nanoblog.Core.ViewModels.Pages
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        void OnAdd(object _)
+        void OnAdd()
         {
             PageNavigator.Instance.Pop();
         }
 
-        void OnCancel(object _)
+        void OnCancel()
         {
             Cancelled = true;
             PageNavigator.Instance.Pop();
