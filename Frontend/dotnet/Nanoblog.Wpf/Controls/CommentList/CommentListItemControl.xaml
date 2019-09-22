@@ -4,31 +4,59 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nanoblog.Wpf.Controls.CommentList"
+             xmlns:converters="clr-namespace:Nanoblog.Wpf.Converters"
              mc:Ignorable="d">
 
-    <StackPanel Background="White" >
-        <!--header-->
-        <Grid Margin="5 10 5 10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:ReversedBooleanToVisibilityConverter x:Key="ReversedBooleanToVisibilityConverter" />
+    </UserControl.Resources>
 
-            <TextBlock Grid.Column="0" FontWeight="Bold" Text="{Binding UserName}" />
-            <TextBlock Grid.Column="1" Text="{Binding Date}" Margin="5 0 0 0" />
-        </Grid>
+    <StackPanel Background="White">
+        <StackPanel  Visibility="{Binding Deleted, Converter={StaticResource ReversedBooleanToVisibilityConverter}}">        
+            <!--header-->
+            <Grid Margin="5 10 5 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
 
-        <!--body-->
-        <TextBlock TextWrapping="Wrap" Text="{Binding Text}" Padding="5 0 5 0" />
+                <TextBlock Grid.Column="0" FontWeight="Bold" Text="{Binding UserName}" />
+                <TextBlock Grid.Column="1" Text="{Binding Date}" Margin="5 0 0 0" />
 
-        <!--footer-->
-        <Grid Margin="4 4 4 5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-        </Grid>
+                <Button
+                        Grid.Column="3"
+                        Margin="0 0 4 0"
+                        Content="X"
+                        Command="{Binding DeleteCommand}"
+                        Background="Transparent"
+                        Padding="4 0 4 0"
+                        ToolTip="Delete this entry"
+                        Foreground="Red"
+                        BorderThickness="0"
+                        Visibility="{Binding IsDeletable, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        />
+            </Grid>
+
+            <!--body-->
+            <TextBlock TextWrapping="Wrap" Text="{Binding Text}" Padding="5 0 5 0" />
+
+            <!--footer-->
+            <Grid Margin="4 4 4 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </StackPanel>
+            
+        <!--if entry is deleted-->
+        <StackPanel Visibility="{Binding Deleted, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Text="Entry deleted!" Foreground="Gray" Margin="8" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

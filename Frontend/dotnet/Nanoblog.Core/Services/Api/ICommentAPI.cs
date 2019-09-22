@@ -22,6 +22,7 @@ namespace Nanoblog.Core.Services.Api
         Task<CommentDto> Add([Body] AddComment comment);
 
         [Delete("/{id}")]
+        [Headers("Authorization: Bearer")]
         Task Delete(string id);
     }
 }

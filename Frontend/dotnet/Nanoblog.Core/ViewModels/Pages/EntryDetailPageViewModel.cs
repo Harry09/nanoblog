@@ -33,14 +33,13 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         public EntryDetailPageViewModel(EntryListItemViewModel entry)
         {
-            EntryVM = entry;
-            //Comments = new CommentListViewModel(); 
-
-            entry.InsideDetail = true;
-
             BackCommand = new RelayCommand(OnBack);
             AddCommentCommand = new RelayCommand(OnAddComment);
             RefreshCommand = new RelayCommand(OnRefresh);
+
+            EntryVM = entry;
+
+            entry.InsideDetail = true;
 
             _ = LoadCommentsList();
         }
