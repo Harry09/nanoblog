@@ -103,7 +103,7 @@
             
         <!--if entry is deleted-->
         <StackPanel Visibility="{Binding Deleted, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <TextBlock Text="Entry deleted!" Foreground="Gray" Margin="8" />
+            <TextBlock Text="Comment deleted!" Foreground="Gray" Margin="8" />
         </StackPanel>
     </StackPanel>
 </UserControl>
