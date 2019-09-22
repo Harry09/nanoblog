@@ -1,4 +1,4 @@
-﻿using Nanoblog.Common.Dto;
+using Nanoblog.Common.Dto;
 using Nanoblog.Core.Navigation;
 using Nanoblog.Core.ViewModels.Pages;
 
