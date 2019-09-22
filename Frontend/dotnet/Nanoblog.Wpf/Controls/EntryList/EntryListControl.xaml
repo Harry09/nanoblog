@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Nanoblog.Wpf.Controls.EntryList"
              mc:Ignorable="d">
     <Grid Background="#EEEEEE">
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
             <ItemsControl ItemsSource="{Binding List}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -14,6 +14,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </ScrollViewer>
+        </StackPanel>
     </Grid>
 </UserControl>

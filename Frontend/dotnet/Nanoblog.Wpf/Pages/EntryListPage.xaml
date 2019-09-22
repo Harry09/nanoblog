@@ -37,8 +37,10 @@
     </appbar:AppBarPage.AppBarRight>
 
     <Grid Background="#EEEEEE">
-        <entryList:EntryListControl DataContext="{Binding EntryListVM}" />
-
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <entryList:EntryListControl DataContext="{Binding EntryListVM}" />
+        </ScrollViewer>
+        
         <Grid Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
