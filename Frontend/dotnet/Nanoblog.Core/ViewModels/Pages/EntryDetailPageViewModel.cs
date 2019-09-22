@@ -49,6 +49,8 @@ namespace Nanoblog.Core.ViewModels.Pages
             var comments = await CommentService.Instance.GetComments(_entryVM.Id);
 
             CommentsVM.LoadData(comments);
+
+            EntryVM.CommentsCount = CommentsVM.List.Count;
         }
 
         void OnBack()
