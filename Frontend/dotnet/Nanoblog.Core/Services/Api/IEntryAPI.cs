@@ -10,9 +10,11 @@ namespace Nanoblog.Core.Services.Api
     public interface IEntryAPI
     {
         [Get("/newest")]
+        [Headers("Authorization: Bearer")]
         Task<IEnumerable<EntryDto>> Newest();
 
         [Get("/{id]")]
+        [Headers("Authorization: Bearer")]
         Task<EntryDto> Get(string id);
 
         [Post("")]

@@ -14,7 +14,7 @@ namespace Nanoblog.Core.Services
     {
         public enum VoteFor
         {
-            Karma,
+            Entry,
             Comment
         }
 

@@ -12,9 +12,11 @@ namespace Nanoblog.Core.Services.Api
     public interface ICommentAPI
     {
         [Get("/{id}")]
+        [Headers("Authorization: Bearer")]
         Task<CommentDto> Get(string id);
 
         [Get("/entry/{entryId}")]
+        [Headers("Authorization: Bearer")]
         Task<IEnumerable<CommentDto>> GetComments(string entryId);
 
         [Post("")]
