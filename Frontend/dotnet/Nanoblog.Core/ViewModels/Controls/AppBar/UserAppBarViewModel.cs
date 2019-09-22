@@ -1,6 +1,7 @@
 ﻿using Nanoblog.Core.Navigation;
 using Nanoblog.Core.Services;
 using Nanoblog.Core.ViewModels.Pages;
+using Refit;
 using System.Windows.Input;
 
 namespace Nanoblog.Core.ViewModels.Controls.AppBar
@@ -24,9 +25,17 @@ namespace Nanoblog.Core.ViewModels.Controls.AppBar
             LogOutCommand = new RelayCommand(OnLogOut);
         }
 
-        void OnLogOut()
+        async void OnLogOut()
         {
-            JwtService.Instance.Reset();
+            try
+            {
+                await JwtService.Instance.ResetAsync();
+            }
+            catch (ApiException)
+            {
+
+            }
+
             App.CurrentUser = null;
 
             PageNavigator.Instance.Navigate<LoginPageViewModel>();

@@ -19,10 +19,10 @@ namespace Nanoblog.Core.Services.Api
         [Get("/user/byEmail/{email}")]
         Task<UserDto> GetUserByEmail(string email);
 
-        [Get("/token/refresh/{refreshToken}")]
+        [Get("/tokens/refresh/{refreshToken}")]
         Task<JwtDto> RefreshAccessToken(string refreshToken);
 
-        [Get("/token/revoke/{refreshToken}")]
+        [Get("/tokens/revoke/{refreshToken}")]
         Task RevokeAccessToken(string refreshToken);
     }
 }

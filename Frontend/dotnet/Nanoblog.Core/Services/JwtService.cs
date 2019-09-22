@@ -28,9 +28,14 @@ namespace Nanoblog.Core.Services
             return _jwt;
         }
 
-        public void Reset()
+        public async Task ResetAsync()
         {
-            _jwt = null;
+            if (_jwt != null)
+            {
+                await AccountService.Instance.RevokeAccessToken(_jwt.RefreshToken);
+
+                _jwt = null;
+            }
         }
 
         private bool IsExpired()
