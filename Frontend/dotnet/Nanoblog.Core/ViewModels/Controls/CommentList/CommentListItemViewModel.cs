@@ -1,60 +1,27 @@
-﻿using Nanoblog.Common.Dto;
+﻿using Nanoblog.Common;
+using Nanoblog.Common.Dto;
 using Nanoblog.Core.Services;
 using System.Windows.Input;
 
 namespace Nanoblog.Core.ViewModels.Controls.CommentList
 {
-    public class CommentListItemViewModel : BaseViewModel
+    public class CommentListItemViewModel : ItemListItemViewModel
     {
         private CommentDto _commentData;
 
-        private string _userName;
-        private string _date;
-        private string _text;
-        private bool _isDeletable;
-        private bool _deleted;
-
-        public string UserName
-        {
-            get => _userName;
-            set => Update(ref _userName, value);
-        }
-
-        public string Date
-        {
-            get => _date;
-            set => Update(ref _date, value);
-        }
-
-        public string Text
-        {
-            get => _text;
-            set => Update(ref _text, value);
-        }
-
-        public bool IsDeletable
-        {
-            get => _isDeletable;
-            set => Update(ref _isDeletable, value);
-        }
-
-        public bool Deleted
-        {
-            get => _deleted;
-            set => Update(ref _deleted, value);
-        }
-
-        public ICommand DeleteCommand { get; set; }
 
         public CommentListItemViewModel(CommentDto commentDto)
         {
             DeleteCommand = new RelayCommand(OnDelete);
+            ChangeVoteCommand = new RelayCommand<KarmaValue>(OnChangeVote);
 
             _commentData = commentDto;
 
-            _userName = _commentData.Author.UserName;
-            _date = _commentData.CreateTime.ToString();
-            _text = _commentData.Text;
+            UserName = _commentData.Author.UserName;
+            Date = _commentData.CreateTime.ToString();
+            Text = _commentData.Text;
+            KarmaCount = _commentData.KarmaCount;
+            UserVote = _commentData.UserVote;
 
             IsDeletable = commentDto.Author.Id == App.CurrentUser.Id;
         }
@@ -67,6 +34,11 @@ namespace Nanoblog.Core.ViewModels.Controls.CommentList
 
                 Deleted = true;
             }
+        }
+
+        async void OnChangeVote(KarmaValue karmaValue)
+        {
+            await OnChangeVote(KarmaService.VoteFor.Comment, karmaValue, _commentData.Id);
         }
     }
 }

@@ -5,11 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nanoblog.Wpf.Controls.CommentList"
              xmlns:converters="clr-namespace:Nanoblog.Wpf.Converters"
+             xmlns:karmaValue="clr-namespace:Nanoblog.Common;assembly=Nanoblog.Common"
              mc:Ignorable="d">
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:ReversedBooleanToVisibilityConverter x:Key="ReversedBooleanToVisibilityConverter" />
+        <converters:BooleanToBrushConverter x:Key="BooleanToBrushConverter" />
+
+        <FontFamily x:Key="FontAwesome">/Fonts/FontAwesome.otf#Font Awesome 5 Free Solid</FontFamily>
+
+        <SolidColorBrush x:Key="DownVoteColor" Color="PaleVioletRed" />
+        <SolidColorBrush x:Key="UpVoteColor" Color="MediumSeaGreen" />
     </UserControl.Resources>
 
     <StackPanel Background="White">
@@ -51,6 +58,46 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
+
+                <!--Down vote-->
+                <Button
+                    Grid.Column="1"
+                    Height="28"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ChangeVoteCommand}"
+                    CommandParameter="{x:Static karmaValue:KarmaValue.Minus}"
+                    Padding="4">
+                    <TextBlock 
+                        Text="&#xf068;" 
+                        FontSize="14" 
+                        Foreground="{Binding IsDownVote, 
+                                        Converter={StaticResource BooleanToBrushConverter},
+                                        ConverterParameter={StaticResource DownVoteColor}}"
+                        FontFamily="{DynamicResource FontAwesome}"
+                        />
+                </Button>
+
+                <!--Karma count-->
+                <TextBlock Grid.Column="2" Text="{Binding KarmaCount}" Margin="6 0 6 0" FontSize="20" />
+
+                <!--Up vote-->
+                <Button
+                    Grid.Column="3"
+                    Height="28"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ChangeVoteCommand}"
+                    CommandParameter="{x:Static karmaValue:KarmaValue.Plus}"
+                    Padding="4">
+                    <TextBlock
+                        Text="&#xf067;"
+                        FontSize="14"
+                        Foreground="{Binding IsUpVote, 
+                                        Converter={StaticResource BooleanToBrushConverter},
+                                        ConverterParameter={StaticResource UpVoteColor}}"
+                        FontFamily="{StaticResource FontAwesome}" />
+                </Button>
             </Grid>
         </StackPanel>
             
