@@ -1,4 +1,5 @@
-﻿using Nanoblog.Common.Dto;
+﻿using Nanoblog.Common.Commands.Comment;
+using Nanoblog.Common.Dto;
 using Nanoblog.Core.Navigation;
 using Nanoblog.Core.Services;
 using Nanoblog.Core.ViewModels.Controls.AppBar;
@@ -12,44 +13,71 @@ namespace Nanoblog.Core.ViewModels.Pages
 {
     public class EntryDetailPageViewModel : BaseViewModel
     {
-        private EntryListItemViewModel _entry;
-        private CommentListViewModel _comments;
+        private EntryListItemViewModel _entryVM;
 
-        public EntryListItemViewModel Entry
+        public EntryListItemViewModel EntryVM
         {
-            get => _entry;
-            set => Update(ref _entry, value);
+            get => _entryVM;
+            set => Update(ref _entryVM, value);
         }
 
-        public CommentListViewModel Comments { get; private set; }
+        public CommentListViewModel CommentsVM { get; } = new CommentListViewModel();
 
-        public UserAppBarViewModel UserAppBarVM => new UserAppBarViewModel();
+        public UserAppBarViewModel UserAppBarVM { get; } = new UserAppBarViewModel();
 
         public ICommand BackCommand { get; set; }
 
+        public ICommand AddCommentCommand { get; set; }
+
+        public ICommand RefreshCommand { get; set; }
+
         public EntryDetailPageViewModel(EntryListItemViewModel entry)
         {
-            Entry = entry;
-            Comments = new CommentListViewModel(); 
+            EntryVM = entry;
+            //Comments = new CommentListViewModel(); 
 
             entry.InsideDetail = true;
 
             BackCommand = new RelayCommand(OnBack);
+            AddCommentCommand = new RelayCommand(OnAddComment);
+            RefreshCommand = new RelayCommand(OnRefresh);
 
             _ = LoadCommentsList();
         }
 
         async Task LoadCommentsList()
         {
-            var comments = await CommentService.Instance.GetComments(_entry.Id);
+            var comments = await CommentService.Instance.GetComments(_entryVM.Id);
 
-            Comments.LoadData(comments);
+            CommentsVM.LoadData(comments);
         }
 
         void OnBack()
         {
-            _entry.InsideDetail = false;
+            _entryVM.InsideDetail = false;
             PageNavigator.Instance.Pop();
+        }
+
+        void OnAddComment()
+        {
+            PageNavigator.Instance.Push<AddPageViewModel>(async m =>
+            {
+                if (!m.Cancelled)
+                {
+                    await CommentService.Instance.Add(new AddComment
+                    {
+                        Text = m.Text,
+                        EntryId = EntryVM.Id
+                    });
+
+                    await LoadCommentsList();
+                }
+            });
+        }
+
+        async void OnRefresh()
+        {
+            await LoadCommentsList();
         }
     }
 }

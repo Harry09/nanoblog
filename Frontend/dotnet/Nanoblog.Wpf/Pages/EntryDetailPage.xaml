@@ -12,9 +12,9 @@
              AppBarVisibility="Visible">
     <appbar:AppBarPage.AppBarLeft>
         <appbar:AppBar>
-            <StackPanel>
-                <Button Content="Back" Command="{Binding BackCommand}" Margin="4" Padding="4 0 4 0" />
-            </StackPanel>
+            <Button Content="Back" Command="{Binding BackCommand}" Margin="4" Padding="4 0 4 0" />
+            <Button Content="Add comment" Command="{Binding AddCommentCommand}" Margin="4" Padding="4 0 4 0" />
+            <Button Content="Refresh" Command="{Binding RefreshCommand}" Margin="4" Padding="4 0 4 0" />
         </appbar:AppBar>
     </appbar:AppBarPage.AppBarLeft>
     
@@ -24,9 +24,9 @@
 
     <ScrollViewer Background="#EEEEEE" VerticalScrollBarVisibility="Auto">
         <StackPanel>
-            <entryList:EntryListItemControl Grid.Row="0" DataContext="{Binding Entry}" Margin="0 0 0 32" />
+            <entryList:EntryListItemControl Grid.Row="0" DataContext="{Binding EntryVM}" Margin="0 0 0 32" />
 
-            <commentList:CommentListControl DataContext="{Binding Comments}" />
+            <commentList:CommentListControl DataContext="{Binding CommentsVM}" />
         </StackPanel>
     </ScrollViewer>
 </appbar:AppBarPage>
