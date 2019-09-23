@@ -14,7 +14,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Text}" />
+        <TextBox Grid.Row="0" x:Name="TextBox" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Text}" KeyUp="TextBox_KeyUp" />
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

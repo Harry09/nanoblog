@@ -7,6 +7,7 @@
       xmlns:local="clr-namespace:Nanoblog.Wpf.Pages"
       xmlns:appbar="clr-namespace:Nanoblog.Wpf.Controls.AppBar"
       xmlns:converters="clr-namespace:Nanoblog.Wpf.Converters"
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
@@ -46,11 +47,11 @@
 
                     <!--email input-->
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Email:" />
-                    <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding FormEmail}" IsEnabled="{Binding Busy, Converter={StaticResource BooleanInvertConverter}}" />
+                    <TextBox Grid.Column="2" Grid.Row="0" KeyUp="TextBox_KeyUp" Text="{Binding FormEmail}" IsEnabled="{Binding Busy, Converter={StaticResource BooleanInvertConverter}}" />
 
                     <!--password input-->
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Password:" />
-                    <PasswordBox Grid.Column="2" Grid.Row="2" Name="PasswordBox" IsEnabled="{Binding Busy, Converter={StaticResource BooleanInvertConverter}}" />
+                    <PasswordBox Grid.Column="2" Grid.Row="2" x:Name="PasswordBox" KeyUp="TextBox_KeyUp" IsEnabled="{Binding Busy, Converter={StaticResource BooleanInvertConverter}}" />
                 </Grid>
 
                 <Button 
