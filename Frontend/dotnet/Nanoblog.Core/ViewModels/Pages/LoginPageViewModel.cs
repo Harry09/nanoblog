@@ -2,6 +2,7 @@
 using Nanoblog.Common.Dto;
 using Nanoblog.Core.Navigation;
 using Nanoblog.Core.Services;
+using Nanoblog.Core.Extensions;
 using Refit;
 using System;
 using System.Windows.Input;
@@ -10,8 +11,7 @@ namespace Nanoblog.Core.ViewModels.Pages
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        private string _formEmail = "harry@harry.com";
-        private string _formPassword = "password";
+        private string _formEmail = "";
         private string _errorMessage;
 
         public ICommand LoginCommand { get; }
@@ -22,12 +22,6 @@ namespace Nanoblog.Core.ViewModels.Pages
             set => Update(ref _formEmail, value);
         }
 
-        public string FormPassword
-        {
-            get => _formPassword;
-            set => Update(ref _formPassword, value);
-        }
-
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -36,16 +30,30 @@ namespace Nanoblog.Core.ViewModels.Pages
 
         public LoginPageViewModel()
         {
-            LoginCommand = new RelayCommand(OnLogin);
+            LoginCommand = new RelayCommand<IHavePassword>(OnLogin);
         }
 
-        async void OnLogin()
+        async void OnLogin(IHavePassword havePassword)
         {
+            if (FormEmail.Length == 0)
+            {
+                ErrorMessage = "Enter the email";
+                return;
+            }
+
+            string password = havePassword.Password.Unsecure();
+
+            if (password.Length == 0)
+            {
+                ErrorMessage = "Enter the password";
+                return;
+            }
+
             Busy = true;
 
             try
             {
-                var jwt = await AccountService.Instance.Login(new LoginUser { Email = FormEmail, Password = FormPassword });
+                var jwt = await AccountService.Instance.Login(new LoginUser { Email = FormEmail, Password = password });
                 JwtService.Instance.SetJwt(jwt);
 
                 var user = await AccountService.Instance.GetUserByEmail(FormEmail);
