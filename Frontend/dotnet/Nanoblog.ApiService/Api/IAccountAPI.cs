@@ -3,7 +3,7 @@ using Nanoblog.Common.Dto;
 using Refit;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Services.Api
+namespace Nanoblog.ApiService.Api
 {
     public interface IAccountAPI
     {

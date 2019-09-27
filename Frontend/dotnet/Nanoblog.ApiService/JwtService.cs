@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Services
+namespace Nanoblog.ApiService
 {
     public class JwtService
     {

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nanoblog.Common;
+﻿using Nanoblog.Common;
 using Refit;
+using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Services.Api
+namespace Nanoblog.ApiService.Api
 {
     public class GetUserVoteParams
     {

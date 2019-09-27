@@ -1,10 +1,10 @@
 ﻿using Nanoblog.Common.Commands.Account;
 using Nanoblog.Common.Dto;
-using Nanoblog.Core.Services.Api;
+using Nanoblog.ApiService.Api;
 using Refit;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Services
+namespace Nanoblog.ApiService
 {
     public class AccountService
     {
@@ -14,7 +14,7 @@ namespace Nanoblog.Core.Services
 
         public AccountService()
         {
-            _accountApi = RestService.For<IAccountAPI>($"http://{Consts.ServerIp}:{Consts.ServerPort}/api/accounts");
+            _accountApi = RestService.For<IAccountAPI>($"{Config.Address}/api/accounts");
         }
 
         public async Task<JwtDto> Login(LoginUser data)

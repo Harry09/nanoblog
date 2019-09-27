@@ -1,13 +1,13 @@
 ﻿using Nanoblog.Common.Commands.Entry;
 using Nanoblog.Common.Dto;
-using Nanoblog.Core.Services.Api;
+using Nanoblog.ApiService.Api;
 using Refit;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Services
+namespace Nanoblog.ApiService
 {
     public class EntryService
     {
@@ -20,7 +20,7 @@ namespace Nanoblog.Core.Services
             _entryApi = RestService.For<IEntryAPI>(
                 new HttpClient(new AuthenticatedHttpClientHandler())
                 {
-                    BaseAddress = new Uri($"http://{Consts.ServerIp}:{Consts.ServerPort}/api/entries")
+                    BaseAddress = new Uri($"{Config.Address}/api/entries")
                 }
                 );
         }

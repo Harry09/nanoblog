@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Services
+namespace Nanoblog.ApiService
 {
     public class AuthenticatedHttpClientHandler : HttpClientHandler
     {

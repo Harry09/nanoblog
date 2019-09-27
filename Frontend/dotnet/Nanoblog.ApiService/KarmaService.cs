@@ -1,14 +1,11 @@
 ﻿using Nanoblog.Common;
-using Nanoblog.Core.Services.Api;
+using Nanoblog.ApiService.Api;
 using Refit;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Nanoblog.Core.Services
+namespace Nanoblog.ApiService
 {
     public class KarmaService
     {
@@ -27,7 +24,7 @@ namespace Nanoblog.Core.Services
             _karmaApi = RestService.For<IKarmaAPI>(
                 new HttpClient(new AuthenticatedHttpClientHandler())
                 {
-                    BaseAddress = new Uri($"http://{Consts.ServerIp}:{Consts.ServerPort}/api/karma")
+                    BaseAddress = new Uri($"{Config.Address}/api/karma")
                 }
             );
         }

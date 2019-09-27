@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
-namespace Nanoblog.Core.Services.Api
+namespace Nanoblog.ApiService.Api
 {
     public interface IEntryAPI
     {
