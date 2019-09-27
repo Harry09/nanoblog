@@ -1,6 +1,6 @@
-using Nanoblog.Core;
+using Nanoblog.Common;
 using Nanoblog.Common.Exception;
-using Nanoblog.Core.Extensions;
+using Nanoblog.Common.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;

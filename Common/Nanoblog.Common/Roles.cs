@@ -1,4 +1,4 @@
-namespace Nanoblog.Core
+namespace Nanoblog.Common
 {
     public static class Roles
     {

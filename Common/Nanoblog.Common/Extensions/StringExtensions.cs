@@ -1,4 +1,4 @@
-namespace Nanoblog.Core.Extensions
+namespace Nanoblog.Common.Extensions
 {
     public static class StringExtensions
     {

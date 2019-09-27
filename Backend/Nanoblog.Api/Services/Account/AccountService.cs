@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
-using Nanoblog.Core;
+using Nanoblog.Common;
 using Nanoblog.Common.Dto;
 using Nanoblog.Common.Exception;
 using System;
