@@ -1,6 +1,6 @@
-﻿using Nanoblog.Core.Navigation;
+﻿using Nanoblog.AppCore.Navigation;
 
-namespace Nanoblog.Core
+namespace Nanoblog.AppCore
 {
     public interface IMainWindow
     {

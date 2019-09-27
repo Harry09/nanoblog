@@ -1,13 +1,11 @@
 ﻿using Nanoblog.Common;
 using Nanoblog.Common.Dto;
-using Nanoblog.Core.Navigation;
-using Nanoblog.Core.Services;
-using Nanoblog.Core.Services.Api;
-using Nanoblog.Core.ViewModels.Pages;
-using System.Threading.Tasks;
+using Nanoblog.AppCore.Navigation;
+using Nanoblog.ApiService;
+using Nanoblog.AppCore.ViewModels.Pages;
 using System.Windows.Input;
 
-namespace Nanoblog.Core.ViewModels.Controls.EntryList
+namespace Nanoblog.AppCore.ViewModels.Controls.EntryList
 {
     public class EntryListItemViewModel : ItemListItemViewModel
     {
@@ -69,6 +67,6 @@ namespace Nanoblog.Core.ViewModels.Controls.EntryList
             await OnChangeVote(KarmaService.VoteFor.Entry, karmaValue, _entryData.Id);
         }
 
-        
+
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Nanoblog.Common.Dto;
-using Nanoblog.Core.Extensions;
+using Nanoblog.AppCore.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Nanoblog.Core.ViewModels.Controls.EntryList
+namespace Nanoblog.AppCore.ViewModels.Controls.EntryList
 {
     public class EntryListViewModel : BaseViewModel
     {

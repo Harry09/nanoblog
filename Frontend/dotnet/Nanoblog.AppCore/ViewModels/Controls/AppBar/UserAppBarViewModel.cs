@@ -1,10 +1,10 @@
-﻿using Nanoblog.Core.Navigation;
-using Nanoblog.Core.Services;
-using Nanoblog.Core.ViewModels.Pages;
+﻿using Nanoblog.AppCore.Navigation;
+using Nanoblog.ApiService;
+using Nanoblog.AppCore.ViewModels.Pages;
 using Refit;
 using System.Windows.Input;
 
-namespace Nanoblog.Core.ViewModels.Controls.AppBar
+namespace Nanoblog.AppCore.ViewModels.Controls.AppBar
 {
     public class UserAppBarViewModel : BaseViewModel
     {

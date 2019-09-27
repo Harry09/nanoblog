@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Nanoblog.Core.ViewModels
+namespace Nanoblog.AppCore.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

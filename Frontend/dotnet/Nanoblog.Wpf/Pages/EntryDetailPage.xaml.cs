@@ -1,5 +1,5 @@
-﻿using Nanoblog.Core.Navigation;
-using Nanoblog.Core.ViewModels.Pages;
+﻿using Nanoblog.AppCore.Navigation;
+using Nanoblog.AppCore.ViewModels.Pages;
 using Nanoblog.Wpf.Controls.AppBar;
 
 namespace Nanoblog.Wpf.Pages

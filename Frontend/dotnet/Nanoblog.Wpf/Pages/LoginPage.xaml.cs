@@ -1,6 +1,6 @@
-﻿using Nanoblog.Core.Navigation;
-using Nanoblog.Core.ViewModels;
-using Nanoblog.Core.ViewModels.Pages;
+﻿using Nanoblog.AppCore.Navigation;
+using Nanoblog.AppCore.ViewModels;
+using Nanoblog.AppCore.ViewModels.Pages;
 using Nanoblog.Wpf.Controls.AppBar;
 using System.Security;
 using System.Windows.Controls;

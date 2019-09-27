@@ -1,15 +1,13 @@
 ﻿using Nanoblog.Common.Commands.Comment;
-using Nanoblog.Common.Dto;
-using Nanoblog.Core.Navigation;
-using Nanoblog.Core.Services;
-using Nanoblog.Core.ViewModels.Controls.AppBar;
-using Nanoblog.Core.ViewModels.Controls.CommentList;
-using Nanoblog.Core.ViewModels.Controls.EntryList;
-using System;
+using Nanoblog.AppCore.Navigation;
+using Nanoblog.ApiService;
+using Nanoblog.AppCore.ViewModels.Controls.AppBar;
+using Nanoblog.AppCore.ViewModels.Controls.CommentList;
+using Nanoblog.AppCore.ViewModels.Controls.EntryList;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Nanoblog.Core.ViewModels.Pages
+namespace Nanoblog.AppCore.ViewModels.Pages
 {
     public class EntryDetailPageViewModel : BaseViewModel
     {

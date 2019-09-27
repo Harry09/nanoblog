@@ -7,16 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\FontAwesome.otf" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Nanoblog.Common\Nanoblog.Common.csproj" />
-    <ProjectReference Include="..\Nanoblog.Core\Nanoblog.Core.csproj" />
+    <ProjectReference Include="..\Nanoblog.AppCore\Nanoblog.AppCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Fonts\FontAwesome.otf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Fonts\FontAwesome.otf" />
   </ItemGroup>
 
 </Project>

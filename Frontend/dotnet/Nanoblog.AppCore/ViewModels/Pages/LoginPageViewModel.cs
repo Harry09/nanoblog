@@ -1,13 +1,12 @@
 ﻿using Nanoblog.Common.Commands.Account;
 using Nanoblog.Common.Dto;
-using Nanoblog.Core.Navigation;
-using Nanoblog.Core.Services;
-using Nanoblog.Core.Extensions;
+using Nanoblog.AppCore.Navigation;
+using Nanoblog.ApiService;
 using Refit;
 using System;
 using System.Windows.Input;
 
-namespace Nanoblog.Core.ViewModels.Pages
+namespace Nanoblog.AppCore.ViewModels.Pages
 {
     public class LoginPageViewModel : BaseViewModel
     {

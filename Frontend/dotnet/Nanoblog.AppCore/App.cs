@@ -1,8 +1,8 @@
 using Nanoblog.Common.Dto;
-using Nanoblog.Core.Navigation;
-using Nanoblog.Core.ViewModels.Pages;
+using Nanoblog.AppCore.Navigation;
+using Nanoblog.AppCore.ViewModels.Pages;
 
-namespace Nanoblog.Core
+namespace Nanoblog.AppCore
 {
     public static class App
     {

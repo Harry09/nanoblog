@@ -1,8 +1,8 @@
-﻿using Nanoblog.Core.ViewModels;
+﻿using Nanoblog.AppCore.ViewModels;
 using System;
 using System.Collections.Generic;
 
-namespace Nanoblog.Core.Navigation
+namespace Nanoblog.AppCore.Navigation
 {
     public class PageNavigator : IPageNavigator
     {

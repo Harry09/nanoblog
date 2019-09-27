@@ -1,5 +1,5 @@
 using Autofac;
-using Nanoblog.Core.Navigation;
+using Nanoblog.AppCore.Navigation;
 using Nanoblog.Wpf.Controls.AppBar;
 using System.Data;
 using System.Linq;
@@ -43,7 +43,7 @@ namespace Nanoblog.Wpf
                 pageNavigator.Register(view, viewModel);
             }
 
-            Core.App.Init(pageNavigator);
+            AppCore.App.Init(pageNavigator);
 
             _mainWindow.ShowDialog();
         }

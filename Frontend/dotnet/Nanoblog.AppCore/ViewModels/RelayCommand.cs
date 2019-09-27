@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Nanoblog.Core.ViewModels
+namespace Nanoblog.AppCore.ViewModels
 {
     public class RelayCommand<T> : ICommand
     {

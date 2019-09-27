@@ -1,8 +1,7 @@
-
-using Nanoblog.Core.Navigation;
+using Nanoblog.AppCore.Navigation;
 using System.Windows.Input;
 
-namespace Nanoblog.Core.ViewModels.Pages
+namespace Nanoblog.AppCore.ViewModels.Pages
 {
     public class AddPageViewModel : BaseViewModel
     {

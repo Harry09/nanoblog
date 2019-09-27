@@ -1,6 +1,6 @@
-﻿using Nanoblog.Core.ViewModels;
+﻿using Nanoblog.AppCore.ViewModels;
 
-namespace Nanoblog.Core.Navigation
+namespace Nanoblog.AppCore.Navigation
 {
     public class PageData
     {

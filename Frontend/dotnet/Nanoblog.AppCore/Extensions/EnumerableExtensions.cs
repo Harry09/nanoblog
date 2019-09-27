@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Nanoblog.Core.Extensions
+namespace Nanoblog.AppCore.Extensions
 {
     public static class EnumerableExtensions
     {

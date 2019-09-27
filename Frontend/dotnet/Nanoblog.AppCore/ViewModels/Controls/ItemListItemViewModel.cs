@@ -1,14 +1,10 @@
 ﻿using Nanoblog.Common;
-using Nanoblog.Core.Services;
-using Nanoblog.Core.Services.Api;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Nanoblog.ApiService;
+using Nanoblog.ApiService.Api;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Nanoblog.Core.ViewModels.Controls
+namespace Nanoblog.AppCore.ViewModels.Controls
 {
     public class ItemListItemViewModel : BaseViewModel
     {

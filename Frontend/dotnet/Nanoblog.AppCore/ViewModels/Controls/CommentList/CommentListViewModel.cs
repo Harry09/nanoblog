@@ -1,11 +1,10 @@
 ﻿using Nanoblog.Common.Dto;
-using Nanoblog.Core.Extensions;
-using System;
+using Nanoblog.AppCore.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Nanoblog.Core.ViewModels.Controls.CommentList
+namespace Nanoblog.AppCore.ViewModels.Controls.CommentList
 {
     public class CommentListViewModel : BaseViewModel
     {

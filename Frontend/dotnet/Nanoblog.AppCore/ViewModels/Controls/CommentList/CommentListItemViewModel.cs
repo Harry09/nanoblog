@@ -1,9 +1,8 @@
 ﻿using Nanoblog.Common;
 using Nanoblog.Common.Dto;
-using Nanoblog.Core.Services;
-using System.Windows.Input;
+using Nanoblog.ApiService;
 
-namespace Nanoblog.Core.ViewModels.Controls.CommentList
+namespace Nanoblog.AppCore.ViewModels.Controls.CommentList
 {
     public class CommentListItemViewModel : ItemListItemViewModel
     {

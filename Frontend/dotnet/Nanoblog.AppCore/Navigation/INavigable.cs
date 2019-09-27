@@ -1,4 +1,4 @@
-﻿namespace Nanoblog.Core.Navigation
+﻿namespace Nanoblog.AppCore.Navigation
 {
     public interface INavigable<TViewModel>
     {

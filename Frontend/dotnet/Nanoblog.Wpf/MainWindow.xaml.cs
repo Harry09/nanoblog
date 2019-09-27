@@ -1,5 +1,5 @@
-﻿using Nanoblog.Core;
-using Nanoblog.Core.Navigation;
+﻿using Nanoblog.AppCore;
+using Nanoblog.AppCore.Navigation;
 using System.Windows;
 
 namespace Nanoblog.Wpf
