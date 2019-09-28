@@ -5,27 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180915210457_AddedEntry.cs" />
-    <Compile Remove="Migrations\20180915210457_AddedEntry.Designer.cs" />
-    <Compile Remove="Migrations\20180916210135_AddedUser.cs" />
-    <Compile Remove="Migrations\20180916210135_AddedUser.Designer.cs" />
-    <Compile Remove="Migrations\20180916210237_AddedUser.cs" />
-    <Compile Remove="Migrations\20180916210237_AddedUser.Designer.cs" />
-    <Compile Remove="Migrations\20180916210439_ChangedJoinTimeToGetOnly.cs" />
-    <Compile Remove="Migrations\20180916210439_ChangedJoinTimeToGetOnly.Designer.cs" />
-    <Compile Remove="Migrations\20180916210749_AddedUser.cs" />
-    <Compile Remove="Migrations\20180916210749_AddedUser.Designer.cs" />
-    <Compile Remove="Migrations\20180916212110_ChangedSth.cs" />
-    <Compile Remove="Migrations\20180916212110_ChangedSth.Designer.cs" />
-    <Compile Remove="Migrations\20180916212207_ChangedNickToUsername.cs" />
-    <Compile Remove="Migrations\20180916212207_ChangedNickToUsername.Designer.cs" />
-    <Compile Remove="Migrations\20180916214343_TemporaryRemovedAuthorFromEntry.cs" />
-    <Compile Remove="Migrations\20180916214343_TemporaryRemovedAuthorFromEntry.Designer.cs" />
-    <Compile Remove="Migrations\20180918203718_asdf.cs" />
-    <Compile Remove="Migrations\20180918203718_asdf.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" PrivateAssets="All" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
