@@ -10,7 +10,7 @@ Flutter                                  | WPF
 
 ## Backend
 
-Backend is written in ASP.NET Core 2.2 Api
+Backend is written in ASP.NET Core RESTful Api 2.2
 
 ## Frontend
 
@@ -18,6 +18,7 @@ Backend is written in ASP.NET Core 2.2 Api
 - VueJS (outdated, maybe someday I will update it)
 - Flutter
 - WPF (In progress)
+- Blazor (TODO)
 - Avalonia (TODO)
 
 ## Plans
