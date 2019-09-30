@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace Nanoblog.Wpf.Converters
 {
+    [ValueConversion(typeof(bool), typeof(bool))]
     public class BooleanInvertConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

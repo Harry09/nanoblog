@@ -10,8 +10,11 @@
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:ReversedBooleanToVisibilityConverter x:Key="ReversedBooleanToVisibilityConverter" />
         <converters:BooleanToBrushConverter x:Key="BooleanToBrushConverter" />
+        <converters:ValueConverterGroup x:Key="ReversedBooleanToVisibilityConverter">
+            <converters:BooleanInvertConverter />
+            <converters:BooleanToVisibilityConverter />
+        </converters:ValueConverterGroup>
 
         <FontFamily x:Key="FontAwesome">/Fonts/FontAwesome.otf#Font Awesome 5 Free Solid</FontFamily>
 
