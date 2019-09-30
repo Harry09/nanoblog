@@ -11,11 +11,11 @@ namespace Nanoblog.ApiService
         {
             var auth = request.Headers.Authorization;
 
-            if (auth != null)
+            if (auth is { })
             {
                 var jwt = await JwtService.Instance.GetJwtAsync();
 
-                if (jwt != null)
+                if (jwt is { })
                 {
                     request.Headers.Authorization = new AuthenticationHeaderValue(auth.Scheme, jwt.Token);
                 }

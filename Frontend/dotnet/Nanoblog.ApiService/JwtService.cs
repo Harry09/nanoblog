@@ -30,7 +30,7 @@ namespace Nanoblog.ApiService
 
         public async Task ResetAsync()
         {
-            if (_jwt != null)
+            if (_jwt is { })
             {
                 await AccountService.Instance.RevokeAccessToken(_jwt.RefreshToken);
 

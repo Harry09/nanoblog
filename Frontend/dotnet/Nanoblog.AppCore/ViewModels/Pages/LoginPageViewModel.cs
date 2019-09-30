@@ -1,4 +1,4 @@
-﻿using Nanoblog.Common.Commands.Account;
+using Nanoblog.Common.Commands.Account;
 using Nanoblog.Common.Dto;
 using Nanoblog.AppCore.Navigation;
 using Nanoblog.ApiService;
@@ -57,7 +57,7 @@ namespace Nanoblog.AppCore.ViewModels.Pages
 
                 var user = await AccountService.Instance.GetUserByEmail(FormEmail);
 
-                if (user != null)
+                if (user is { })
                 {
                     App.CurrentUser = user;
                 }

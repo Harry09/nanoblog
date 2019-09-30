@@ -34,7 +34,7 @@ namespace Nanoblog.Wpf
                             x.GetInterfaces().FirstOrDefault(y => y.IsGenericType && y.GetGenericTypeDefinition() == typeof(INavigable<>))
                          )
                 )
-                .Where(x => x.Item2 != null);
+                .Where(x => x.Item2 is { });
 
             foreach ((var view, var navigable) in types)
             {
