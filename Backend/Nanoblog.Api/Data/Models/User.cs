@@ -23,8 +23,9 @@ namespace Nanoblog.Api.Data.Models
 
         public DateTime JoinTime { get; }
 
-        public User(string userName, string email, string role)
+        public User(string id, string userName, string email, string role)
         {
+            Id = id;
             SetUserName(userName);
             SetEmail(email);
             SetRole(role);

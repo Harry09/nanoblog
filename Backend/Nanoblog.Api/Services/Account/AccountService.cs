@@ -34,7 +34,7 @@ namespace Nanoblog.Api.Services
                 throw new ApiException("This user already exists!");
             }
 
-            var user = new User(userName, email, Roles.UserRole);
+            var user = new User(Guid.NewGuid().ToString(), userName, email, Roles.UserRole);
 
             var hash = _passwordHasher.HashPassword(user, password);
 
@@ -64,7 +64,7 @@ namespace Nanoblog.Api.Services
             jwt.RefreshToken = refreshToken;
 
             // revoke other tokens for this user
-            foreach (var token in _appDbContext.RefreshTokens.Where(x => x.User == user))
+            foreach (var token in _appDbContext.RefreshTokens.Where(x => x.User == user).ToList())
             {
                 token.Revoked = true;
             }

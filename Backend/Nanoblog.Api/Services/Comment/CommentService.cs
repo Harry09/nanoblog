@@ -5,6 +5,7 @@ using Nanoblog.Api.Data.Models;
 using Nanoblog.Api.Services.Karma;
 using Nanoblog.Common.Dto;
 using Nanoblog.Common.Exception;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,7 +61,8 @@ namespace Nanoblog.Api.Services
                 .Include(x => x.Parent)
                 .Where(x => x.Parent.Id == entryId)
                 .Where(x => x.Deleted == false)
-                .OrderBy(x => x.CreateTime);
+                .OrderBy(x => x.CreateTime)
+                .ToList();
 
             var commentsDto = new List<CommentDto>(comments.Count());
 
@@ -77,7 +79,7 @@ namespace Nanoblog.Api.Services
             var user = await _dbContext.Users.FindAsync(authorId);
             var entry = await _dbContext.Entries.FindAsync(entryId);
 
-            var comment = new Comment(user, entry, text);
+            var comment = new Comment(Guid.NewGuid().ToString(), user, entry, text);
 
             await _dbContext.Comments.AddAsync(comment);
             await _dbContext.SaveChangesAsync();

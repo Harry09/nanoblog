@@ -26,8 +26,9 @@ namespace Nanoblog.Api.Data.Models
             CreateTime = DateTime.Now;
         }
 
-        public Comment(User user, Entry entry, string text) : this()
+        public Comment(string id, User user, Entry entry, string text) : this()
         {
+            Id = id;
             SetAuthor(user);
             SetParent(entry);
             SetText(text);

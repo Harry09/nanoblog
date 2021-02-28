@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 
+using Microsoft.EntityFrameworkCore;
 using Nanoblog.Api.Data.Models;
 
 namespace Nanoblog.Api.Data

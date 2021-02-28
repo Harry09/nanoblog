@@ -1,14 +1,13 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using Nanoblog.Api.Data;
 using Nanoblog.Api.Data.Models;
 using Nanoblog.Api.Middleware;
@@ -23,27 +22,16 @@ namespace Nanoblog
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration env)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", false);
-
-            Configuration = builder.Build();
-
-            CurrentEnvironment = env;
+            Configuration = env;
         }
 
         public IConfiguration Configuration { get; }
 
-        private IHostingEnvironment CurrentEnvironment { get; set; }
-
         public void ConfigureServices(IServiceCollection services)
         {
-            if (CurrentEnvironment.IsDevelopment())
-            {
-                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQLServer")));
-            }
+            services.AddDbContext<AppDbContext>(options => options.UseMySql(Configuration.GetConnectionString("MySQL")));
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -93,33 +81,34 @@ namespace Nanoblog
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
                 };
             });
-
-            services.AddMvc()
-                .AddJsonOptions(options =>
-                {
-                    //options.SerializerSettings.DateFormatString = "dd-MM-yyyy HH:mm:ss";
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+ 
+            services.AddControllersWithViews();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsProduction())
+             if (env.IsProduction())
             {
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
-            app.UseMiddleware<ErrorHandler>();
+            //app.UseMiddleware<ErrorHandler>();
             app.UseAuthentication();
+
+            app.UseRouting();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.UseCors(builder =>
             {
                 builder.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader();
             });
-
-            app.UseMvc();
         }
     }
 }
