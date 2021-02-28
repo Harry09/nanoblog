@@ -10,7 +10,7 @@ Flutter                                  | WPF
 
 ## Backend
 
-Backend is written in ASP.NET Core RESTful Api 2.2
+Backend is written in ASP.NET Core 5.0 with EF Core
 
 ## Frontend
 
