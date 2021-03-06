@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Nanoblog.Common.Dto;
 using Nanoblog.Common.Exception;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Nanoblog.Api.Middleware
 {
@@ -32,12 +31,7 @@ namespace Nanoblog.Api.Middleware
         {
             var response = new ErrorDto(exception.Message);
 
-            var serializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-
-            var payload = JsonConvert.SerializeObject(response, serializerSettings);
+            var payload = JsonSerializer.Serialize(response, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = 400;
 

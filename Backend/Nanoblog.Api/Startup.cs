@@ -94,7 +94,7 @@ namespace Nanoblog
 
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
-            //app.UseMiddleware<ErrorHandler>();
+            app.UseMiddleware<ErrorHandler>();
             app.UseAuthentication();
 
             app.UseRouting();
