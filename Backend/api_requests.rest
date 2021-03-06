@@ -4,9 +4,9 @@
 @serverAddress = {{serverIp}}:{{serverPort}}
 @token = {{login.response.body.$.token}}
 @refreshToken = {{login.response.body.$.refreshToken}}
-@userEmail = xxx
+@userEmail = harry@harry.com
 @userId = {{getUserByEmail.response.body.$.id}}
-@entryId = xxx
+@entryId = d6c3c840-aab4-49bd-8ec3-728f0641d549
 @commentId = xxx
 
 
@@ -47,7 +47,7 @@ GET {{serverAddress}}/api/accounts/tokens/revoke/{{refreshToken}}
 
 ### -------------------- Entries --------------------
 ### Get entries
-GET {{serverAddress}}/api/entries/newest?currentPage=1&limitPerPage=3
+GET {{serverAddress}}/api/entries/newest?currentPage=0&limitPerPage=2
 Authorization: Bearer {{token}}
 
 ### Get entry
@@ -60,7 +60,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "text": "text"
+    "text": "tedsadxt23ff2"
 }
 
 ### Delete entry
@@ -84,7 +84,7 @@ Authorization: Bearer {{token}}
 
 {
     "entryId": "{{entryId}}",
-    "text": "message"
+    "text": "messag22e"
 }
 
 ### Delete comment
