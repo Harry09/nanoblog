@@ -17,7 +17,9 @@ namespace Nanoblog.Api.Services
         public JwtHandler(IOptions<JwtSettings> jwtSettings)
         {
             _jwtSettings = jwtSettings.Value;
-            _signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)), SecurityAlgorithms.HmacSha256);
+
+            byte[] key = Encoding.UTF8.GetBytes(_jwtSettings.Key);
+            _signingCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
         }
 
         public JwtDto CreateToken(string id, string role)
