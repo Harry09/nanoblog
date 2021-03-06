@@ -5,6 +5,7 @@ using Nanoblog.ApiService;
 using Refit;
 using System;
 using System.Windows.Input;
+using System.Net;
 
 namespace Nanoblog.AppCore.ViewModels.Pages
 {
@@ -40,7 +41,7 @@ namespace Nanoblog.AppCore.ViewModels.Pages
                 return;
             }
 
-            string password = havePassword.Password.Unsecure();
+            string password = new NetworkCredential(string.Empty, havePassword.Password).Password;
 
             if (password.Length == 0)
             {
