@@ -2,6 +2,7 @@ using Nanoblog.Common.Commands.Account;
 using Nanoblog.Common.Dto;
 using Nanoblog.AppCore.Navigation;
 using Nanoblog.ApiService;
+using Nanoblog.AppCore.Extensions;
 using Refit;
 using System;
 using System.Windows.Input;
@@ -41,7 +42,7 @@ namespace Nanoblog.AppCore.ViewModels.Pages
                 return;
             }
 
-            string password = new NetworkCredential(string.Empty, havePassword.Password).Password;
+            string password = havePassword.Password.Unsecure();
 
             if (password.Length == 0)
             {
