@@ -40,18 +40,16 @@ namespace Nanoblog
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddTransient<IEntryService, EntryService>();
-            services.AddTransient<ICommentService, CommentService>();
-            services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<IEntryKarmaService, EntryKarmaService>();
-            services.AddTransient<ICommentKarmaService, CommentKarmaService>();
+            services.AddScoped<IEntryService, EntryService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IEntryKarmaService, EntryKarmaService>();
+            services.AddScoped<ICommentKarmaService, CommentKarmaService>();
 
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddSingleton<IJwtHandler, JwtHandler>();
 
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
-
-            services.AddCors();
 
             services.AddAutoMapper(cfg =>
             {
@@ -84,6 +82,7 @@ namespace Nanoblog
                 };
             });
  
+
             services.AddControllers();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -96,8 +95,8 @@ namespace Nanoblog
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
             app.UseMiddleware<ErrorHandler>();
-            app.UseAuthentication();
 
+            app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
 
