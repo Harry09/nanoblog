@@ -59,15 +59,17 @@ namespace Nanoblog.AppCore.ViewModels.Pages
 
         void OnAddComment()
         {
-            PageNavigator.Instance.Push<AddPageViewModel>(async m =>
+            PageNavigator.Instance.Push(new AddPageViewModel
             {
-                if (!m.Cancelled)
+                OnAdd = async m =>
                 {
                     await CommentService.Instance.Add(new AddComment
                     {
                         Text = m.Text,
                         EntryId = EntryVM.Id
                     });
+
+                    PageNavigator.Instance.Pop();
 
                     await LoadCommentsList();
                 }

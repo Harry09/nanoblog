@@ -43,7 +43,7 @@ namespace Nanoblog.AppCore.ViewModels.Controls.EntryList
         {
             if (!InsideDetail)
             {
-                PageNavigator.Instance.Push<EntryDetailPageViewModel, EntryListItemViewModel>(this);
+                PageNavigator.Instance.Push(new EntryDetailPageViewModel(this));
             }
         }
 

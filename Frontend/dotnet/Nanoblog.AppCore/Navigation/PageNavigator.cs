@@ -8,13 +8,13 @@ namespace Nanoblog.AppCore.Navigation
     {
         static public PageNavigator Instance { get; set; } = new PageNavigator();
 
-        Dictionary<Type, Type> _types = new Dictionary<Type, Type>();
+        Dictionary<Type, Type> _types = new();
 
         IMainWindow _mainWindow;
 
-        Stack<PageData> _pageStack = new Stack<PageData>();
+        Stack<PageData> _pageStack = new();
 
-        Dictionary<int, Action<object>> _popAction = new Dictionary<int, Action<object>>();
+        Dictionary<int, Action<object>> _popAction = new();
 
         public PageData CurrentPage { get; set; }
 
@@ -42,15 +42,14 @@ namespace Nanoblog.AppCore.Navigation
             SetPageData(pageData);
         }
 
-        public void Navigate<TPageViewModel, TParameter>(TParameter parameter)
+        public void Navigate<TPageViewModel>(TPageViewModel viewModel)
         {
             _pageStack.Clear();
 
-            var pageData = CreatePageData(typeof(TPageViewModel), parameter);
+            var pageData = CreatePageData(typeof(TPageViewModel), viewModel as BaseViewModel);
 
             SetPageData(pageData);
         }
-
         public void Push<TPageViewModel>()
         {
             var pageData = CreatePageData(typeof(TPageViewModel));
@@ -58,9 +57,9 @@ namespace Nanoblog.AppCore.Navigation
             SetPageData(pageData);
         }
 
-        public void Push<TPageViewModel, TParameter>(TParameter parameter)
+        public void Push<TPageViewModel>(TPageViewModel viewModel)
         {
-            var pageData = CreatePageData(typeof(TPageViewModel), parameter);
+            var pageData = CreatePageData(typeof(TPageViewModel), viewModel as BaseViewModel);
 
             SetPageData(pageData);
         }
@@ -70,13 +69,6 @@ namespace Nanoblog.AppCore.Navigation
             _popAction.Add(_pageStack.Count, (object m) => popAction((TPageViewModel)m));
 
             Push<TPageViewModel>();
-        }
-
-        public void Push<TPageViewModel, TParameter>(TParameter parameter, Action<TPageViewModel> popAction)
-        {
-            _popAction.Add(_pageStack.Count, (object m) => popAction((TPageViewModel)m));
-
-            Push<TPageViewModel, TParameter>(parameter);
         }
 
         public void Pop()
@@ -116,14 +108,13 @@ namespace Nanoblog.AppCore.Navigation
             return new PageData { Page = page, ViewModel = pageViewModel };
         }
 
-        PageData CreatePageData<TParameter>(Type viewModelType, TParameter parameter)
+        PageData CreatePageData(Type viewModelType, BaseViewModel viewModel)
         {
             Type pageType = _types[viewModelType];
 
             var page = Activator.CreateInstance(pageType);
-            var pageViewModel = (BaseViewModel)Activator.CreateInstance(viewModelType, parameter);
 
-            return new PageData { Page = page, ViewModel = pageViewModel };
+            return new PageData { Page = page, ViewModel = viewModel };
         }
     }
 }

@@ -7,12 +7,12 @@
 
         void Navigate<TPageViewModel>();
 
-        void Navigate<TPageViewModel, TParameter>(TParameter parameter);
+        void Navigate<TPageViewModel>(TPageViewModel viewModel);
 
 
         void Push<TPageViewModel>();
 
-        void Push<TPageViewModel, TParameter>(TParameter parameter);
+        void Push<TPageViewModel>(TPageViewModel viewModel);
 
         void Pop();
     }

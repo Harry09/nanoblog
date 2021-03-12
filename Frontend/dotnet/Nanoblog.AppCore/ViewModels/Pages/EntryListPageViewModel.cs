@@ -41,14 +41,20 @@ namespace Nanoblog.AppCore.ViewModels.Pages
 
         void OnAddPost()
         {
-            PageNavigator.Instance.Push<AddPageViewModel>(async m =>
+            PageNavigator.Instance.Push(new AddPageViewModel
             {
-                if (!m.Cancelled)
+                OnAdd = async m =>
                 {
+                    m.Busy = true;
+
                     await EntryService.Instance.Add(new AddEntry
                     {
                         Text = m.Text
                     });
+
+                    m.Busy = false;
+
+                    PageNavigator.Instance.Pop();
 
                     await LoadEntryList();
                 }
