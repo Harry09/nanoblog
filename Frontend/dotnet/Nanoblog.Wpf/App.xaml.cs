@@ -1,4 +1,3 @@
-using Autofac;
 using Nanoblog.AppCore.Navigation;
 using Nanoblog.Wpf.Controls.AppBar;
 using System.Data;
