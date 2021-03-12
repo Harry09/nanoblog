@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\Common\\Nanoblog.Common"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.classpath": true,
+			"**/.factorypath": true,
+			"**/.project": true,
+			"**/.settings": true,
+			"**/.vs": true,
+			"**/obj": true
+		}
+	}
+}
