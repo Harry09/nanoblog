@@ -14,7 +14,7 @@ Backend is written in ASP.NET Core 5.0 with EF Core
 
 ## Frontend
 
-- ReactJS (abandoned, i just hate this technology)
+- ReactJS (abandoned)
 - VueJS (outdated, maybe someday I will update it)
 - Flutter
 - WPF (In progress)
